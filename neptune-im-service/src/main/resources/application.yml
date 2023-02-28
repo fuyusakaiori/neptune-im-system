@@ -1,0 +1,49 @@
+# 服务端端口配置
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  # 数据库配置
+  datasource: # 数据库连接池
+    type: com.zaxxer.hikari.HikariDataSource # 数据库连接池类型
+    driver-class-name: com.mysql.jdbc.Driver # 数据库驱动
+    url: jdbc:mysql://localhost:3306/im-system?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: 123456
+    hikari:
+      connection-timeout: 30000 # 超过规定时长没有相应的连接就会抛出异常
+      minimum-idle: 5 # 最小连接数
+      maximum-pool-size: 10 # 最大连接数
+      auto-commit: true # 自动提交
+      idle-timeout: 300000 # 空闲的最大时长
+      pool-name: DataSourceHikari
+      max-lifetime: 600000 # 连接最大持续时长
+      connection-test-query: select 1
+
+# 持久化框架配置
+mybatis-plus:
+  type-aliases-package: com.fuyusakaiori.neptune.im.service # 需要启用别名的包
+  mapper-locations: classpath:mapper/*.xml # 需要扫描的映射文件
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 配置控制台打印完整带参数的 SQL 语句
+    map-underscore-to-camel-case: true # 启用驼峰和下划线相互转换
+    use-generated-keys: true # 使用主键自增
+  global-config:
+    db-config:
+      update-strategy: not_empty # mybatis-plus 全局更新策略默认是更新 not_null 的字段
+
+#日志配置
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    root: INFO
+    javax.activation: info
+    org.apache.catalina: INFO
+    org.apache.commons.beanutils.converters: INFO
+    org.apache.coyote.http11.Http11Processor: INFO
+    org.apache.http: INFO
+    org.apache.tomcat: INFO
+    org.springframework: INFO
+    com.chinamobile.cmss.bdpaas.resource.monitor: DEBUG

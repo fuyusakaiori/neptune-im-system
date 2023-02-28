@@ -1,0 +1,27 @@
+21:31:13.772 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - Starting NeptuneImServiceApplication using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 23544 (D:\project\java\neptune-im-system\neptune-im-service\target\classes started by shenzhouhang in D:\project\java\neptune-im-system)
+21:31:13.780 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - The following 1 profile is active: "dev"
+21:31:14.939 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.25] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.30]
+21:31:14.939 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.25] using APR version [1.7.0].
+21:31:14.940 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [false].
+21:31:14.940 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+21:31:14.944 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1g  21 Apr 2020]
+21:31:14.953 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+21:31:14.953 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+21:31:14.954 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.71]
+21:31:15.153 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+21:31:17.093 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+21:31:17.115 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - Started NeptuneImServiceApplication in 3.946 seconds (JVM running for 6.145)
+21:32:11.428 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - Starting NeptuneImServiceApplication using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 23856 (D:\project\java\neptune-im-system\neptune-im-service\target\classes started by shenzhouhang in D:\project\java\neptune-im-system)
+21:32:11.437 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - The following 1 profile is active: "dev"
+21:32:12.465 [main] INFO  org.apache.catalina.core.AprLifecycleListener - An older version [1.2.25] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.30]
+21:32:12.466 [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.25] using APR version [1.7.0].
+21:32:12.466 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [false].
+21:32:12.466 [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+21:32:12.470 [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1g  21 Apr 2020]
+21:32:12.477 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+21:32:12.477 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+21:32:12.478 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.71]
+21:32:12.676 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+21:32:14.497 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+21:32:14.519 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - Started NeptuneImServiceApplication in 3.705 seconds (JVM running for 5.565)
+21:32:14.521 [main] INFO  com.fuyusakaiori.neptune.im.service.NeptuneImServiceApplication - INFO 日志打印测试...

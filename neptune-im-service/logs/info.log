@@ -1,0 +1,196 @@
+13:23:41.139 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 17504 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:23:41.188 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:26:23.448 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 10512 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:26:23.476 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:26:34.538 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 12.313 seconds (JVM running for 17.659)
+13:26:35.706 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+13:26:39.698 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+13:26:39.769 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - foreach 耗时: 4243
+13:26:39.770 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 插入成功的数据量: 10
+13:26:39.851 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+13:26:39.891 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+13:35:31.246 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 7252 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:35:31.264 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:35:39.177 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 8.69 seconds (JVM running for 11.91)
+13:35:39.700 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+13:35:42.356 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+13:35:42.413 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 删除的用户数: 1
+13:35:42.469 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 花费时间: 56
+13:35:42.536 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+13:35:42.577 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+13:37:57.661 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18744 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:37:57.678 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:38:06.080 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 9.145 seconds (JVM running for 12.303)
+13:38:06.718 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+13:38:09.570 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+13:38:09.643 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=null, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=null, isForbid=null, isDelete=null, userType=1, userExtra=null, createTime=null, updateTime=null)
+13:38:09.644 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=null, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=null, isForbid=null, isDelete=null, userType=1, userExtra=null, createTime=null, updateTime=null)
+13:38:09.710 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+13:38:09.731 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+13:45:22.868 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 19196 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:45:22.888 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:45:31.779 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 9.845 seconds (JVM running for 13.34)
+13:45:32.531 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+13:45:35.858 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+13:45:35.942 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+13:45:35.943 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+13:45:36.020 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+13:45:36.029 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+13:57:40.163 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 16240 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:57:40.183 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:57:47.365 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.828 seconds (JVM running for 10.632)
+13:57:47.988 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 1108915200000
+13:58:21.800 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18104 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+13:58:21.817 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+13:58:28.850 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.694 seconds (JVM running for 10.397)
+13:58:29.512 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 1108915200000
+13:58:29.513 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 1677563909513
+14:01:30.821 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18420 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:01:30.839 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+14:01:38.057 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.929 seconds (JVM running for 10.999)
+14:01:38.821 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:01:41.396 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:01:41.522 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:01:41.566 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:02:13.229 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 8780 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:02:13.249 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+14:02:20.225 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.69 seconds (JVM running for 10.38)
+14:02:21.003 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:02:23.631 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:02:23.931 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:02:23.973 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:06:02.733 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 9184 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:06:02.748 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+14:06:09.221 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.083 seconds (JVM running for 9.546)
+14:06:09.855 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:06:12.290 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:06:12.336 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - result: 1
+14:06:12.395 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:06:12.449 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:07:47.863 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18860 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:07:47.878 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+14:07:54.067 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 6.806 seconds (JVM running for 9.022)
+14:07:54.598 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:07:57.202 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:07:57.264 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:07:57.265 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:07:57.271 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:07:57.271 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:07:57.321 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:07:57.350 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:08:27.708 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Starting NeptuneUserMapperTests using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18280 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:08:27.724 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - The following 1 profile is active: "dev"
+14:08:34.168 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - Started NeptuneUserMapperTests in 7.071 seconds (JVM running for 9.696)
+14:08:34.726 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:08:37.343 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:08:37.401 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:08:37.402 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)
+14:08:37.406 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.mapper.NeptuneUserMapperTests - 用户信息: NeptuneUser(userId=2, userNickName=吉他英雄, userGender=2, userAge=18, userBirthday=1108915200000, userLocation=日本, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=true, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677564369771)
+14:08:37.458 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:08:37.501 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:35:54.970 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 10856 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:35:54.987 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:36:01.310 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 6.959 seconds (JVM running for 9.603)
+14:36:01.746 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService queryUser: 请求头中的参数检查失败 - request: NeptuneQueryUserRequest(requestHeader=NeptuneRequestHeader(appId=1), requestBody=NeptuneQueryUser(userId=null, userNickName=null, userGender=1, isForbid=false, isDelete=false, userType=1, userExtra=null))
+14:36:01.768 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneQueryUserResponse(userList=null, code=900, message=参数校验失败)
+14:41:59.950 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 1672 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:41:59.965 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:42:06.518 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.15 seconds (JVM running for 9.217)
+14:42:07.071 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:42:09.598 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:42:09.671 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneQueryUserResponse(userList=[NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526), NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)], code=200, message=请求处理成功)
+14:42:09.717 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:42:09.747 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:43:20.211 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 2944 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:43:20.227 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:43:26.538 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 6.937 seconds (JVM running for 9.425)
+14:43:27.056 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:43:29.742 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:43:29.811 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneQueryUserResponse(userList=[NeptuneUser(userId=3, userNickName=4ck3qwayg9, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526), NeptuneUser(userId=8, userNickName=wjbfonaazw, userGender=1, userAge=1, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=1, userAvatarAddress=null, isForbidApply=false, isForbid=false, isDelete=false, userType=1, userExtra=null, createTime=1677561995526, updateTime=1677561995526)], code=200, message=请求处理成功)
+14:43:29.856 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:43:29.899 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:45:35.386 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 19132 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:45:35.400 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:45:41.099 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 6.285 seconds (JVM running for 8.75)
+14:45:41.662 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:45:44.192 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:45:44.287 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService queryUser: 没有查询到任何结果
+14:45:44.290 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneQueryUserResponse(userList=[], code=2001, message=查询结果为空)
+14:45:44.422 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:45:44.452 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:50:42.933 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18384 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:50:42.947 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:50:49.393 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.061 seconds (JVM running for 9.595)
+14:50:49.835 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:50:52.089 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:50:52.116 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService cancelUser: 请求头中的参数检查失败 - request: NeptuneCancelUserRequest(requestHeader=NeptuneRequestHeader(appId=1), requestBody=[NeptuneCancelUser(userId=1, userNickName=null), NeptuneCancelUser(userId=2, userNickName=null), NeptuneCancelUser(userId=3, userNickName=null), NeptuneCancelUser(userId=4, userNickName=null), NeptuneCancelUser(userId=5, userNickName=null), NeptuneCancelUser(userId=6, userNickName=null), NeptuneCancelUser(userId=7, userNickName=null), NeptuneCancelUser(userId=8, userNickName=null), NeptuneCancelUser(userId=9, userNickName=null), NeptuneCancelUser(userId=10, userNickName=null)])
+14:50:52.123 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=900, message=参数校验失败)
+14:50:52.167 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:50:52.172 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:57:02.814 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 1672 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:57:02.828 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:57:09.348 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.169 seconds (JVM running for 9.688)
+14:57:09.779 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:57:12.146 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:57:12.290 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService cancelUser: 成功删除数据 = 1, 失败删除数据 = 9
+14:57:12.306 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=2003, message=注销用户失败)
+14:57:12.369 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:57:12.406 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+14:59:35.563 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18908 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+14:59:35.580 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+14:59:42.083 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.159 seconds (JVM running for 9.789)
+14:59:42.456 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+14:59:44.930 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+14:59:45.093 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=200, message=请求处理成功)
+14:59:45.159 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+14:59:45.192 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:09:13.349 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 11788 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:09:13.364 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:09:19.716 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 6.878 seconds (JVM running for 8.956)
+15:09:20.153 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:09:22.514 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:09:22.646 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=200, message=请求处理成功)
+15:09:22.702 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:09:22.723 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:23:28.720 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 5476 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:23:28.736 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:23:35.258 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.231 seconds (JVM running for 9.863)
+15:23:35.739 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:23:37.974 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:23:38.294 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:23:38.315 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:24:43.755 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18796 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:24:43.771 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:24:49.291 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 6.046 seconds (JVM running for 8.127)
+15:24:49.744 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:24:52.043 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:24:52.140 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService cancelUser: 需要删除的所有或者部分用户不存在 - users: [NeptuneCancelUser(userId=1, userNickName=null), NeptuneCancelUser(userId=2, userNickName=null), NeptuneCancelUser(userId=3, userNickName=null), NeptuneCancelUser(userId=4, userNickName=null), NeptuneCancelUser(userId=5, userNickName=null), NeptuneCancelUser(userId=6, userNickName=null), NeptuneCancelUser(userId=7, userNickName=null), NeptuneCancelUser(userId=8, userNickName=null), NeptuneCancelUser(userId=9, userNickName=null), NeptuneCancelUser(userId=10, userNickName=null)]
+15:24:52.149 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=2003, message=注销用户失败)
+15:24:52.209 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:24:52.251 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:25:39.214 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 6332 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:25:39.229 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:25:45.927 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 7.433 seconds (JVM running for 10.011)
+15:25:46.354 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:25:48.679 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:25:48.795 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService cancelUser: 需要删除的所有或者部分用户不存在 - users: [NeptuneCancelUser(userId=12, userNickName=null)]
+15:25:48.804 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=2003, message=注销用户失败)
+15:25:48.866 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:25:48.892 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:29:19.885 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 9556 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:29:19.917 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:29:28.810 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 10.309 seconds (JVM running for 14.29)
+15:29:29.678 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:29:32.363 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:29:32.602 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=200, message=请求处理成功)
+15:29:32.725 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:29:32.737 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:30:13.861 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 8348 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:30:13.880 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
+15:30:22.096 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 9.026 seconds (JVM running for 12.293)
+15:30:22.867 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:30:25.457 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:30:25.661 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService updateUser: 需要更新的用户不存在 - user: NeptuneEditUser(userId=13, userNickName=喜多郁代, userGender=2, userAge=18, userBirthday=1114012800000, userLocation=日本, userSelfSignature=null, userFriendshipAllowType=null, userAvatarAddress=null, isForbidApply=null, isForbid=null, userType=null, userExtra=null, updateTime=1677569422845)
+15:30:25.679 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=2002, message=更新用户失败)
+15:30:25.804 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:30:25.819 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.

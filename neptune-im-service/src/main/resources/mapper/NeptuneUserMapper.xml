@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.neptune.im.service.core.user.mapper.INeptuneUserMapper">
+
+    <resultMap id="userMap" type="com.fuyusakaiori.neptune.im.service.core.user.entity.NeptuneUser">
+        <result column="user_is_forbid_apply" property="isForbidApply"/>
+        <result column="user_is_forbid" property="isForbid"/>
+        <result column="user_is_del" property="isDelete"/>
+        <result column="user_create_time" property="createTime"/>
+        <result column="user_update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 单次插入 -->
+    <insert id="registerUser" useGeneratedKeys="true">
+        insert into `im-system`.im_user
+            (app_id, user_nick_name, user_gender, user_type, user_extra, user_create_time, user_update_time)
+        values
+            (#{appId}, #{user.userNickName},#{user.userGender},
+             #{user.userType},#{user.userExtra},#{user.createTime},#{user.updateTime})
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchRegisterUser" useGeneratedKeys="true">
+        insert into `im-system`.`im_user`
+            (app_id, user_nick_name, user_gender, user_type, user_extra, user_create_time, user_update_time)
+        values
+        <foreach collection="userList" item="user" separator=",">
+            (#{appId}, #{user.userNickName},#{user.userGender},
+             #{user.userType},#{user.userExtra},#{user.createTime},#{user.updateTime})
+        </foreach>
+    </insert>
+    
+    <!-- 删除用户 -->
+    <update id="cancelUser">
+        update `im-system`.im_user 
+        set user_is_del = 1 
+        where app_id = #{appId} and (user_id = #{user.userId} or user_nick_name = #{user.userNickName})
+    </update>
+
+    <!-- 批量删除 -->
+    <update id="batchCancelUser">
+        <foreach collection="userList" item="user" separator=";">
+            update `im-system`.im_user set user_is_del = 1
+            where app_id = #{appId} and (user_id = #{user.userId} or user_nick_name = #{user.userNickName})
+        </foreach>
+    </update>
+
+    <!-- 更新用户 -->
+    <update id="editUser">
+        update `im-system`.im_user
+        <set>
+            <if test="user.userNickName != null">user_nick_name = #{user.userNickName},</if>
+            <if test="user.userGender != null">user_gender = #{user.userGender},</if>
+            <if test="user.userAge != null">user_age = #{user.userAge},</if>
+            <if test="user.userBirthday != null">user_birthday = #{user.userBirthday},</if>
+            <if test="user.userLocation != null">user_location = #{user.userLocation},</if>
+            <if test="user.userSelfSignature != null">user_self_signature = #{user.userSelfSignature},</if>
+            <if test="user.userFriendshipAllowType != null">user_friendship_allow_type = #{user.userFriendshipAllowType},</if>
+            <if test="user.userAvatarAddress != null">user_avatar_address = #{user.userAvatarAddress},</if>
+            <if test="user.isForbidApply != null">user_is_forbid_apply = #{user.isForbidApply},</if>
+            <if test="user.isForbid != null">user_is_forbid = #{user.isForbid},</if>
+            <if test="user.userType != null">user_type = #{user.userType},</if>
+            <if test="user.userExtra != null">user_extra = #{user.userExtra},</if>
+            <if test="user.updateTime != null">user_update_time = #{user.updateTime},</if>
+        </set>
+        where app_id = #{appId} and user_id = #{user.userId}
+    </update>
+
+    <!-- 查询用户 -->
+    <select id="queryUser" parameterType="com.fuyusakaiori.neptune.im.service.core.user.entity.dto.NeptuneQueryUser"
+            resultType="com.fuyusakaiori.neptune.im.service.core.user.entity.NeptuneUser"
+            resultMap="userMap">
+        select user_id, app_id, user_nick_name, user_gender, user_age, user_birthday,
+               user_location, user_self_signature, user_friendship_allow_type,
+               user_avatar_address, user_is_forbid_apply, user_is_forbid, user_is_del,
+               user_type, user_extra, user_create_time, user_update_time
+        from `im-system`.im_user
+        <where>
+            and app_id = #{appId}
+            <if test="user.userId != null">and user_id = #{user.userId}</if>
+            <if test="user.userNickName != null">and user_nick_name like concat('%', #{user.userNickName}, '%')</if>
+            <if test="user.userGender != null">and user_gender = #{user.userGender}</if>
+            <if test="user.isForbid != null">and user_is_forbid = #{user.isForbid}</if>
+            <if test="user.isDelete != null">and user_is_del = #{user.isDelete}</if>
+            <if test="user.userType != null">and user_type = #{user.userType}</if>
+        </where>
+    </select>
+
+    <select id="queryUserById" parameterType="com.fuyusakaiori.neptune.im.service.core.user.entity.dto.NeptuneQueryUser"
+            resultType="com.fuyusakaiori.neptune.im.service.core.user.entity.NeptuneUser"
+            resultMap="userMap">
+        select user_id, app_id, user_nick_name
+        from `im-system`.im_user
+        where app_id = #{appId} and user_id in (#{userIdList})
+    </select>
+
+</mapper>
