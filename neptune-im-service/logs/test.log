@@ -1,9 +1,0 @@
-15:30:13.861 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Starting NeptuneUserServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 8348 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
-15:30:13.880 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - The following 1 profile is active: "dev"
-15:30:22.096 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - Started NeptuneUserServiceTest in 9.026 seconds (JVM running for 12.293)
-15:30:22.867 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
-15:30:25.457 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
-15:30:25.661 [main] ERROR com.fuyusakaiori.neptune.im.service.core.user.service.impl.NeptuneUserService - NeptuneUserService updateUser: 需要更新的用户不存在 - user: NeptuneEditUser(userId=13, userNickName=喜多郁代, userGender=2, userAge=18, userBirthday=1114012800000, userLocation=日本, userSelfSignature=null, userFriendshipAllowType=null, userAvatarAddress=null, isForbidApply=null, isForbid=null, userType=null, userExtra=null, updateTime=1677569422845)
-15:30:25.679 [main] INFO  com.fuyusakaiori.neptune.im.service.core.user.service.NeptuneUserServiceTest - response: NeptuneModifyUserResponse(code=2002, message=更新用户失败)
-15:30:25.804 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
-15:30:25.819 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
