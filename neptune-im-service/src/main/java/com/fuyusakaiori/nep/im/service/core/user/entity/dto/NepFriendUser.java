@@ -1,5 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.user.entity.dto;
 
+
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -7,21 +8,15 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryUser
+public class NepFriendUser
 {
 
     private Integer userId;
 
-    private String userNickName;
+    private String nickName;
 
-    private Integer userGender;
+    private String selfSignature;
 
-    private Boolean isForbid;
-
-    private Boolean isDelete;
-
-    private Integer userType;
-
-    private String userExtra;
+    private String avatarAddress;
 
 }

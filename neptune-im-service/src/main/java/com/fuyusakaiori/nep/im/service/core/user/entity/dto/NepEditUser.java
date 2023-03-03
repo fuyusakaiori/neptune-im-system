@@ -16,7 +16,7 @@ public class NepEditUser
 
     private String userAccount;
 
-    //========================== 更新条件 ============================
+    //========================== 更新内容 ============================
     private String userNickName;
 
     private String userPassword;

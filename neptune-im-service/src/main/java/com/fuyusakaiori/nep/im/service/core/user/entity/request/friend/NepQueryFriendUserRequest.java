@@ -1,22 +1,22 @@
-package com.fuyusakaiori.nep.im.service.core.user.entity.request;
+package com.fuyusakaiori.nep.im.service.core.user.entity.request.friend;
+
 
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-/**
- * <h2>查询用户请求类</h2>
- */
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryUserRequest {
+public class NepQueryFriendUserRequest
+{
 
     private NepRequestHeader requestHeader;
 
-    private Integer userId;
+    private Integer friendFromId;
 
-    private String nickName;
+    private Integer friendToId;
 
+    private String friendName;
 }

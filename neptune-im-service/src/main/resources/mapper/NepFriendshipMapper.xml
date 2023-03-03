@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper">
+
+
+    <resultMap id="friendshipMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        <result column="friendship_remark" property="friendRemark"/>
+        <result column="friendship_is_black" property="isBlack"/>
+        <result column="friendship_create_time" property="createTime"/>
+        <result column="friendship_update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="addFriendship">
+        insert into `im-system`.im_friendship
+        (friendship_from_id, friendship_to_id, app_id,
+         friendship_remark, friendship_source, friendship_extra,
+         friendship_create_time, friendship_update_time, friendship_additional_info)
+        values
+        (#{friendship.friendFromId},#{friendship.friendToId},#{appId},
+         #{friendship.friendRemark},#{friendship.friendshipSource},#{friendship.friendshipExtra},
+         #{createTime},#{updateTime},#{friendship.additionalInfo})
+    </insert>
+
+    <update id="editFriendship">
+        update `im-system`.im_friendship
+        <set>
+            <if test="friendship.friendRemark != null">friendship_remark = #{friendship.friendRemark},</if>
+            <if test="friendship.friendshipStatus != null">friendship_status = #{friendship.friendshipStatus},</if>
+            <if test="friendship.friendshipExtra != null">friendship_extra = #{friendship.friendshipExtra},</if>
+            <if test="friendship.friendshipSource != null">friendship_source = #{friendship.friendshipSource},</if>
+            <if test="friendship.additionalInfo != null">friendship_additional_info = #{friendship.additionalInfo},</if>
+            <if test="updateTime != null">friendship_update_time = #{updateTime},</if>
+        </set>
+        where app_id = #{appId} and friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId}
+    </update>
+
+
+    <update id="releaseFriendship">
+        update `im-system`.im_friendship
+        set friendship_status = 1, friendship_update_time = #{updateTime}
+        where (friendship_from_id = #{fromId} and friendship_to_id = #{toId}) or
+              (friendship_from_id = #{toId} and friendship_to_id = #{fromId})
+    </update>
+
+    <update id="releaseAllFriendship">
+        update `im-system`.im_friendship
+        set friendship_status = 1, friendship_update_time = #{updateTime}
+        where (friendship_from_id = #{fromId} or friendship_to_id = #{fromId})
+        and friendship_status = 0
+    </update>
+
+    <select id="queryFriendshipById" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        select friendship_from_id, friendship_to_id, app_id,
+               friendship_remark, friendship_is_black, friendship_status,
+               friendship_source,friendship_extra, friendship_create_time,
+               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+        from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </select>
+
+    <select id="queryFriendshipByIdList" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        select friendship_from_id, friendship_to_id, app_id,
+               friendship_remark, friendship_is_black, friendship_status,
+               friendship_source,friendship_extra, friendship_create_time,
+               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+        from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_status = 0 and friendship_from_id = #{fromId} and friendship_to_id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryFriendshipByRemark" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        select friendship_from_id, friendship_to_id, app_id,
+               friendship_remark, friendship_is_black, friendship_status,
+               friendship_source,friendship_extra, friendship_create_time,
+               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+        from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_remark like concat('%', #{remark}, '%') and friendship_status = 0
+    </select>
+
+    <select id="queryAllFriendship" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        select friendship_from_id, friendship_to_id, app_id,
+               friendship_remark, friendship_is_black, friendship_status,
+               friendship_source,friendship_extra, friendship_create_time,
+               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+        from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_status = 0
+    </select>
+
+
+</mapper>

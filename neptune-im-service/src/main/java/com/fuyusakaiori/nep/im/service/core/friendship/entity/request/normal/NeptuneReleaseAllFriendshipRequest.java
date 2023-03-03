@@ -1,4 +1,5 @@
-package com.fuyusakaiori.nep.im.service.core.user.entity.request;
+package com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal;
+
 
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
@@ -8,11 +9,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryUserByIdRequest
-{
+public class NeptuneReleaseAllFriendshipRequest {
 
     private NepRequestHeader requestHeader;
 
-    private Integer userId;
+    private Integer friendFromId;
 
 }

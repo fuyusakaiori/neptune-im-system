@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.user.mapper.INepFriendUserMapper">
+
+    <resultMap id="userMap" type="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser">
+        <result column="user_is_forbid_apply" property="isForbidApply"/>
+        <result column="user_is_forbid" property="isForbid"/>
+        <result column="user_is_del" property="isDelete"/>
+        <result column="user_create_time" property="createTime"/>
+        <result column="user_update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 多个用户 ID 查询用户信息 -->
+    <select id="queryFriendUserByIdList" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address
+        from `im-system`.im_user
+        where app_id = #{appId} and user_is_del = 0 and user_type = 1 and user_id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--单个用户 ID 查询用户信息 -->
+    <select id="queryFriendUserById" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address
+        from `im-system`.im_user
+        where app_id = #{appId} and user_id = #{userId} and user_is_del = 0 and user_type = 1
+    </select>
+
+    <select id="queryFriendUserByNickName" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address
+        from `im-system`.im_user
+        where app_id = #{appId} and user_nick_name like concat('%', #{nickName}, '%') and user_is_del = 0 and user_type = 1
+    </select>
+
+</mapper>
