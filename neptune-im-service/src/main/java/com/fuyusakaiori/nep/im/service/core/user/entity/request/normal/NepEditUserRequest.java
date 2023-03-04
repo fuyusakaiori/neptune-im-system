@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.user.entity.request;
+package com.fuyusakaiori.nep.im.service.core.user.entity.request.normal;
 
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;

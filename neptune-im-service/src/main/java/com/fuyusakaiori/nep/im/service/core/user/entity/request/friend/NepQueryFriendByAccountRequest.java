@@ -9,14 +9,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryFriendUserRequest
+public class NepQueryFriendByAccountRequest
 {
 
     private NepRequestHeader requestHeader;
 
     private Integer friendFromId;
 
-    private Integer friendToId;
+    private String userAccount;
 
-    private String friendName;
 }

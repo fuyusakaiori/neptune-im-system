@@ -52,8 +52,7 @@
     <select id="queryFriendshipById" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
         select friendship_from_id, friendship_to_id, app_id,
                friendship_remark, friendship_is_black, friendship_status,
-               friendship_source,friendship_extra, friendship_create_time,
-               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+               friendship_source, friendship_additional_info
         from `im-system`.im_friendship
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
     </select>
@@ -61,10 +60,9 @@
     <select id="queryFriendshipByIdList" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
         select friendship_from_id, friendship_to_id, app_id,
                friendship_remark, friendship_is_black, friendship_status,
-               friendship_source,friendship_extra, friendship_create_time,
-               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+               friendship_source, friendship_additional_info
         from `im-system`.im_friendship
-        where app_id = #{appId} and friendship_status = 0 and friendship_from_id = #{fromId} and friendship_to_id in
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
@@ -73,8 +71,7 @@
     <select id="queryFriendshipByRemark" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
         select friendship_from_id, friendship_to_id, app_id,
                friendship_remark, friendship_is_black, friendship_status,
-               friendship_source,friendship_extra, friendship_create_time,
-               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+               friendship_source, friendship_additional_info
         from `im-system`.im_friendship
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_remark like concat('%', #{remark}, '%') and friendship_status = 0
     </select>
@@ -82,8 +79,7 @@
     <select id="queryAllFriendship" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
         select friendship_from_id, friendship_to_id, app_id,
                friendship_remark, friendship_is_black, friendship_status,
-               friendship_source,friendship_extra, friendship_create_time,
-               friendship_update_time, friendship_black_sequence, friendship_sequence, friendship_additional_info
+               friendship_source, friendship_additional_info
         from `im-system`.im_friendship
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_status = 0
     </select>

@@ -1,13 +1,14 @@
 package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
 import com.example.neptune.im.common.enums.code.NepUserResponseCode;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.*;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
@@ -22,8 +23,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class NepUserService implements INepUserService
-{
+public class NepUserService implements INepUserService {
 
     @Autowired
     INepUserMapper userMapper;
@@ -37,31 +37,84 @@ public class NepUserService implements INepUserService
 
 
     @Override
-    public NepQueryUserResponse queryDetailedUser(NepQueryUserRequest request) {
+    public NepQueryUserResponse queryUserByAccount(NepQueryUserByAccountRequest request) {
         // 0. 准备响应结果
         NepQueryUserResponse response = new NepQueryUserResponse();
         // 1. 参数校验
-        if (!NepCheckUserParamUtil.checkNepQueryUserRequestParam(request)){
-            log.error("NeptuneUserService queryDetailedUser: 请求头中的参数检查失败 - request: {}", request);
+        if (!NepCheckUserParamUtil.checkNepQueryUserByAccountRequestParam(request)){
+            log.error("NeptuneUserService queryUserByAccount: 请求头中的参数检查失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
-        Integer userId  = request.getUserId();
-        String nickName = request.getNickName();
+        String userAccount = request.getUserAccount();
         // 3. 查询结果
-        NepUser user = userMapper.queryDetailedUser(header.getAppId(), userId, nickName);
+        NepUser user = userMapper.queryUserByAccount(header.getAppId(), userAccount);
         // 4. 检查结果
         if (Objects.isNull(user)){
-            log.info("NeptuneUserService queryDetailedUser: 没有查询到任何结果 - request: {}", request);
+            log.info("NeptuneUserService queryUserByAccount: 没有查询到任何结果 - request: {}", request);
+            return response.setUserList(Collections.emptyList())
+                           .setCode(NepUserResponseCode.QUERY_USER_NOT_EXIST.getCode())
+                           .setMessage(NepUserResponseCode.QUERY_USER_NOT_EXIST.getMessage());
+        }
+        // 5. 填充响应结果
+        return response.setUserList(Collections.singletonList(user))
+                       .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+    }
+
+    @Override
+    public NepQueryUserResponse queryUserByNickName(NepQueryUserByNickNameRequest request) {
+        // 0. 准备响应结果
+        NepQueryUserResponse response = new NepQueryUserResponse();
+        // 1. 参数校验
+        if (!NepCheckUserParamUtil.checkNepQueryUserByNickNameRequestParam(request)){
+            log.error("NeptuneUserService queryUserByNickName: 请求头中的参数检查失败 - request: {}", request);
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+        }
+        // 2. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        String nickName = request.getNickName();
+        // 3. 查询结果
+        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), nickName);
+        // 4. 检查结果
+        if (CollectionUtil.isEmpty(userList)){
+            log.info("NeptuneUserService queryUserByNickName: 没有查询到任何结果 - request: {}", request);
             return response.setUserList(Collections.emptyList())
                            .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
                            .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
         }
         // 5. 填充响应结果
-        return response.setUserList(Collections.singletonList(user))
+        return response.setUserList(userList)
                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public NepModifyUserResponse registerUser(NepRegisterUserRequest request) {
+        // 0. 准备响应体
+        NepModifyUserResponse response = new NepModifyUserResponse();
+        // 1. 获取请求中的变量
+        NepRequestHeader header = request.getRequestHeader();
+        NepRegisterUser body = request.getRequestBody();
+        // 2. 请求头参数校验
+        if(!NepCheckUserParamUtil.checkNepRegisterUserRequestParam(request)){
+            log.error("NeptuneUserService registerUser: 请求头中的参数检查失败 - request: {}", request);
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+        }
+        // 3. 注册用户
+        int result = userMapper.registerUser(header.getAppId(), body, System.currentTimeMillis(), System.currentTimeMillis());
+        if (result <= 0){
+            log.error("NeptuneUserService registerUser: 插入用户数据失败 - user: {}", body);
+            return response.setCode(NepUserResponseCode.REGISTER_USER_FAIL.getCode())
+                           .setMessage(NepUserResponseCode.REGISTER_USER_FAIL.getMessage());
+        }
+        // 4. 填充响应信息
+        return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
 
@@ -72,10 +125,9 @@ public class NepUserService implements INepUserService
         NepModifyUserResponse response = new NepModifyUserResponse();
         // 1. 参数校验
         if (!NepCheckUserParamUtil.checkNepEditUserRequestParam(request)){
-            log.error("NeptuneUserService insertUser: 请求头中的参数检查失败 - request: {}", request);
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+            log.error("NeptuneUserService updateUser: 请求头中的参数检查失败 - request: {}", request);
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
-            return response;
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -106,42 +158,6 @@ public class NepUserService implements INepUserService
         return response;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public NepModifyUserResponse registerUser(NepRegisterUserRequest request) {
-        // 0. 准备响应体
-        NepModifyUserResponse response = new NepModifyUserResponse();
-        // 1. 获取请求中的变量
-        NepRequestHeader header = request.getRequestHeader();
-        NepRegisterUser body = request.getRequestBody();
-        // 2. 请求头参数校验
-        if(!NepCheckUserParamUtil.checkNepRegisterUserRequestParam(request)){
-            log.error("NeptuneUserService registerUser: 请求头中的参数检查失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
-        }
-        // 3. 查询对象是否存在
-        // 3.1 准备查询条件
-        String nickName = body.getUserNickName();
-        // 3.2 查询用户
-        NepUser user = userMapper.querySimpleUserByNickName(header.getAppId(), nickName);
-        // 3.3 查询用户是否存在或者是否已经被删除
-        if (Objects.nonNull(user) && !user.getIsDelete()){
-            log.error("NeptuneUserService registerUser: 用户已经存在 - user: {}, request: {}", user, request);
-            return response.setCode(NepUserResponseCode.QUERY_USER_NOT_EXIST.getCode())
-                    .setMessage(NepUserResponseCode.QUERY_USER_NOT_EXIST.getMessage());
-        }
-        // 4. 注册用户
-        int result = userMapper.registerUser(header.getAppId(), body, System.currentTimeMillis(), System.currentTimeMillis());
-        if (result <= 0){
-            log.error("NeptuneUserService registerUser: 插入用户数据失败 - user: {}", body);
-            return response.setCode(NepUserResponseCode.REGISTER_USER_FAIL.getCode())
-                    .setMessage(NepUserResponseCode.REGISTER_USER_FAIL.getMessage());
-        }
-        // 5. 填充响应信息
-        return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
-                .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

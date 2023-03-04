@@ -14,8 +14,6 @@ public class NepEditUser
     //=========================== 查询条件 ===========================
     private Integer userId;
 
-    private String userAccount;
-
     //========================== 更新内容 ============================
     private String userNickName;
 

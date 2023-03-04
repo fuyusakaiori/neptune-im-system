@@ -28,7 +28,6 @@ public class NepUserMapperTests {
         NepRegisterUser user = new NepRegisterUser()
                                        .setUserNickName(RandomUtil.randomString(10))
                                        .setUserPassword("123")
-                                       .setUserType(1)
                                        .setUserGender(RandomUtil.randomInt(3));
         int result = userMapper.registerUser(1, user, System.currentTimeMillis(), System.currentTimeMillis());
         log.info("插入成功的数据量: {}", result);
@@ -43,7 +42,6 @@ public class NepUserMapperTests {
             userList.add(new NepRegisterUser()
                                  .setUserNickName(RandomUtil.randomString(10))
                                  .setUserPassword("123")
-                                 .setUserType(1)
                                  .setUserGender(RandomUtil.randomInt(3)));
         }
         // 3. 批量插入数据
@@ -80,17 +78,6 @@ public class NepUserMapperTests {
         int result = userMapper.editUser(1, user, System.currentTimeMillis());
         // 3. 检查结果
         log.info("result: {}", result);
-    }
-
-    @Test
-    public void selectSimpleUserTest(){
-        NepUser user1 = userMapper.querySimpleUserById(1, 1);
-        log.info("user1: {}", user1);
-        NepUser user2 = userMapper.queryDetailedUser(1, 1, null);
-        log.info("user2: {}", user2);
-        NepUser user3 = userMapper.querySimpleUserByNickName(1, "冬坂五百里");
-        log.info("user3: {}", user3);
-
     }
 
 }

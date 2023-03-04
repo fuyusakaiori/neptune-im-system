@@ -1,20 +1,18 @@
-package com.fuyusakaiori.nep.im.service.core.user.entity.request;
+package com.fuyusakaiori.nep.im.service.core.user.entity.request.normal;
 
 
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * <h3>新增用户的请求类</h3>
+ * <h2>注销用户请求类</h2>
  */
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepRegisterUserRequest
-{
+public class NepCancelUserRequest {
 
     /**
      * <h3>请求头</h3>
@@ -22,8 +20,9 @@ public class NepRegisterUserRequest
     private NepRequestHeader requestHeader;
 
     /**
-     * <h3>用户资料集合</h3>
+     * <h3>需要删除的用户的 ID</h3>
      */
-    NepRegisterUser requestBody;
+    private Integer userId;
+
 
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper">
+
+    <resultMap id="friendshipMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
+        <result column="friendship_remark" property="friendRemark"/>
+        <result column="friendship_is_black" property="isBlack"/>
+        <result column="friendship_create_time" property="createTime"/>
+        <result column="friendship_update_time" property="updateTime"/>
+    </resultMap>
+
+    <update id="addFriendInBlackList">
+        update `im-system`.im_friendship
+        set friendship_is_black = 1
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </update>
+
+    <update id="removeFriendInBlackList">
+        update `im-system`.im_friendship
+        set friendship_is_black = 0
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </update>
+
+    <select id="queryAllFriendInBlackList" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship" resultMap="friendshipMap">
+        select friendship_from_id, friendship_to_id, friendship_remark, friendship_status, friendship_source
+        from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_is_black = 1
+    </select>
+
+</mapper>

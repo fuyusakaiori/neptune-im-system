@@ -38,17 +38,17 @@ public interface INepFriendshipMapper {
     int releaseAllFriendship(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("updateTime") long updateTime);
 
     /**
-     * <h3>查询特定好友关系</h3>
+     * <h3>查询用户: 通过 ID 查询</h3>
      */
     NepFriendship queryFriendshipById(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("toId") int friendshipToId);
 
     /**
-     * <h3>查询多个特定好友关系</h3>
+     * <h3>查询用户: 通过 ID 集合查询</h3>
      */
-    List<NepFriendship> queryFriendshipByIdList(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("toIdList") List<Integer> friendshipToIdList);
+    List<NepFriendship> queryFriendshipByIdList(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("list") List<Integer> friendshipToIdList);
 
     /**
-     * <h3>通过备注查询好友</h3>
+     * <h3>查询用户: 通过备注查询</h3>
      */
     List<NepFriendship> queryFriendshipByRemark(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("remark") String friendRemark);
 

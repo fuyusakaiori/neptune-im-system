@@ -13,26 +13,26 @@
     <!-- 注册用户 -->
     <insert id="registerUser" useGeneratedKeys="true">
         insert into `im-system`.im_user
-            (app_id, user_nick_name, user_password,user_gender,
-             user_type, user_extra, user_create_time, user_update_time)
+            (app_id, user_account, user_password, user_nick_name,
+             user_gender, user_extra, user_create_time, user_update_time)
         values
-            (#{appId}, #{user.userNickName}, #{user.userPassword}, #{user.userGender},
-             #{user.userType},#{user.userExtra},#{createTime},#{updateTime})
+            (#{appId}, #{user.userAccount}, #{user.userPassword}, #{user.userNickName},
+             #{user.userGender}, #{user.userExtra},#{createTime},#{updateTime})
     </insert>
 
     <!-- 批量导入用户 -->
     <insert id="batchRegisterUser" useGeneratedKeys="true">
         insert into `im-system`.`im_user`
-        (app_id, user_nick_name, user_password,user_gender,
-        user_type, user_extra, user_create_time, user_update_time)
+        (app_id, user_account, user_password, user_nick_name,
+        user_gender, user_extra, user_create_time, user_update_time)
         values
         <foreach collection="userList" item="user" separator=",">
-            (#{appId}, #{user.userNickName}, #{user.userPassword}, #{user.userGender},
-            #{user.userType},#{user.userExtra},#{createTime},#{updateTime})
+            (#{appId}, #{user.userAccount}, #{user.userPassword}, #{user.userNickName},
+            #{user.userGender}, #{user.userExtra},#{createTime},#{updateTime})
         </foreach>
     </insert>
     
-    <!-- 删除用户: 可以通过用户 ID, 用户昵称两个条件删除 -->
+    <!-- 删除用户 -->
     <update id="cancelUser">
         update `im-system`.im_user 
         set user_is_del = 1, user_update_time = #{updateTime}
@@ -61,43 +61,53 @@
         where app_id = #{appId} and user_id = #{user.userId}
     </update>
 
-    <!-- 通过用户 ID查询用户信息: 仅包含简易信息 -->
-    <select id="querySimpleUserById" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
-        select user_id, user_nick_name, user_is_del,
-               user_is_forbid, user_friendship_allow_type, user_type
-        from `im-system`.im_user
-        where app_id = #{appId} and user_id = #{userId} and user_is_del = 0 and user_type = 1
-    </select>
-    <!-- 通过用户昵称查询用户信息: 仅包含简易信息 -->
-    <select id="querySimpleUserByNickName" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
-        select user_id, user_nick_name, user_is_del,
-               user_is_forbid, user_friendship_allow_type, user_type
-        from `im-system`.im_user
-        where app_id = #{appId} and user_nick_name = #{nickname} and user_is_del = 0 and user_type = 1
-    </select>
-    <!-- 通过用户 ID和用户昵称查询用户信息: 包含全部信息-->
-    <select id="queryDetailedUser" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+    <!-- 查询用户: 通过账号查询用户 -->
+    <select id="queryUserByAccount" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
         select user_id, app_id, user_nick_name, user_password,
                user_gender, user_age, user_birthday,user_location, user_self_signature,
                user_friendship_allow_type, user_avatar_address, user_is_forbid_apply, user_is_forbid,
-               user_is_del, user_type, user_extra, user_create_time, user_update_time
+               user_is_del, user_type, user_extra
         from `im-system`.im_user
-        where app_id = #{appId} and (user_id = #{userId} or user_nick_name = #{userNickName}) and user_is_del = 0 and user_type = 1
+        where app_id = #{appId} and user_account = #{account} and user_is_del = 0 and user_type = 1
     </select>
-    <!-- 通过组合各种条件查询用户: 仅返回用户的简易信息 -->
-    <select id="querySimpleUserByMultiCondition" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
-        select user_id, user_nick_name, user_is_del,
-        user_is_forbid, user_friendship_allow_type, user_type
+
+    <!-- 查询用户: 通过昵称查询用户 -->
+    <select id="queryUserByNickName" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, app_id, user_nick_name, user_password,
+               user_gender, user_age, user_birthday,user_location, user_self_signature,
+               user_friendship_allow_type, user_avatar_address, user_is_forbid_apply, user_is_forbid,
+               user_is_del, user_type, user_extra
         from `im-system`.im_user
-        <where>
-            and app_id = #{appId}
-            <if test="user.userId != null">and user_id = #{user.userId}</if>
-            <if test="user.userNickName != null">and user_nick_name like concat('%', #{user.userNickName}, '%')</if>
-            <if test="user.userGender != null">and user_gender = #{user.userGender}</if>
-            <if test="user.isForbid != null">and user_is_forbid = #{user.isForbid}</if>
-            <if test="user.isDelete != null">and user_is_del = #{user.isDelete}</if>
-            <if test="user.userType != null">and user_type = #{user.userType}</if>
-        </where>
+        where app_id = #{appId} and user_nick_name like concat('#', #{nickname}, '#') and user_is_del = 0 and user_type = 1
+    </select>
+
+    <!-- 查询用户: 仅通过 ID 查询用户 -->
+    <select id="querySimpleUserById" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address,
+               user_friendship_allow_type, user_is_forbid,
+               user_is_forbid_apply, user_is_del, user_type
+        from `im-system`.im_user
+        where app_id = #{appId} and user_id = #{userId}
+    </select>
+
+    <select id="querySimpleUserByAccount" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address,
+               user_friendship_allow_type, user_is_forbid,
+               user_is_forbid_apply, user_is_del, user_type
+        from `im-system`.im_user
+        where app_id = #{appId} and user_account = #{account}
+    </select>
+    
+    <!-- 查询用户: 通过多个 ID 查询 -->
+    <select id="querySimpleUserByIdList" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
+        select user_id, user_nick_name, user_self_signature, user_avatar_address,
+               user_friendship_allow_type, user_is_forbid,
+               user_is_forbid_apply, user_is_del, user_type
+        from `im-system`.im_user
+        where app_id = #{appId} and user_is_del = 0 and user_type = 1 and user_id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </select>
 
 </mapper>

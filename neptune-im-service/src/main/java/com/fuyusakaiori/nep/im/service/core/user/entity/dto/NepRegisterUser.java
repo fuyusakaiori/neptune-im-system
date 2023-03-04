@@ -7,16 +7,15 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepRegisterUser
-{
+public class NepRegisterUser {
 
-    private String userNickName;
+    private String userAccount;
 
     private String userPassword;
 
-    private Integer userGender;
+    private String userNickName;
 
-    private Integer userType;
+    private Integer userGender;
 
     private String userExtra;
 

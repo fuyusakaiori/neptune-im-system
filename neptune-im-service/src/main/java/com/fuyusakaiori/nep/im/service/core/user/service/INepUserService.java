@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.user.service;
 
 
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.*;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
 
@@ -9,9 +9,14 @@ public interface INepUserService {
 
 
     /**
-     * <h3>查询某个用户的详细资料</h3>
+     * <h3>查询用户: 通过账号查询</h3>
      */
-    NepQueryUserResponse queryDetailedUser(NepQueryUserRequest request);
+    NepQueryUserResponse queryUserByAccount(NepQueryUserByAccountRequest request);
+
+    /**
+     * <h3>查询用户: 通过用户昵称查询</h3>
+     */
+    NepQueryUserResponse queryUserByNickName(NepQueryUserByNickNameRequest request);
 
     /**
      * <h3>更新用户</h3>

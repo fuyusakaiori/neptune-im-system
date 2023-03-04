@@ -3,10 +3,14 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.*;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepCancelUserRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepEditUserRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepQueryUserByAccountRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepRegisterUserRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +32,6 @@ public class NepUserServiceTest
         NepRegisterUser user = new NepRegisterUser()
                                        .setUserNickName(RandomUtil.randomString(10))
                                        .setUserPassword("123")
-                                       .setUserType(1)
                                        .setUserGender(RandomUtil.randomInt(3));
         NepRegisterUserRequest request = new NepRegisterUserRequest()
                                                  .setRequestHeader(header).setRequestBody(user);
@@ -59,14 +62,6 @@ public class NepUserServiceTest
         // 2. 执行删除
         NepModifyUserResponse response = userService.cancelUser(request);
         // 3. 输出结果
-        log.info("response: {}", response);
-    }
-
-    @Test
-    public void queryDetailedUserByIdTest(){
-        NepRequestHeader header = new NepRequestHeader().setAppId(1);
-        NepQueryUserRequest request = new NepQueryUserRequest().setRequestHeader(header).setUserId(1);
-        NepQueryUserResponse response = userService.queryDetailedUser(request);
         log.info("response: {}", response);
     }
 

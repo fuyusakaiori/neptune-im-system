@@ -27,7 +27,6 @@ public interface INepUserMapper
 
     /**
      * <h3>单个用户更新</h3>
-     * <h4>理论上不存在同时编辑多个用户资料的情况</h4>
      */
     int editUser(@Param("appId")int appId, @Param("user") NepEditUser user, @Param("updateTime") long updateTime);
 
@@ -38,16 +37,28 @@ public interface INepUserMapper
 
 
     /**
-     * <h3>查询用户的简易的信息：主要用于校验用户是否存在等状态</h3>
+     * <h3>查询用户: 通过账号查询</h3>
+     */
+    NepUser queryUserByAccount(@Param("appId") int appId, @Param("account") String account);
+
+    /**
+     * <h3>查询用户: 通过昵称查询</h3>
+     */
+    List<NepUser> queryUserByNickName(@Param("appId") int appId, @Param("nickname") String nickname);
+
+    /**
+     * <h3>查询用户: 通过 ID 查询</h3>
      */
     NepUser querySimpleUserById(@Param("appId") int appId, @Param("userId") Integer userId);
 
-    NepUser querySimpleUserByNickName(@Param("appId") int appId, @Param("nickname") String nickname);
+    /**
+     * <h3>查询用户: 通过账号查询</h3>
+     */
+    NepUser querySimpleUserByAccount(@Param("appId") int appId, @Param("account") String account);
 
     /**
-     * <h3>查询单个用户的简易信息</h3>
-     * <h4>场景: 浏览每个用户的详细资料页</h4>
+     * <h3>查询所有好友的缩略信息</h3>
      */
-    NepUser queryDetailedUser(@Param("appId") int appId, @Param("userId") int userId, @Param("userNickName") String userNickName);
+    List<NepUser> querySimpleUserByIdList(@Param("appId") int appId, @Param("list") List<Integer> userIdList);
 
 }

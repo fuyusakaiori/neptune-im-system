@@ -13,8 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @ToString
 @TableName(value = "im_user")
-public class NepUser
-{
+public class NepUser {
 
     /**
      * <h3>用户全局唯一标识符</h3>
@@ -22,14 +21,19 @@ public class NepUser
     private Integer userId;
 
     /**
-     * <h3>用户昵称</h3>
+     * <h3>用户登录使用的账号</h3>
      */
-    private String userNickName;
+    private String userAccount;
 
     /**
      * <h3>用户登录使用的密码</h3>
      */
     private String userPassword;
+
+    /**
+     * <h3>用户昵称</h3>
+     */
+    private String userNickName;
 
     /**
      * <h3>用户性别</h3>
