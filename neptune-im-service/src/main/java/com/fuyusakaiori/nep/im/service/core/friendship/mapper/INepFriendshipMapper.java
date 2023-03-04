@@ -12,11 +12,6 @@ import java.util.List;
 public interface INepFriendshipMapper {
 
     /**
-     * <h3>批量导入单向好友关系</h3>
-     */
-    int batchInsertFriendship(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toList") List<NepAddFriendship> friendshipToList);
-
-    /**
      * <h3>双向添加好友关系</h3>
      */
     int addFriendship(@Param("appId") int appId, @Param("friendship") NepAddFriendship friendship, @Param("createTime") long createTime, @Param("updateTime") long updateTime);

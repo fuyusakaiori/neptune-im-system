@@ -1,0 +1,29 @@
+package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
+public interface INepBlackMapper {
+
+    /**
+     * <h3>拉黑好友</h3>
+     */
+    int addFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+
+    /**
+     * <h3>撤销拉黑</h3>
+     */
+    int removeFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+
+    /**
+     * <h3>单向校验好友拉黑状态</h3>
+     */
+   int checkFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+
+    /**
+     * <h3>双向校验好友拉黑状态</h3>
+     */
+    int checkBiFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+
+}

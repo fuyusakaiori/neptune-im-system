@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper">
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepBlackMapper">
 
     <resultMap id="friendshipMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
         <result column="friendship_remark" property="friendRemark"/>
@@ -9,22 +9,28 @@
         <result column="friendship_update_time" property="updateTime"/>
     </resultMap>
 
+    <!-- 拉黑好友 -->
     <update id="addFriendInBlackList">
         update `im-system`.im_friendship
-        set friendship_is_black = 1
+        set friendship_is_black = 1, friendship_update_time = #{updateTime}
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
     </update>
 
+    <!-- 撤销好友拉黑 -->
     <update id="removeFriendInBlackList">
         update `im-system`.im_friendship
-        set friendship_is_black = 0
+        set friendship_is_black = 0, friendship_update_time = #{updateTime}
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
     </update>
+    
+    <!-- 单向校验好友之间的拉黑状态: 0 表示没有拉黑, 1 表拉黑 -->
+    <select id="checkFriendInBlackList" resultType="_int" resultMap="friendshipMap">
 
-    <select id="queryAllFriendInBlackList" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship" resultMap="friendshipMap">
-        select friendship_from_id, friendship_to_id, friendship_remark, friendship_status, friendship_source
-        from `im-system`.im_friendship
-        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_is_black = 1
+    </select>
+
+    <!-- 双向校验好友之间的拉黑状态: 0.双向拉黑 1.没有拉黑 2.左到右单向拉黑 3.右到左单向拉黑 -->
+    <select id="checkBiFriendInBlackList" resultType="_int" resultMap="friendshipMap">
+
     </select>
 
 </mapper>

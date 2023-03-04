@@ -11,8 +11,9 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.NepModifyFriendshipResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.NepQueryFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepCheckFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepQueryFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
@@ -33,12 +34,6 @@ public class NepFriendshipService implements INepFriendshipService {
 
     @Autowired
     private INepUserMapper userMapper;
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public NepModifyFriendshipResponse batchAddFriendship(NepImportFriendshipRequest request) {
-        return null;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -240,6 +235,11 @@ public class NepFriendshipService implements INepFriendshipService {
         response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                 .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
         return response;
+    }
+
+    @Override
+    public NepCheckFriendshipResponse checkFriendship(NepCheckFriendshipRequest request) {
+        return null;
     }
 
     @Override

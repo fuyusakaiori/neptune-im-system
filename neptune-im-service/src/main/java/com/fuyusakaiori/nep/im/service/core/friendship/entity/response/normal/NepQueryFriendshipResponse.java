@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.friendship.entity.response;
+package com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal;
 
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;

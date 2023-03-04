@@ -7,8 +7,10 @@ import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
 import com.example.neptune.im.common.enums.code.NepUserResponseCode;
 import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
+import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepApplicationMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByAccountRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByNameRequest;
@@ -25,8 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class NepFriendService implements INepFriendService
-{
+public class NepFriendService implements INepFriendService {
 
     @Autowired
     private INepUserMapper userMapper;
@@ -34,6 +35,8 @@ public class NepFriendService implements INepFriendService
     @Autowired
     private INepFriendshipMapper friendshipMapper;
 
+    @Autowired
+    private INepApplicationMapper applicationMapper;
 
     @Override
     public NepQueryUserResponse queryAllFriend(NepQueryAllFriendRequest request) {
@@ -168,5 +171,10 @@ public class NepFriendService implements INepFriendService
         return response.setUserList(friends)
                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+    }
+
+    @Override
+    public NepQueryUserResponse queryAllApplication(NepQueryAllApplicationRequest request) {
+        return null;
     }
 }

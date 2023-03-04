@@ -1,12 +1,11 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.NepModifyFriendshipResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.NepQueryFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepCheckFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepQueryFriendshipResponse;
 
 public interface INepFriendshipService {
-
-    NepModifyFriendshipResponse batchAddFriendship(NepImportFriendshipRequest request);
 
     NepModifyFriendshipResponse addFriendship(NepAddFriendshipRequest request);
 
@@ -16,8 +15,11 @@ public interface INepFriendshipService {
 
     NepModifyFriendshipResponse releaseAllFriendship(NeptuneReleaseAllFriendshipRequest request);
 
+    NepCheckFriendshipResponse checkFriendship(NepCheckFriendshipRequest request);
+
     NepQueryFriendshipResponse queryFriendshipById(NepQueryFriendshipByIdRequest request);
 
     NepQueryFriendshipResponse queryAllFriendship(NepQueryAllFriendshipRequest request);
+
 
 }

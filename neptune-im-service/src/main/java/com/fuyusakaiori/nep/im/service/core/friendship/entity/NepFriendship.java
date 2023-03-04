@@ -27,7 +27,6 @@ public class NepFriendship
 
     /**
      * <h3>好友状态: 0 表示正常, 1 表示已经删除</h3>
-     * <h4>删除是双向的</h4>
      */
     private Integer friendshipStatus;
 
@@ -43,7 +42,6 @@ public class NepFriendship
 
     /**
      * <h3>好友是否被拉黑: 0 表示没有拉黑, 1 表示已经拉黑</h3>
-     * <h4>拉黑是单向的</h4>
      */
     private Boolean isBlack;
 
