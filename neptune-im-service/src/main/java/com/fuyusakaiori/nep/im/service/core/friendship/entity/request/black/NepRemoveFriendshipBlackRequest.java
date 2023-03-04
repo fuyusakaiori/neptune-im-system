@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepRemoveBlackRequest
+public class NepRemoveFriendshipBlackRequest
 {
 
     private NepRequestHeader requestHeader;

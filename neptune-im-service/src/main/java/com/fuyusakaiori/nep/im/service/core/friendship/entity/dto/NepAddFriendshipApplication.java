@@ -8,7 +8,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepAddApplication {
+public class NepAddFriendshipApplication
+{
 
     private Integer friendFromId;
 

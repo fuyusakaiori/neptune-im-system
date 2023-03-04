@@ -1,18 +1,19 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepApplication;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface INepApplicationMapper {
+public interface INepFriendshipApplicationMapper
+{
 
     /**
      * <h3>新增好友申请</h3>
      */
-    int addFriendshipApplication(@Param("appId") int appId, @Param("application") NepApplication application, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int addFriendshipApplication(@Param("appId") int appId, @Param("application") NepFriendshipApplication application, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
 
     /**
      * <h3>审批好友请求是否通过</h3>

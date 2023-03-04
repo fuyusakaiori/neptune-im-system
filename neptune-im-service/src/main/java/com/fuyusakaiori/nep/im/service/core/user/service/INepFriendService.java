@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.user.service;
 
 
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllApplicationRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendshipAllApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByAccountRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByNameRequest;
@@ -27,6 +27,6 @@ public interface INepFriendService {
     /**
      * <h3>查询所有的好友申请</h3>
      */
-    NepQueryUserResponse queryAllApplication(NepQueryAllApplicationRequest request);
+    NepQueryUserResponse queryAllApplication(NepQueryFriendshipAllApplicationRequest request);
 
 }

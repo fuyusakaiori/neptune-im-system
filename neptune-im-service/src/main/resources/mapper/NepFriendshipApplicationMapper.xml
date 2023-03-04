@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepApplicationMapper">
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper">
 
-    <resultMap id="applicationMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepApplication">
+    <resultMap id="applicationMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
         <result property="applyReadStatus" column="friendship_apply_read_status"/>
         <result property="applyRemark" column="friendship_apply_remark"/>
         <result property="applyAdditionalInfo" column="friendship_apply_additional_info"/>
@@ -25,7 +25,7 @@
     </update>
 
 
-    <select id="queryAllFriendshipApplication" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepApplication">
+    <select id="queryAllFriendshipApplication" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
 
     </select>
 

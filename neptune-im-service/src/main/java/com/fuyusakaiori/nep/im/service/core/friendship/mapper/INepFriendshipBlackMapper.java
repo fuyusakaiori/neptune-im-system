@@ -4,7 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface INepBlackMapper {
+public interface INepFriendshipBlackMapper
+{
 
     /**
      * <h3>拉黑好友</h3>

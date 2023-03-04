@@ -1,4 +1,5 @@
-package com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply;
+package com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black;
+
 
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
@@ -8,10 +9,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepApproveApplicationRequest {
+public class NepAddFriendshipBlackRequest
+{
 
     private NepRequestHeader requestHeader;
 
-    private Integer applyId;
+    private Integer friendFromId;
+
+    private Integer friendToId;
 
 }

@@ -7,7 +7,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepCheckBlackResponse {
+public class NepCheckFriendshipBlackResponse
+{
 
     private Integer friendFromId;
 
