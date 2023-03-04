@@ -8,6 +8,7 @@ import com.example.neptune.im.common.enums.code.NepUserResponseCode;
 import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepApplicationMapper;
+import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllApplicationRequest;
@@ -37,6 +38,9 @@ public class NepFriendService implements INepFriendService {
 
     @Autowired
     private INepApplicationMapper applicationMapper;
+
+    @Autowired
+    private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
 
     @Override
     public NepQueryUserResponse queryAllFriend(NepQueryAllFriendRequest request) {

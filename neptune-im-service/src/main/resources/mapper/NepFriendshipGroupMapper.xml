@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMapper">
+
+    <resultMap id="friendshipGroupMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
+        <result property="groupOwnerId" column="friendship_group_owner_id"/>
+        <result property="groupName" column="friendship_group_name"/>
+        <result property="isDelete" column="friendship_group_is_del"/>
+        <result property="createTime" column="friendship_group_create_time"/>
+        <result property="updateTime" column="friendship_group_update_time"/>
+    </resultMap>
+
+    <insert id="addFriendshipGroup">
+
+    </insert>
+
+    <update id="deleteFriendshipGroup">
+
+    </update>
+
+    <select id="queryAllFriendshipGroup" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
+
+    </select>
+
+</mapper>
