@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMapper">
+
+    <resultMap id="groupMap" type="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        <result property="isMute" column="group_is_all_mute"/>
+        <result property="isDelete" column="group_is_del"/>
+        <result property="createTime" column="group_create_time"/>
+        <result property="updateTime" column="group_update_time"/>
+        <result property="extra" column="group_extra"/>
+    </resultMap>
+
+    <insert id="createGroup">
+
+    </insert>
+
+    <update id="editGroup">
+
+    </update>
+
+    <update id="deleteGroup">
+
+    </update>
+
+    <update id="muteGroup">
+
+    </update>
+
+    <update id="transferGroupOwner">
+
+    </update>
+
+    <select id="queryDetailedGroupById">
+
+    </select>
+
+    <select id="querySimpleGroupById">
+
+    </select>
+
+    <select id="queryDetailedGroupByName">
+
+    </select>
+
+    <select id="queryAllJoinedGroup">
+
+    </select>
+
+</mapper>
