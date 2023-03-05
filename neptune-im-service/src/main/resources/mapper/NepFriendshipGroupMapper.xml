@@ -10,16 +10,26 @@
         <result property="updateTime" column="friendship_group_update_time"/>
     </resultMap>
 
+    <!-- 创建好友分组 -->
     <insert id="addFriendshipGroup">
-
+        insert into `im-system`.im_friendship_group
+        (friendship_group_owner_id, friendship_group_name, app_id, friendship_group_create_time, friendship_group_update_time)
+        values
+        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{createTime}, #{updateTime})
     </insert>
 
+    <!-- 删除好友分组 -->
     <update id="deleteFriendshipGroup">
-
+        update `im-system`.im_friendship_group
+        set friendship_group_is_del = 1, friendship_group_update_time = #{updateTime}
+        where app_id = #{appId} and friendship_group_id = #{groupId};
     </update>
 
+    <!-- 查询所有好友分组 -->
     <select id="queryAllFriendshipGroup" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
-
+        select friendship_group_id, friendship_group_owner_id, friendship_group_name, friendship_group_is_del, app_id
+        from `im-system`.im_friendship_group
+        where app_id = #{appId} and friendship_group_owner_id = #{ownerId}
     </select>
 
 </mapper>

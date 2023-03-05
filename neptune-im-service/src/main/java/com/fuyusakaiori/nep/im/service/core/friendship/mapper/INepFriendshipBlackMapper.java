@@ -3,6 +3,8 @@ package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface INepFriendshipBlackMapper
 {
@@ -26,5 +28,10 @@ public interface INepFriendshipBlackMapper
      * <h3>双向校验好友拉黑状态</h3>
      */
     int checkBiFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+
+    /**
+     * <h3>查询所有在黑名单中的好友</h3>
+     */
+    List<Integer> queryAllFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId);
 
 }

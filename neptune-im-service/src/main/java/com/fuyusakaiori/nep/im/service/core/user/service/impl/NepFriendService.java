@@ -8,13 +8,11 @@ import com.example.neptune.im.common.enums.code.NepUserResponseCode;
 import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper;
+import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendshipAllApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByAccountRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByNameRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepFriendService;
@@ -37,7 +35,10 @@ public class NepFriendService implements INepFriendService {
     private INepFriendshipMapper friendshipMapper;
 
     @Autowired
-    private INepFriendshipApplicationMapper applicationMapper;
+    private INepFriendshipBlackMapper friendshipBlackMapper;
+
+    @Autowired
+    private INepFriendshipApplicationMapper friendshipApplicationMapper;
 
     @Autowired
     private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
@@ -178,7 +179,18 @@ public class NepFriendService implements INepFriendService {
     }
 
     @Override
-    public NepQueryUserResponse queryAllApplication(NepQueryFriendshipAllApplicationRequest request) {
+    public NepQueryUserResponse queryAllFriendBlackList(NepQueryAllFriendBlackRequest request) {
+        return null;
+    }
+
+    @Override
+    public NepQueryUserResponse queryAllFriendApplication(NepQueryAllFriendApplicationRequest request) {
+        return null;
+    }
+
+    @Override
+    public NepQueryUserResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request)
+    {
         return null;
     }
 }

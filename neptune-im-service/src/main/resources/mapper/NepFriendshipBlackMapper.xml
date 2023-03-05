@@ -25,12 +25,33 @@
     
     <!-- 单向校验好友之间的拉黑状态: 0 表示没有拉黑, 1 表拉黑 -->
     <select id="checkFriendInBlackList" resultType="_int" resultMap="friendshipMap">
-
+        select if(friendship_is_black = 0, 0, 1) as status from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
     </select>
 
     <!-- 双向校验好友之间的拉黑状态: 0.双向拉黑 1.没有拉黑 2.左到右单向拉黑 3.右到左单向拉黑 -->
     <select id="checkBiFriendInBlackList" resultType="_int" resultMap="friendshipMap">
+        select (
+        case
+        when a.status = 1 and b.status = 1 then 0
+        when a.status = 0 and b.status = 0 then 1
+        when a.status = 1 and b.status = 0 then 2
+        when a.status = 0 and b.status = 1 then 3
+        end ) as status
+        from
+        (select if(friendship_is_black = 0, 0, 1) as status -- 校验从左到右的拉黑关系
+         from `im-system`.im_friendship
+         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}) as a
+        inner join
+        (select if(friendship_is_black = 0, 0, 1) as status -- 校验从右到左的拉黑关系
+         from `im-system`.im_friendship
+         where app_id = #{appId} and friendship_from_id = #{toId} and friendship_to_id = #{fromId}) as b
+    </select>
 
+    <!-- 查询自己黑名单中的好友 -->
+    <select id="queryAllFriendInBlackList" resultType="int" resultMap="friendshipMap">
+        select friendship_to_id from `im-system`.im_friendship
+        where friendship_is_black = 1;
     </select>
 
 </mapper>

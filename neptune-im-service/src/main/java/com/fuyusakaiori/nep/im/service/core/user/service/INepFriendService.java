@@ -1,10 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.user.service;
 
 
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendshipAllApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByAccountRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByNameRequest;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
 
 public interface INepFriendService {
@@ -25,8 +22,18 @@ public interface INepFriendService {
     NepQueryUserResponse queryAllFriend(NepQueryAllFriendRequest request);
 
     /**
-     * <h3>查询所有的好友申请</h3>
+     * <h3>查询所有被拉黑的好友</h3>
      */
-    NepQueryUserResponse queryAllApplication(NepQueryFriendshipAllApplicationRequest request);
+    NepQueryUserResponse queryAllFriendBlackList(NepQueryAllFriendBlackRequest request);
+
+    /**
+     * <h3>查询所有给自己发送好友申请的用户</h3>
+     */
+    NepQueryUserResponse queryAllFriendApplication(NepQueryAllFriendApplicationRequest request);
+
+    /**
+     * <h3>查询所有好友分组中的成员</h3>
+     */
+    NepQueryUserResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request);
 
 }

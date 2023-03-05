@@ -20,11 +20,6 @@ public class NepFriendshipGroupMember {
     private Integer friendshipGroupMemberId;
 
     /**
-     * <h3>好友分组中的成员是否被移除</h3>
-     */
-    private Boolean isDelete;
-
-    /**
      * <h3>创建时间</h3>
      */
     private Long createTime;

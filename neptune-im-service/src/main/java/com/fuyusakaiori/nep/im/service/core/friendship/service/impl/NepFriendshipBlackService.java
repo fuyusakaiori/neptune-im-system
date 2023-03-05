@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class NepFriendshipBlackService implements INepFriendshipBlackService
-{
+public class NepFriendshipBlackService implements INepFriendshipBlackService {
 
     @Autowired
     private INepFriendshipBlackMapper blackMapper;
@@ -30,20 +29,17 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService
     }
 
     @Override
-    public NepModifyFriendshipResponse removeFriendInBlackList(NepRemoveFriendshipBlackRequest request)
-    {
+    public NepModifyFriendshipResponse removeFriendInBlackList(NepRemoveFriendshipBlackRequest request) {
         return null;
     }
 
     @Override
-    public NepCheckFriendshipBlackResponse checkFriendInBlackList(NepCheckFriendshipBlackRequest request)
-    {
+    public NepCheckFriendshipBlackResponse checkFriendInBlackList(NepCheckFriendshipBlackRequest request) {
         return null;
     }
 
     @Override
-    public NepCheckFriendshipBlackResponse checkBiFriendInBlackList(NepCheckFriendshipBlackRequest request)
-    {
+    public NepCheckFriendshipBlackResponse checkBiFriendInBlackList(NepCheckFriendshipBlackRequest request) {
         return null;
     }
 

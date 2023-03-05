@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepAddFriendshipGroupMember {
 
+    private Integer friendshipGroupId;
 
+    private Integer friendshipGroupMemberId;
 
 }

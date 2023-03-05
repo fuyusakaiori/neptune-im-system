@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class NepFriendshipApplicationService implements INepFriendshipApplicationService
-{
+public class NepFriendshipApplicationService implements INepFriendshipApplicationService {
 
     @Autowired
     private INepFriendshipApplicationMapper applicationMapper;

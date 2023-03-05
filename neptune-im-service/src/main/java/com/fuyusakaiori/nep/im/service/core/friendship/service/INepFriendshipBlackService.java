@@ -6,8 +6,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepR
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepCheckFriendshipBlackResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
 
-public interface INepFriendshipBlackService
-{
+public interface INepFriendshipBlackService {
 
     NepModifyFriendshipResponse addFriendInBlackList(NepAddFriendshipBlackRequest request);
 
