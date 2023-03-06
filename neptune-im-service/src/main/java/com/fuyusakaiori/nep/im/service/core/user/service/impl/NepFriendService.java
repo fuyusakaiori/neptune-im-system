@@ -134,39 +134,19 @@ public class NepFriendService implements INepFriendService {
         String friendName = request.getFriendName();
         // 注: 传入的可能是用户名或者备注, 所以分别查询两次后合并
         // 3. 根据备注查询好友关系
-        List<Integer> friendIdListByRemark = friendshipMapper.queryFriendshipByRemark(header.getAppId(), friendFromId, friendName)
-                                                   .stream().map(NepFriendship::getFriendshipToId)
-                                                   .collect(Collectors.toList());
-        // 4. 通过好友关系查询对应的用户
-        List<NepUser> friendByRemark = null;
-        if (CollectionUtil.isNotEmpty(friendIdListByRemark)){
-            friendByRemark = userMapper.querySimpleUserByIdList(header.getAppId(), friendIdListByRemark);
-        }
-        // TODO 注: 因为没有办法直接通过昵称查询好友关系, 所以还是先查询用户 (其实可以用联表查询直接找到用户)
+        List<NepUser> friendByRemark = getFriendByRemark(header, friendFromId, friendName);
+        // 注: 因为没有办法直接通过昵称查询好友关系, 所以还是先查询用户 (其实可以用联表查询直接找到用户)
         // 5. 根据昵称查询用户
-        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), friendName);
-        // 6. 查询好友关系
-        List<NepFriendship> friendshipList = null;
-        if (userList != null){
-            friendshipList = friendshipMapper.queryFriendshipByIdList(header.getAppId(), friendFromId,
-                    userList.stream().map(NepUser::getUserId).collect(Collectors.toList()));
-        }
-        // 7. 确认好友
-        List<NepUser> friendByNickName = null;
-        if (friendshipList != null){
-            friendByNickName = new ArrayList<>();
-            Set<Integer> friendIdSet = friendshipList.stream().map(NepFriendship::getFriendshipToId).collect(Collectors.toSet());
-            for (NepUser user : userList) {
-                if (friendIdSet.contains(user.getUserId())){
-                    friendByNickName.add(user);
-                }
-            }
-        }
-        // 8. 合并查询结果
+        List<NepUser> friendByNickName = getFriendByNickName(header, friendFromId, friendName);
+        // 6. 合并查询结果
         List<NepUser> friends = new ArrayList<>();
-        if (friendByRemark != null) friends.addAll(friendByRemark);
-        if (friendByNickName != null) friends.addAll(friendByNickName);
-        // 9. 校验查询结果
+        if (CollectionUtil.isNotEmpty(friendByRemark)){
+            friends.addAll(friendByRemark);
+        }
+        if (CollectionUtil.isNotEmpty(friendByNickName)){
+            friends.addAll(friendByNickName);
+        }
+        // 7. 校验查询结果
         if (CollectionUtil.isEmpty(friends)){
             log.error("NepFriendUserService queryFriendByName: 没有查询到任何好友 - fromId: {}, name: {}", friendFromId, friendName);
             return response.setUserList(Collections.emptyList())
@@ -176,6 +156,47 @@ public class NepFriendService implements INepFriendService {
         return response.setUserList(friends)
                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+    }
+
+    private List<NepUser> getFriendByNickName(NepRequestHeader header, Integer friendFromId, String friendName) {
+        // 1. 根据昵称查询用户
+        List<NepUser> userList = userMapper.querySimpleUserByNickName(header.getAppId(), friendName);
+        if (CollectionUtil.isEmpty(userList)){
+            return Collections.emptyList();
+        }
+        // 2. 查询好友关系
+        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByIdList(header.getAppId(), friendFromId,
+                userList.stream().map(NepUser::getUserId).collect(Collectors.toList()));
+        if (CollectionUtil.isEmpty(friendshipList)){
+            return Collections.emptyList();
+        }
+        // 3. 确认好友
+        List<NepUser> friendByNickName = new ArrayList<>();
+        Set<Integer> friendIdSet = friendshipList.stream()
+                                           .map(NepFriendship::getFriendshipToId)
+                                           .collect(Collectors.toSet());
+        for (NepUser user : userList) {
+            if (friendIdSet.contains(user.getUserId())){
+                friendByNickName.add(user);
+            }
+        }
+        return friendByNickName;
+    }
+
+    private List<NepUser> getFriendByRemark(NepRequestHeader header, Integer friendFromId, String friendName) {
+        // 1. 根据备注查询好友关系
+        List<Integer> friendIdListByRemark = friendshipMapper.queryFriendshipByRemark(header.getAppId(), friendFromId, friendName)
+                                                   .stream().map(NepFriendship::getFriendshipToId)
+                                                   .collect(Collectors.toList());
+        if (CollectionUtil.isEmpty(friendIdListByRemark)){
+            return Collections.emptyList();
+        }
+        // 2. 通过好友关系查询对应的用户
+        List<NepUser> friendByRemark = userMapper.querySimpleUserByIdList(header.getAppId(), friendIdListByRemark);
+        if (CollectionUtil.isEmpty(friendByRemark)){
+            return Collections.emptyList();
+        }
+        return friendByRemark;
     }
 
     @Override
@@ -189,8 +210,7 @@ public class NepFriendService implements INepFriendService {
     }
 
     @Override
-    public NepQueryUserResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request)
-    {
+    public NepQueryUserResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request) {
         return null;
     }
 }

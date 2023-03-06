@@ -57,6 +57,11 @@ public interface INepUserMapper
     NepUser querySimpleUserByAccount(@Param("appId") int appId, @Param("account") String account);
 
     /**
+     * <h3>查询用户: 通过昵称查询</h3>
+     */
+    List<NepUser> querySimpleUserByNickName(@Param("appId") int appId, @Param("nickName") String nickName);
+
+    /**
      * <h3>查询所有好友的缩略信息</h3>
      */
     List<NepUser> querySimpleUserByIdList(@Param("appId") int appId, @Param("list") List<Integer> userIdList);

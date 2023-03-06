@@ -33,12 +33,4 @@ public class NepEditUser
 
     private String userAvatarAddress;
 
-    private Boolean isForbidApply;
-
-    private Boolean isForbid;
-
-    private Integer userType;
-
-    private String userExtra;
-
 }

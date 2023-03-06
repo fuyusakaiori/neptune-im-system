@@ -15,8 +15,4 @@ public class NepRegisterUser {
 
     private String userNickName;
 
-    private Integer userGender;
-
-    private String userExtra;
-
 }

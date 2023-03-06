@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-@TableName(value = "im_user")
 public class NepUser {
 
     /**
@@ -61,7 +60,7 @@ public class NepUser {
     private String userSelfSignature;
 
     /**
-     * <h3>用户允许的好友添加方式: 0 表示允许任何人添加, 1 表示需要验证后添加</h3>
+     * <h3>用户允许的好友添加方式: 0 表示允许任何人添加, 1 表示需要验证后添加, 2 表示禁止添加好友</h3>
      */
     private Integer userFriendshipAllowType;
 
@@ -71,24 +70,14 @@ public class NepUser {
     private String userAvatarAddress;
 
     /**
-     * <h3>用户是否可以添加好友: 0 表示可以添加, 1 表示不允许添加</h3>
+     * <h3>用户类型: 0 表示系统管理员, 1 表示普通用户</h3>
      */
-    private Boolean isForbidApply;
-
-    /**
-     * <h3>用户是否被系统禁用: 0 表示没有被禁用, 1 表示被禁用</h3>
-     */
-    private Boolean isForbid;
+    private Integer userType;
 
     /**
      * <h3>用户是否已经注销: 0 表示没有被注销, 1 表示已经注销</h3>
      */
     private Boolean isDelete;
-
-    /**
-     * <h3>用户类型: 0 表示系统管理员, 1 表示普通用户</h3>
-     */
-    private Integer userType;
 
     /**
      * <h3>拓展字段: 采用 JSON 格式存储</h3>
