@@ -12,7 +12,7 @@ public class NepFriendshipGroup {
     /**
      * <h3>好友分组 ID</h3>
      */
-    private Integer friendshipGroupId;
+    private Integer groupId;
 
     /**
      * <h3>好友分组所属用户 ID</h3>

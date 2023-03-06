@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
 import com.example.neptune.im.common.enums.code.NepUserResponseCode;
@@ -9,8 +8,8 @@ import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQueryUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepModifyUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
 import com.fuyusakaiori.nep.im.service.util.NepCheckUserParamUtil;

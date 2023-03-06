@@ -13,12 +13,15 @@
     <insert id="addFriendship">
         insert into `im-system`.im_friendship
         (friendship_from_id, friendship_to_id, app_id,
-         friendship_remark, friendship_source, friendship_extra,
-         friendship_create_time, friendship_update_time, friendship_additional_info)
+         friendship_remark, friendship_source, friendship_additional_info,
+         friendship_extra, friendship_create_time, friendship_update_time)
         values
-        (#{friendship.friendFromId},#{friendship.friendToId},#{appId},
-         #{friendship.friendRemark},#{friendship.friendshipSource},#{friendship.friendshipExtra},
-         #{createTime},#{updateTime},#{friendship.additionalInfo})
+        (#{friendship.friendFromId}, #{friendship.friendToId}, #{appId},
+         #{friendship.friendRemark}, #{friendship.friendshipSource}, #{friendship.additionalInfo},
+         #{friendship.friendshipExtra}, #{createTime},#{updateTime}),
+        (#{friendship.friendToId}, #{friendship.friendFromId},#{appId},
+         null, null, null,
+         #{friendship.friendshipExtra}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="editFriendship">
@@ -31,7 +34,9 @@
             <if test="friendship.additionalInfo != null">friendship_additional_info = #{friendship.additionalInfo},</if>
             <if test="updateTime != null">friendship_update_time = #{updateTime},</if>
         </set>
-        where app_id = #{appId} and friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId}
+        where app_id = #{appId}
+        and (friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId})
+        or (friendship_from_id = #{friendship.friendToId} and friendship_to_id = #{friendship.friendFromId})
     </update>
 
 

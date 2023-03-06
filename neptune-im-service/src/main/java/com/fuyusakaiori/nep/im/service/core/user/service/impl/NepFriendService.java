@@ -2,21 +2,23 @@ package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
-import com.example.neptune.im.common.enums.code.NepUserResponseCode;
+import com.example.neptune.im.common.enums.code.*;
 import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
+import com.fuyusakaiori.nep.im.service.core.friendship.mapper.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriend;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendGroup;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepQueryFriendApplication;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendApplicationResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendGroupMemberResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepFriendService;
-import com.fuyusakaiori.nep.im.service.util.NepCheckUserParamUtil;
+import com.fuyusakaiori.nep.im.service.util.NepCheckFriendParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,9 @@ public class NepFriendService implements INepFriendService {
     private INepFriendshipApplicationMapper friendshipApplicationMapper;
 
     @Autowired
+    private INepFriendshipGroupMapper friendshipGroupMapper;
+
+    @Autowired
     private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
 
     @Override
@@ -48,7 +53,7 @@ public class NepFriendService implements INepFriendService {
         // 0. 准备响应结果
         NepQueryUserResponse response = new NepQueryUserResponse();
         // 1. 参数校验
-        if (!NepCheckUserParamUtil.checkNepQueryAllFriendRequestParam(request)){
+        if (!NepCheckFriendParamUtil.checkNepQueryAllFriendRequestParam(request)){
             log.error("NepFriendUserService queryAllFriendUser: 请求头中的参数检查失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -86,7 +91,7 @@ public class NepFriendService implements INepFriendService {
         // 0. 准备响应结果
         NepQueryUserResponse response = new NepQueryUserResponse();
         // 1. 参数校验
-        if (!NepCheckUserParamUtil.checkNepQueryFriendByAccountRequestParam(request)){
+        if (!NepCheckFriendParamUtil.checkNepQueryFriendByAccountRequestParam(request)){
             log.error("NepFriendUserService queryFriendByAccount: 参数校验失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -123,7 +128,7 @@ public class NepFriendService implements INepFriendService {
         // 0. 准备响应结果
         NepQueryUserResponse response = new NepQueryUserResponse();
         // 1. 参数校验
-        if (!NepCheckUserParamUtil.checkNepQueryFriendByNameRequestParam(request)){
+        if (!NepCheckFriendParamUtil.checkNepQueryFriendByNameRequestParam(request)){
             log.error("NepFriendUserService queryFriendByName: 参数校验失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -201,16 +206,166 @@ public class NepFriendService implements INepFriendService {
 
     @Override
     public NepQueryUserResponse queryAllFriendBlackList(NepQueryAllFriendBlackRequest request) {
-        return null;
+        // 0. 响应结果准备
+        NepQueryUserResponse response = new NepQueryUserResponse();
+        // 1. 参数校验
+        if (NepCheckFriendParamUtil.checkNepQueryAllFriendBlackListRequestParam(request)){
+            log.error("NepFriendService queryAllFriendBlackList: 参数校验失败 - request: {}", request);
+            return response.setUserList(Collections.emptyList())
+                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+        }
+        // 2. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        Integer friendFromId = request.getFriendFromId();
+        // 3. 获取该用户拉黑的所用好友 ID
+        List<Integer> friendToIdList = friendshipBlackMapper.queryAllFriendInBlackList(header.getAppId(), friendFromId);
+        if (CollectionUtil.isEmpty(friendToIdList)){
+            log.error("NepFriendService queryAllFriendBlackList: 用户没有拉黑的好友 - request: {}", request);
+            return response.setUserList(Collections.emptyList())
+                           .setCode(NepFriendshipBlackResponseCode.FRIEND_BLACK_NOT_EXIST.getCode())
+                           .setMessage(NepFriendshipBlackResponseCode.FRIEND_BLACK_NOT_EXIST.getMessage());
+        }
+        // 4. 查询被拉黑好友的简易信息
+        List<NepUser> blackUserList = userMapper.querySimpleUserByIdList(header.getAppId(), friendToIdList);
+        if(CollectionUtil.isEmpty(blackUserList)){
+            log.error("NepFriendService queryAllFriendBlackList: 用户拉黑的好友不存在 - request: {}", request);
+            return response.setUserList(Collections.emptyList())
+                           .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
+                           .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
+        }
+        return response.setUserList(blackUserList)
+                       .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
 
     @Override
-    public NepQueryUserResponse queryAllFriendApplication(NepQueryAllFriendApplicationRequest request) {
-        return null;
+    public NepQueryFriendApplicationResponse queryAllFriendApplication(NepQueryAllFriendApplicationRequest request) {
+        // 0. 响应结果准备
+        NepQueryFriendApplicationResponse response = new NepQueryFriendApplicationResponse();
+        // 1. 参数校验
+        if (NepCheckFriendParamUtil.checkNepQueryAllFriendApplicationRequestParam(request)){
+            log.error("NepFriendService queryAllFriendApplication: 参数校验失败 - request: {}", request);
+            return response.setApplicationList(Collections.emptyList())
+                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+        }
+        // 2. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        Integer userId = request.getUserId();
+        // 3. 获取向该用户发出的所有好友申请
+        List<NepFriendshipApplication> applicationList = friendshipApplicationMapper.queryAllFriendshipApplication(header.getAppId(), userId);
+        if (CollectionUtil.isEmpty(applicationList)){
+            log.error("NepFriendService queryAllFriendApplication: 用户没有接收到任何好友申请 - request: {}", request);
+            return response.setApplicationList(Collections.emptyList())
+                           .setCode(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_NOT_EXIST.getCode())
+                           .setMessage(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_NOT_EXIST.getMessage());
+        }
+        // TODO 将所有未读的好友申请变为已读
+
+        // 4. 查询发出申请的用户信息
+        List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), applicationList.stream()
+                                                                                               .map(NepFriendshipApplication::getFriendshipFromId)
+                                                                                               .collect(Collectors.toList()));
+        if(CollectionUtil.isEmpty(userList)){
+            log.error("NepFriendService queryAllFriendApplication: 发出好友申请的用户不存在 - request: {}", request);
+            return response.setApplicationList(Collections.emptyList())
+                           .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
+                           .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
+        }
+        // 5. 拼装返回集合
+        List<NepQueryFriendApplication> friendApplicationList = transferFriendApplicationList(userId, userList, applicationList);
+        // 6. 设置响应信息
+        return response.setApplicationList(friendApplicationList)
+                       .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
 
+    /**
+     * <h3>将好友信息和好友申请中的信息合并到一起</h3>
+     */
+    private List<NepQueryFriendApplication> transferFriendApplicationList(int friendToId, List<NepUser> userList, List<NepFriendshipApplication> applicationList) {
+        // 1. 将发出好友申请的用户信息填充到返回结果中
+        Map<Integer, NepQueryFriendApplication> map = userList.stream()
+                                                              .map(user -> new NepQueryFriendApplication()
+                                                                                   .setFriendFromId(user.getUserId())
+                                                                                   .setFriendAccount(user.getUserAccount())
+                                                                                   .setFriendNickName(user.getUserNickName())
+                                                                                   .setFriendAvatarAddress(user.getUserAvatarAddress()))
+                                                              .collect(Collectors.toMap(NepQueryFriendApplication::getFriendFromId, NepQueryFriendApplication -> NepQueryFriendApplication));
+        // 2. 将好友申请中的信息填充到返回结果中
+        for (NepFriendshipApplication application : applicationList) {
+            if (map.containsKey(application.getFriendshipFromId())){
+                NepQueryFriendApplication friendApplication = map.get(application.getFriendshipFromId());
+                friendApplication.setFriendApplicationId(application.getFriendshipApplyId())
+                         .setFriendToId(friendToId)
+                         .setFriendSource(application.getApplySource())
+                         .setAdditionalInfo(application.getApplyAdditionalInfo())
+                         .setReadStatus(application.getApplyReadStatus())
+                         .setApproveStatus(application.getApplyApproveStatus());
+            }
+        }
+        // 3. 返回集合
+        return new ArrayList<>(map.values());
+    }
+
+
     @Override
-    public NepQueryUserResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request) {
-        return null;
+    public NepQueryFriendGroupMemberResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request) {
+        // 0. 响应结果准备
+        NepQueryFriendGroupMemberResponse response = new NepQueryFriendGroupMemberResponse();
+        // 1. 参数校验
+        if (NepCheckFriendParamUtil.checkNepQueryAllFriendGroupMemberRequestParam(request)){
+            log.error("NepFriendService queryAllFriendGroupMember: 参数校验失败 - request: {}", request);
+            return response.setFriendGroupMemberMap(Collections.emptyMap())
+                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+        }
+        // 2. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        Integer userId = request.getUserId();
+        // 3. 查询自己创建的所有好友分组
+        List<NepFriendshipGroup> groupList = friendshipGroupMapper.queryAllFriendshipGroup(header.getAppId(), userId);
+        if (CollectionUtil.isEmpty(groupList)){
+            log.error("NepFriendService queryAllFriendGroupMember: 该用户没有创建任何好友分组 - request: {}", request);
+            return response.setFriendGroupMemberMap(Collections.emptyMap())
+                           .setCode(NepFriendshipGroupResponseCode.FRIEND_GROUP_NOT_EXIST.getCode())
+                           .setMessage(NepFriendshipGroupResponseCode.FRIEND_GROUP_NOT_EXIST.getMessage());
+        }
+        // 4. 查询每个分组下的成员
+        Map<Integer, List<Integer>> groupIdAndGroupMemberIdList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(header.getAppId(),
+                groupList.stream().map(NepFriendshipGroup::getGroupId).collect(Collectors.toList()));
+        if (CollectionUtil.isEmpty(groupIdAndGroupMemberIdList)){
+            // TODO
+        }
+        // 5. 查询每个分组中的好友信息
+        Map<NepFriendGroup, List<NepFriend>> groupAndGroupMember = new HashMap<>();
+        for(Map.Entry<Integer, List<Integer>> entry : groupIdAndGroupMemberIdList.entrySet()){
+            Integer groupId = entry.getKey();
+            List<Integer> groupMemberIdList = entry.getValue();
+            List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), groupMemberIdList);
+            NepFriendshipGroup friendshipGroup = groupList.get(groupId);
+            NepFriendGroup friendGroup = transferFriendshipGroupToFriendGroup(friendshipGroup);
+            List<NepFriend> friendGroupMemberList = userList.stream().map(this::transferUserToFriend).collect(Collectors.toList());
+            groupAndGroupMember.put(friendGroup, friendGroupMemberList);
+        }
+        return response.setFriendGroupMemberMap(groupAndGroupMember)
+                       .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+    }
+
+    private NepFriendGroup transferFriendshipGroupToFriendGroup(NepFriendshipGroup friendshipGroup) {
+        return new NepFriendGroup().setGroupId(friendshipGroup.getGroupId())
+                       .setGroupOwnerId(friendshipGroup.getGroupOwnerId())
+                       .setGroupName(friendshipGroup.getGroupName());
+    }
+
+    private NepFriend transferUserToFriend(NepUser user) {
+        return new NepFriend()
+                       .setUserId(user.getUserId())
+                       .setUserAccount(user.getUserAccount())
+                       .setUserNickName(user.getUserNickName())
+                       .setUserAvatarAddress(user.getUserAvatarAddress())
+                       .setUserSelfSignature(user.getUserSelfSignature());
     }
 }

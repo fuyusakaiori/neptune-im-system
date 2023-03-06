@@ -41,4 +41,8 @@ public class NepAddFriendship
      */
     private String friendshipExtra;
 
+    private Long createTime;
+
+    private Long updateTime;
+
 }

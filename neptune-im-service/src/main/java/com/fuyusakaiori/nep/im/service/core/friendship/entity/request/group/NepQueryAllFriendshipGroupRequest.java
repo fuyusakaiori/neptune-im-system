@@ -12,5 +12,5 @@ public class NepQueryAllFriendshipGroupRequest {
 
     private NepRequestHeader requestHeader;
 
-    private Integer ownerId;
+    private Integer groupOwnerId;
 }

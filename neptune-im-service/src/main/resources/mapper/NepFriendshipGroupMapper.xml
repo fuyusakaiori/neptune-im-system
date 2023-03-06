@@ -11,11 +11,11 @@
     </resultMap>
 
     <!-- 创建好友分组 -->
-    <insert id="addFriendshipGroup">
+    <insert id="createFriendshipGroup">
         insert into `im-system`.im_friendship_group
         (friendship_group_owner_id, friendship_group_name, app_id, friendship_group_create_time, friendship_group_update_time)
         values
-        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{createTime}, #{updateTime})
+        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{group.createTime}, #{group.updateTime})
     </insert>
 
     <!-- 删除好友分组 -->

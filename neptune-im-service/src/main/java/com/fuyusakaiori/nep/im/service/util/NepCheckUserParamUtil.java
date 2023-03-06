@@ -29,8 +29,7 @@ public class NepCheckUserParamUtil {
         }
         // 3. 校验参数
         if (StrUtil.isEmpty(body.getUserAccount()) || StrUtil.isEmpty(body.getUserPassword())
-                    || StrUtil.isEmpty(body.getUserNickName())
-                    || Objects.isNull(body.getUserGender())){
+                    || StrUtil.isEmpty(body.getUserNickName())){
             return false;
         }
         return true;
@@ -107,9 +106,6 @@ public class NepCheckUserParamUtil {
         return !StrUtil.isEmpty(userAccount);
     }
 
-    /**
-     * <h3>校验通过昵称查询用户的请求</h3>
-     */
     public static boolean checkNepQueryUserByNickNameRequestParam(NepQueryUserByNickNameRequest request){
         // 1. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -120,60 +116,5 @@ public class NepCheckUserParamUtil {
         }
         // 3. 检查字段是否合法
         return !StrUtil.isEmpty(nickName);
-    }
-
-    /**
-     * <h3>校验通过账号查询好友的请求</h3>
-     */
-    public static boolean checkNepQueryFriendByAccountRequestParam(NepQueryFriendByAccountRequest request) {
-        // 1. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
-        Integer friendFromId = request.getFriendFromId();
-        String userAccount = request.getUserAccount();
-        // 2. 校验请求头
-        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
-            return false;
-        }
-        // 3. 检查字段是否合法
-        if (Objects.isNull(friendFromId) || friendFromId <= 0 || StrUtil.isEmpty(userAccount)){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * <h3>校验通过昵称或者备注查询好友的请求</h3>
-     */
-    public static boolean checkNepQueryFriendByNameRequestParam(NepQueryFriendByNameRequest request) {
-        // 1. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
-        Integer friendFromId = request.getFriendFromId();
-        String friendName = request.getFriendName();
-        // 2. 校验请求头
-        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
-            return false;
-        }
-        // 3. 检查字段是否合法
-        if (Objects.isNull(friendFromId) || friendFromId <= 0 || StrUtil.isEmpty(friendName)){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * <h3>校验查询所有好友的请求</h3>
-     */
-    public static boolean checkNepQueryAllFriendRequestParam(NepQueryAllFriendRequest request) {
-        // 1. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
-        Integer userId = request.getFriendFromId();
-        // 2. 校验请求头
-        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
-            return false;
-        }
-        if (Objects.isNull(userId) || userId < 0){
-            return false;
-        }
-        return true;
     }
 }

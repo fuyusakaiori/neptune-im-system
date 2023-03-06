@@ -14,16 +14,17 @@
         insert into `im-system`.im_friendship_group_member
         (friendship_group_id, friendship_group_member_id, friendship_group_member_create_time, friendship_group_member_update_time, app_id)
         values
-        <foreach collection="memberList" item="member" separator=",">
-            (#{member.friendshipGroupId},#{member.friendshipGroupMemberId},#{createTime},#{updateTime},#{appId})
-        </foreach>
+        (#{member.friendshipGroupId},#{member.friendshipGroupMemberId},#{createTime},#{updateTime},#{appId})
     </insert>
 
     <!-- 将好友从分组中移除并且移入默认分组 -->
-    <update id="removeFriendshipGroupMember">
+    <update id="moveFriendshipGroupMember">
         update `im-system`.im_friendship_group_member
-        set friendship_group_id = 1, friendship_group_member_update_time = #{updateTime}
-        where app_id = #{appId} and friendship_group_member_id = #{memberId}
+        set friendship_group_id = #{groupId}, friendship_group_member_update_time = #{updateTime}
+        where app_id = #{appId} and friendship_group_member_id in
+        <foreach collection="memberIdList" item="memberId" separator="," open="(" close=")">
+            #{memberId}
+        </foreach>
     </update>
 
     <!-- 清空分组中的所有成员 -->

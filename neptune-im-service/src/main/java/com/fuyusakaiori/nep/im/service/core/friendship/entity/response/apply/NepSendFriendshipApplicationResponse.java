@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepModifyFriendshipApplicationResponse
+public class NepSendFriendshipApplicationResponse
 {
 
     private int code;

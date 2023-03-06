@@ -22,7 +22,7 @@ public interface INepFriendshipBlackMapper
     /**
      * <h3>单向校验好友拉黑状态</h3>
      */
-   int checkFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
+    int checkFriendInBlackList(@Param("appId") int appId, @Param("fromId") int fromId, @Param("toId") int toId);
 
     /**
      * <h3>双向校验好友拉黑状态</h3>

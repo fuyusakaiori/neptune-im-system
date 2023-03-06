@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.user.entity.response;
+package com.fuyusakaiori.nep.im.service.core.user.entity.response.normal;
 
 
 import lombok.AllArgsConstructor;

@@ -2,8 +2,8 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQueryUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepModifyUserResponse;
 
 public interface INepUserService {
 

@@ -14,6 +14,6 @@ public class NepDeleteFriendshipGroupRequest {
 
     private NepRequestHeader requestHeader;
 
-    private List<Integer> groupIdList;
+    private Integer groupId;
 
 }

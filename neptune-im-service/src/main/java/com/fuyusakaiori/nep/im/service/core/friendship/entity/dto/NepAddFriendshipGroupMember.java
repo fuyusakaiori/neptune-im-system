@@ -13,4 +13,8 @@ public class NepAddFriendshipGroupMember {
 
     private Integer friendshipGroupMemberId;
 
+    private Long createTime;
+
+    private Long updateTime;
+
 }

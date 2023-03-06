@@ -15,6 +15,8 @@ public class NepAddFriendshipGroupMemberRequest {
 
     private NepRequestHeader requestHeader;
 
-    private List<NepAddFriendshipGroupMember> friendshipGroupMemberList;
+    private Integer groupId;
+
+    private List<Integer> groupMemberIdList;
 
 }

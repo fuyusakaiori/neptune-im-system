@@ -11,6 +11,6 @@ public class NepModifyFriendshipGroupResponse {
 
     private int code;
 
-    private int message;
+    private String message;
 
 }

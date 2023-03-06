@@ -3,16 +3,13 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.alibaba.fastjson.JSON;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepCancelUserRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepEditUserRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepQueryUserByAccountRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepRegisterUserRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepModifyUserResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.NepQueryUserResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepModifyUserResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +28,7 @@ public class NepUserServiceTest
         NepRequestHeader header = new NepRequestHeader().setAppId(1);
         NepRegisterUser user = new NepRegisterUser()
                                        .setUserNickName(RandomUtil.randomString(10))
-                                       .setUserPassword("123")
-                                       .setUserGender(RandomUtil.randomInt(3));
+                                       .setUserPassword("123");
         NepRegisterUserRequest request = new NepRegisterUserRequest()
                                                  .setRequestHeader(header).setRequestBody(user);
         NepModifyUserResponse response = userService.registerUser(request);

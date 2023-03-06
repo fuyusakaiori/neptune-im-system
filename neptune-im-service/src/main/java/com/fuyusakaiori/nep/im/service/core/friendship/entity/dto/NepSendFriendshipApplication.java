@@ -8,8 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepAddFriendshipApplication
-{
+public class NepSendFriendshipApplication {
 
     private Integer friendFromId;
 
@@ -20,5 +19,9 @@ public class NepAddFriendshipApplication
     private String remark;
 
     private String source;
+
+    private Long createTime;
+
+    private Long updateTime;
 
 }

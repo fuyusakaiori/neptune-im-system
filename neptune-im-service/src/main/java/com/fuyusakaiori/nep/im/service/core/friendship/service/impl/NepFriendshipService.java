@@ -35,6 +35,9 @@ public class NepFriendshipService implements INepFriendshipService {
     @Autowired
     private INepUserMapper userMapper;
 
+    @Autowired
+    private NepFriendshipServiceImpl friendshipServiceImpl;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public NepModifyFriendshipResponse addFriendship(NepAddFriendshipRequest request) {
@@ -70,7 +73,7 @@ public class NepFriendshipService implements INepFriendshipService {
             }
             // 4.2 如果对方不需要验证就能添加好友, 那么直接添加
             if (type == NepFriendshipAllowType.ANY.getType()){
-                return doAddFriendship(header, body);
+                return friendshipServiceImpl.addFriendship(header, body);
             }
             // TODO 4.3 如果对方需要验证才能添加, 那么走验证后添加的逻辑
             if (type == NepFriendshipAllowType.VALIDATION.getType()){
@@ -82,54 +85,7 @@ public class NepFriendshipService implements INepFriendshipService {
                 .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public NepModifyFriendshipResponse doAddFriendship(NepRequestHeader header, NepAddFriendship body){
-        NepModifyFriendshipResponse response = new NepModifyFriendshipResponse();
-        // 0. 获取变量
-        Integer friendFromId = body.getFriendFromId();
-        Integer friendToId = body.getFriendToId();
-        String remark = body.getFriendRemark();
-        String source = body.getFriendshipSource();
-        String additionalInfo = body.getAdditionalInfo();
-        String extra = body.getFriendshipExtra();
-        // 1. 查询两个用户之间的关系
-        NepFriendship friendshipFrom = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
-        // 2. 判断两个用户此前是否添加过好友: 理论上两个关系只能同时存在或者同时不存在, 不可能出现只有一条关系的情况
-        if (Objects.isNull(friendshipFrom)){
-            // 2.1 如果没有添加过好友, 那么需要插入新的记录
-            // 2.1.1 插入 from -> to 的记录
-            int result = friendshipMapper.addFriendship(header.getAppId(), body,
-                    System.currentTimeMillis(), System.currentTimeMillis());
-            if (result <= 0){
-                log.error("NeptuneFriendshipService doAddFriendship: 添加 from -> to 好友关系失败 - fromId: {}, toId: {}", friendFromId, friendToId);
-                return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getCode())
-                        .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
-            }
-            // TODO 2.1.2 插入 to -> from 的记录
-        }else{
-            // 2.2 如果已经添加过好友, 那么检查好友关系是否已经被删除:
-            if (friendshipFrom.getFriendshipStatus() == NepFriendshipStatus.FRIENDSHIP_NORMAL.getStatus()){
-                log.error("NeptuneFriendshipService doAddFriendship: 用户: {} 和 用户: {} 已经是好友了", friendFromId, friendToId);
-                return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_EXIST.getCode())
-                        .setMessage(NepFriendshipResponseCode.FRIENDSHIP_EXIST.getMessage());
-            }
-            // 需要重新更新好友关系的状态、备注、来源、附加信息、拓展字段
-            NepEditFriendship friendship = new NepEditFriendship().setFriendshipStatus(NepFriendshipStatus.FRIENDSHIP_NORMAL.getStatus())
-                                                                  .setFriendRemark(remark).setFriendshipSource(source)
-                                                                  .setAdditionalInfo(additionalInfo).setFriendshipExtra(extra);
-            // 2.2.1 更新 from -> to
-            friendship.setFriendFromId(friendFromId).setFriendToId(friendToId);
-            int result = friendshipMapper.editFriendship(header.getAppId(), friendship, System.currentTimeMillis());
-            if (result <= 0){
-                log.error("NeptuneFriendshipService doAddFriendship: 更新 from -> to 好友关系失败 - fromId: {}, toId: {}", friendFromId, friendToId);
-                return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getCode())
-                        .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
-            }
-            // TODO 2.2.2 更新 to -> from 的记录
-        }
-        return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
-                .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-    }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)

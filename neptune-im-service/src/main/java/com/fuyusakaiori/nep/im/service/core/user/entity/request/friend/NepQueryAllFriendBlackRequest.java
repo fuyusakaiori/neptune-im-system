@@ -11,8 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryAllFriendBlackRequest
-{
+public class NepQueryAllFriendBlackRequest {
 
     /**
      * <h3></h3>

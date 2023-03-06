@@ -8,11 +8,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepApproveFriendshipApplicationRequest
-{
+public class NepApproveFriendshipApplicationRequest {
 
     private NepRequestHeader requestHeader;
 
     private Integer applyId;
+
+    private Integer approveStatus;
 
 }

@@ -1,14 +1,15 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
 
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepAddFriendshipApplicationRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepSendFriendshipApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepModifyFriendshipApplicationResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepSendFriendshipApplicationResponse;
 
 public interface INepFriendshipApplicationService {
 
-    NepModifyFriendshipApplicationResponse addFriendshipApplication(NepAddFriendshipApplicationRequest request);
+    NepSendFriendshipApplicationResponse sendFriendshipApplication(NepSendFriendshipApplicationRequest request);
 
-    NepModifyFriendshipApplicationResponse approveFriendshipApplication(NepApproveFriendshipApplicationRequest request);
+    NepApproveFriendshipApplicationResponse approveFriendshipApplication(NepApproveFriendshipApplicationRequest request);
 
 }

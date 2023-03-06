@@ -8,8 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepFriendshipApplication
-{
+public class NepFriendshipApplication {
 
     /**
      * <h3>好友申请 ID</h3>

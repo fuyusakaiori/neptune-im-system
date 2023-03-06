@@ -14,6 +14,4 @@ public interface INepFriendshipBlackService {
 
     NepCheckFriendshipBlackResponse checkFriendInBlackList(NepCheckFriendshipBlackRequest request);
 
-    NepCheckFriendshipBlackResponse checkBiFriendInBlackList(NepCheckFriendshipBlackRequest request);
-
 }

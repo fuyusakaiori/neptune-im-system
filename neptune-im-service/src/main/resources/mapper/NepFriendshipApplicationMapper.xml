@@ -12,14 +12,25 @@
         <result property="updateTime" column="friendship_apply_update_time"/>
     </resultMap>
 
-    <insert id="addFriendshipApplication">
+    <insert id="sendFriendshipApplication">
         insert into `im-system`.im_friendship_application
         (friendship_from_id, friendship_to_id, app_id, friendship_apply_additional_info, friendship_apply_remark,
          friendship_apply_source, friendship_apply_create_time, friendship_apply_update_time)
         values
         (#{application.friendFromId},#{application.friendToId},#{appId},#{application.additionalInfo},#{application.remark},
-         #{application.source},#{createTime},#{updateTime})
+         #{application.source},#{application.createTime},#{application.updateTime})
     </insert>
+
+    <update id="updateFriendshipApplication">
+        update `im-system`.im_friendship_application
+        <set>
+            <if test="application.additionalInfo != null">friendship_apply_additional_info = #{application.additionalInfo},</if>
+            <if test="application.remark != null">friendship_apply_remark = #{application.remark},</if>
+            <if test="application.source != null">friendship_apply_source = #{application.source},</if>
+            <if test="application.updateTime != null">friendship_apply_update_time = #{application.updateTime,}</if>
+        </set>
+        where app_id = #{appId} and friendship_from_id = #{application.friendFromId} and friendship_to_id = #{application.friendToId}
+    </update>
 
     <update id="approveFriendshipApplication">
         update `im-system`.im_friendship_application
@@ -36,6 +47,21 @@
         </foreach>
     </update>
 
+    <select id="queryFriendshipApplicationById" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
+        select friendship_apply_id, friendship_from_id, friendship_to_id,
+               friendship_apply_read_status, friendship_apply_additional_info, friendship_apply_remark,
+               friendship_apply_approve_status, friendship_apply_source
+        from `im-system`.im_friendship_application
+        where friendship_apply_id = #{applyId}
+    </select>
+
+    <select id="queryFriendshipApplicationByUserId" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
+        select friendship_apply_id, friendship_from_id, friendship_to_id,
+               friendship_apply_read_status, friendship_apply_additional_info, friendship_apply_remark,
+               friendship_apply_approve_status, friendship_apply_source
+        from `im-system`.im_friendship_application
+        where friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </select>
 
     <select id="queryAllFriendshipApplication" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
         select friendship_apply_id, friendship_from_id, friendship_to_id,
