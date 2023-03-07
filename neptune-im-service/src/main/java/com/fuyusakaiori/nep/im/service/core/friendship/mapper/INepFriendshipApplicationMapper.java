@@ -18,7 +18,7 @@ public interface INepFriendshipApplicationMapper {
     /**
      * <h3>更新好友申请：内部调用</h3>
      */
-    int updateFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application);
+    int updateFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application, @Param("updateTime") long updateTime);
 
     /**
      * <h3>审批好友请求是否通过: 外部调用</h3>
@@ -29,7 +29,7 @@ public interface INepFriendshipApplicationMapper {
     /**
      * <h3>已读所有向自己发出的申请: 内部调用</h3>
      */
-    int readAllFriendshipApplication(@Param("appId") int appId, @Param("applyIdList") List<Integer> applyIdList);
+    int readAllFriendshipApplication(@Param("appId") int appId, @Param("applyIdList") List<Integer> applyIdList, @Param("updateTime") long updateTime);
 
     /**
      * <h3>查询好友申请: 通过好友请求 ID - 内部调用</h3>

@@ -3,6 +3,7 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
 import com.example.neptune.im.common.enums.code.NepFriendshipApplicationResponseCode;
+import com.example.neptune.im.common.enums.code.NepFriendshipBlackResponseCode;
 import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
 import com.example.neptune.im.common.enums.status.NepFriendshipApplicationApproveStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
@@ -23,11 +24,7 @@ import java.util.Objects;
 public class NepFriendshipApplicationService implements INepFriendshipApplicationService {
 
     @Autowired
-    private INepFriendshipApplicationMapper friendshipApplicationMapper;
-
-    @Autowired
-    private NepFriendshipServiceImpl friendshipServiceImpl;
-
+    private NepFriendshipApplicationServiceImpl friendshipApplicationServiceImpl;
 
     @Override
     public NepApproveFriendshipApplicationResponse approveFriendshipApplication(NepApproveFriendshipApplicationRequest request) {
@@ -43,46 +40,17 @@ public class NepFriendshipApplicationService implements INepFriendshipApplicatio
         NepRequestHeader header = request.getRequestHeader();
         Integer applyId = request.getApplyId();
         Integer approveStatus = request.getApproveStatus();
-        // 3. 查询是否有好友请求
-        NepFriendshipApplication application = friendshipApplicationMapper.queryFriendshipApplicationById(header.getAppId(), applyId);
-        // TODO 这里首先需要检验发起审批请求的是否是自己
-        // 4. 校验好友请求是否合法
-        if (Objects.isNull(application)){
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: 好友请求不存在 - request: {}", request);
-            return response.setCode(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_NOT_EXIST.getCode())
-                           .setMessage(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_NOT_EXIST.getMessage());
-        }
-        if (NepFriendshipApplicationApproveStatus.UNAPPROVED.getStatus() != application.getApplyApproveStatus()){
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: 好友请求已经审批过 - request: {}", request);
-            return response.setCode(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_APPROVED.getCode())
-                           .setMessage(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_APPROVED.getMessage());
-        }
-        // 5. 审批好友请求
-        int isApprove = friendshipApplicationMapper.approveFriendshipApplication(header.getAppId(), applyId, approveStatus, System.currentTimeMillis());
-        if (isApprove <= 0){
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: {} 审批 {} 发送的好友申请失败 - request: {}", application.getFriendshipToId(), application.getFriendshipFromId(), request);
-            return response.setCode(NepFriendshipApplicationResponseCode.SEND_FRIEND_APPLICATION_FAIL.getCode())
-                           .setMessage(NepFriendshipApplicationResponseCode.SEND_FRIEND_APPLICATION_FAIL.getMessage());
-        }
-        // 6. 如果同意好友申请, 那么执行好友添加
-        int isAdd = friendshipServiceImpl.doAddFriendship(header, transferToAddFriendship(application));
-        if (isAdd <= 0){
-            return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getCode())
-                           .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
+        // 3. 审批好友申请
+        int result = friendshipApplicationServiceImpl.doApproveFriendshipApplication(header, applyId, approveStatus);
+        if (result <= 0){
+            log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求失败 - request: {}", request);
+            return response.setCode(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getCode())
+                           .setMessage(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getMessage());
         }
         return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
 
-
-    private NepAddFriendship transferToAddFriendship(NepFriendshipApplication application){
-        return new NepAddFriendship()
-                       .setFriendFromId(application.getFriendshipFromId())
-                       .setFriendToId(application.getFriendshipToId())
-                       .setFriendshipSource(application.getApplySource())
-                       .setFriendRemark(application.getApplyRemark())
-                       .setAdditionalInfo(application.getApplyAdditionalInfo());
-    }
 
 
 }

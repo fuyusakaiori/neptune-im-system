@@ -13,15 +13,12 @@
     <insert id="addFriendship">
         insert into `im-system`.im_friendship
         (friendship_from_id, friendship_to_id, app_id,
-         friendship_remark, friendship_source, friendship_additional_info,
-         friendship_extra, friendship_create_time, friendship_update_time)
+         friendship_remark, friendship_source, friendship_additional_info, friendship_create_time, friendship_update_time)
         values
         (#{friendship.friendFromId}, #{friendship.friendToId}, #{appId},
-         #{friendship.friendRemark}, #{friendship.friendshipSource}, #{friendship.additionalInfo},
-         #{friendship.friendshipExtra}, #{createTime},#{updateTime}),
+         #{friendship.friendRemark}, #{friendship.friendshipSource}, #{friendship.additionalInfo}, #{createTime},#{updateTime}),
         (#{friendship.friendToId}, #{friendship.friendFromId},#{appId},
-         null, #{friendship.friendshipSource}, null,
-         #{friendship.friendshipExtra}, #{createTime}, #{updateTime})
+         null, #{friendship.friendshipSource}, null, #{createTime}, #{updateTime})
     </insert>
 
     <update id="editFriendship">

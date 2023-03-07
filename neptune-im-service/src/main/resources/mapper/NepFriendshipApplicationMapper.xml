@@ -24,11 +24,11 @@
     <update id="updateFriendshipApplication">
         update `im-system`.im_friendship_application
         <set>
-            set friendship_apply_read_status = 0, friendship_apply_approve_status = 0,
+            friendship_apply_read_status = 0, friendship_apply_approve_status = 0,
             <if test="application.additionalInfo != null">friendship_apply_additional_info = #{application.additionalInfo},</if>
             <if test="application.remark != null">friendship_apply_remark = #{application.remark},</if>
             <if test="application.source != null">friendship_apply_source = #{application.source},</if>
-            <if test="application.updateTime != null">friendship_apply_update_time = #{application.updateTime,}</if>
+            <if test="updateTime != null">friendship_apply_update_time = #{updateTime},</if>
         </set>
         where app_id = #{appId} and friendship_from_id = #{application.friendFromId} and friendship_to_id = #{application.friendToId}
     </update>
