@@ -77,8 +77,8 @@ public class NepFriendService implements INepFriendService {
         if (CollectionUtil.isEmpty(friendList)){
             log.info("NepFriendUserService queryAllFriendUser: 没有根据用户的好友关系查询到相应的用户 - request: {}", request);
             return response.setUserList(Collections.emptyList())
-                           .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
-                           .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
+                           .setCode(NepUserResponseCode.USER_LIST_EMPTY.getCode())
+                           .setMessage(NepUserResponseCode.USER_LIST_EMPTY.getMessage());
         }
         // 5. 填充响应结果
         return response.setUserList(friendList)
@@ -106,8 +106,8 @@ public class NepFriendService implements INepFriendService {
         // 4. 判断用户是否存在
         if (Objects.isNull(user)){
             log.error("NepFriendUserService queryFriendByAccount: 参数校验失败 - request: {}", request);
-            return response.setCode(NepUserResponseCode.QUERY_USER_NOT_EXIST.getCode())
-                           .setMessage(NepUserResponseCode.QUERY_USER_NOT_EXIST.getMessage());
+            return response.setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
+                           .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
         }
         // 5. 查询好友关系
         NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, user.getUserId());
@@ -231,8 +231,8 @@ public class NepFriendService implements INepFriendService {
         if(CollectionUtil.isEmpty(blackUserList)){
             log.error("NepFriendService queryAllFriendBlackList: 用户拉黑的好友不存在 - request: {}", request);
             return response.setUserList(Collections.emptyList())
-                           .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
-                           .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
+                           .setCode(NepUserResponseCode.USER_LIST_EMPTY.getCode())
+                           .setMessage(NepUserResponseCode.USER_LIST_EMPTY.getMessage());
         }
         return response.setUserList(blackUserList)
                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
@@ -270,8 +270,8 @@ public class NepFriendService implements INepFriendService {
         if(CollectionUtil.isEmpty(userList)){
             log.error("NepFriendService queryAllFriendApplication: 发出好友申请的用户不存在 - request: {}", request);
             return response.setApplicationList(Collections.emptyList())
-                           .setCode(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getCode())
-                           .setMessage(NepUserResponseCode.QUERY_USER_LIST_EMPTY.getMessage());
+                           .setCode(NepUserResponseCode.USER_LIST_EMPTY.getCode())
+                           .setMessage(NepUserResponseCode.USER_LIST_EMPTY.getMessage());
         }
         // 5. 拼装返回集合
         List<NepQueryFriendApplication> friendApplicationList = transferFriendApplicationList(userId, userList, applicationList);

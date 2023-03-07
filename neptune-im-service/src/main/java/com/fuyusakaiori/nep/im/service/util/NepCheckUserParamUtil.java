@@ -5,14 +5,9 @@ import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.entity.request.NepRequestHeader;
 import com.example.neptune.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByAccountRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendByNameRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 
 import java.util.List;
-import java.util.Objects;
 
 public class NepCheckUserParamUtil {
 
@@ -65,13 +60,13 @@ public class NepCheckUserParamUtil {
     public static boolean checkNepEditUserRequestParam(NepEditUserRequest request){
         // 1. 获取变量
         NepRequestHeader requestHeader = request.getRequestHeader();
-        NepEditUser requestBody = request.getRequestBody();
+        Integer userId = request.getRequestBody().getUserId();
         // 2. 校验请求头
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(requestHeader)){
             return false;
         }
-        // 3. 校验更新数据
-        return !Objects.isNull(requestBody.getUserId()) && requestBody.getUserId() >= 0;
+        // 3. 校验用户 ID
+        return NepCheckCommonParamUtil.checkUserUniqueId(userId);
     }
 
     /**
@@ -85,10 +80,8 @@ public class NepCheckUserParamUtil {
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (Objects.isNull(userId) || userId < 0){
-            return false;
-        }
-        return true;
+        // 3. 校验用户 ID
+        return NepCheckCommonParamUtil.checkUserUniqueId(userId);
     }
 
     /**
@@ -102,19 +95,19 @@ public class NepCheckUserParamUtil {
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        // 3. 检查字段是否合法
+        // 3. 校验用户账号是否合法
         return !StrUtil.isEmpty(userAccount);
     }
 
     public static boolean checkNepQueryUserByNickNameRequestParam(NepQueryUserByNickNameRequest request){
         // 1. 获取变量
         NepRequestHeader header = request.getRequestHeader();
-        String nickName = request.getNickName();
+        String userNickName = request.getUserNickName();
         // 2. 校验请求头
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        // 3. 检查字段是否合法
-        return !StrUtil.isEmpty(nickName);
+        // 3. 校验用户昵称是否合法
+        return !StrUtil.isEmpty(userNickName);
     }
 }

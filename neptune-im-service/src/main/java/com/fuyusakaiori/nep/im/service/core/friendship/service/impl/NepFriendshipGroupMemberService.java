@@ -72,8 +72,8 @@ public class NepFriendshipGroupMemberService implements INepFriendshipGroupMembe
             List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), groupDisjointMemberIdList);
             if (CollectionUtil.isEmpty(userList) || userList.size() != groupDisjointMemberIdList.size()){
                 log.error("NepFriendshipApplicationService addFriendshipGroupMember: 移入好友分组中的好友不存在或者部分不存在 - request: {}", request);
-                return response.setCode(NepUserResponseCode.QUERY_USER_NOT_EXIST.getCode())
-                               .setMessage(NepUserResponseCode.QUERY_USER_NOT_EXIST.getMessage());
+                return response.setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
+                               .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
             }
             // 8.2 向好友分组中添加好友
             int result = friendshipGroupMemberMapper.addFriendshipGroupMember(header.getAppId(), groupId, groupDisjointMemberIdList, System.currentTimeMillis(), System.currentTimeMillis());

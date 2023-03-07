@@ -30,7 +30,7 @@
     <update id="cancelUser">
         update `im-system`.im_user 
         set user_is_del = 1, user_update_time = #{updateTime}
-        where app_id = #{appId} and user_id = #{userId}
+        where app_id = #{appId} and user_id = #{userId} and user_is_del = 0
     </update>
 
     <!-- 更新用户 -->
@@ -46,11 +46,9 @@
             <if test="user.userSelfSignature != null">user_self_signature = #{user.userSelfSignature},</if>
             <if test="user.userFriendshipAllowType != null">user_friendship_allow_type = #{user.userFriendshipAllowType},</if>
             <if test="user.userAvatarAddress != null">user_avatar_address = #{user.userAvatarAddress},</if>
-            <if test="user.userType != null">user_type = #{user.userType},</if>
-            <if test="user.userExtra != null">user_extra = #{user.userExtra},</if>
             <if test="updateTime != null">user_update_time = #{updateTime},</if>
         </set>
-        where app_id = #{appId} and user_id = #{user.userId}
+        where app_id = #{appId} and user_id = #{user.userId} and user_is_del = 0;
     </update>
 
     <!-- 查询用户: 通过账号查询用户 -->
@@ -68,14 +66,14 @@
                user_gender, user_age, user_birthday,user_location, user_self_signature,
                user_friendship_allow_type, user_avatar_address, user_is_del, user_type, user_extra
         from `im-system`.im_user
-        where app_id = #{appId} and user_nick_name like concat('#', #{nickname}, '#') and user_is_del = 0 and user_type = 1
+        where app_id = #{appId} and user_nick_name like concat('%', #{nickname}, '%') and user_is_del = 0 and user_type = 1
     </select>
 
     <!-- 查询用户: 仅通过 ID 查询用户 (内部调用) -->
     <select id="querySimpleUserById" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
         select user_id, user_nick_name, user_self_signature, user_avatar_address, user_friendship_allow_type, user_is_del, user_type
         from `im-system`.im_user
-        where app_id = #{appId} and user_id = #{userId}
+        where app_id = #{appId} and user_id = #{userId} and user_is_del = 0 and user_type = 1
     </select>
 
     <!-- 查询用户: 仅通过账号查询用户 (内部调用) -->
@@ -88,7 +86,7 @@
     <select id="querySimpleUserByNickName" resultType="com.fuyusakaiori.nep.im.service.core.user.entity.NepUser" resultMap="userMap">
         select user_id, user_nick_name, user_self_signature, user_avatar_address, user_friendship_allow_type, user_is_del, user_type
         from `im-system`.im_user
-        where app_id = #{appId} and user_nick_name like concat('#', #{nickname}, '#') and user_is_del = 0 and user_type = 1
+        where app_id = #{appId} and user_nick_name like concat('%', #{nickname}, '%') and user_is_del = 0 and user_type = 1
     </select>
     
     <!-- 查询用户: 通过多个 ID 查询 (内部调用) -->

@@ -12,5 +12,5 @@ public class NepQueryUserByNickNameRequest {
 
     private NepRequestHeader requestHeader;
 
-    private String nickName;
+    private String userNickName;
 }

@@ -4,7 +4,7 @@
 
     <resultMap id="friendshipGroupMemberMap" type="java.util.HashMap">
         <id property="friendshipGroupId" column="friendship_group_id"/>
-        <collection property="friendshipGroupMemberList" ofType="java.util.ArrayList">
+        <collection property="friendshipGroupMemberList" javaType="java.util.ArrayList">
             <id property="friendshipGroupMemberId" column="friendship_group_member_id"/>
         </collection>
     </resultMap>

@@ -58,8 +58,8 @@ public class NepFriendshipService implements INepFriendshipService {
         NepUser toUser = userMapper.querySimpleUserById(header.getAppId(), body.getFriendToId());
         if (Objects.isNull(fromUser) || Objects.isNull(toUser)){
             log.error("NeptuneFriendshipService addFriendship: 新增的好友关系中有一方用户是不存在的 - request: {}", request);
-            response.setCode(NepUserResponseCode.QUERY_USER_NOT_EXIST.getCode())
-                    .setMessage(NepUserResponseCode.QUERY_USER_NOT_EXIST.getMessage());
+            response.setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
+                    .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
             return response;
         }
         // 4. 检查用户是否可以添加好友

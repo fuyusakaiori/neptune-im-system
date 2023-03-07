@@ -12,8 +12,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepEditUserRequest
-{
+public class NepEditUserRequest {
 
     private NepRequestHeader requestHeader;
 
