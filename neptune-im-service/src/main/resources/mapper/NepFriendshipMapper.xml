@@ -20,7 +20,7 @@
          #{friendship.friendRemark}, #{friendship.friendshipSource}, #{friendship.additionalInfo},
          #{friendship.friendshipExtra}, #{createTime},#{updateTime}),
         (#{friendship.friendToId}, #{friendship.friendFromId},#{appId},
-         null, null, null,
+         null, #{friendship.friendshipSource}, null,
          #{friendship.friendshipExtra}, #{createTime}, #{updateTime})
     </insert>
 
@@ -29,16 +29,26 @@
         <set>
             <if test="friendship.friendRemark != null">friendship_remark = #{friendship.friendRemark},</if>
             <if test="friendship.friendshipStatus != null">friendship_status = #{friendship.friendshipStatus},</if>
-            <if test="friendship.friendshipExtra != null">friendship_extra = #{friendship.friendshipExtra},</if>
             <if test="friendship.friendshipSource != null">friendship_source = #{friendship.friendshipSource},</if>
             <if test="friendship.additionalInfo != null">friendship_additional_info = #{friendship.additionalInfo},</if>
             <if test="updateTime != null">friendship_update_time = #{updateTime},</if>
         </set>
-        where app_id = #{appId}
-        and (friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId})
-        or (friendship_from_id = #{friendship.friendToId} and friendship_to_id = #{friendship.friendFromId})
+        where app_id = #{appId} and friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId};
+        update `im-system`.im_friendship
+        <set>
+            friendship_remark = null,
+            <if test="friendship.friendshipStatus != null">friendship_status = #{friendship.friendshipStatus},</if>
+            <if test="friendship.friendshipSource != null">friendship_source = #{friendship.friendshipSource},</if>
+            <if test="updateTime != null">friendship_update_time = #{updateTime},</if>
+        </set>
+        where app_id = #{appId} and friendship_from_id = #{friendship.friendToId} and friendship_to_id = #{friendship.friendFromId};
     </update>
 
+    <update id="editFriendshipRemark">
+        update `im-system`.im_friendship
+        set friendship_remark = #{remark}, friendship_update_time = #{updateTime}
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </update>
 
     <update id="releaseFriendship">
         update `im-system`.im_friendship
@@ -50,8 +60,7 @@
     <update id="releaseAllFriendship">
         update `im-system`.im_friendship
         set friendship_status = 1, friendship_update_time = #{updateTime}
-        where (friendship_from_id = #{fromId} or friendship_to_id = #{fromId})
-        and friendship_status = 0
+        where (friendship_from_id = #{fromId} or friendship_to_id = #{fromId}) and friendship_status = 0
     </update>
 
     <select id="queryFriendshipById" resultMap="friendshipMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship">
@@ -67,7 +76,7 @@
                friendship_remark, friendship_is_black, friendship_status,
                friendship_source, friendship_additional_info
         from `im-system`.im_friendship
-        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id in
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_status = 0 and friendship_to_id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

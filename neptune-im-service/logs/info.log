@@ -1,0 +1,271 @@
+15:04:01.783 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 4048 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:04:01.799 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:04:08.122 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.923 seconds (JVM running for 9.323)
+15:04:08.527 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:04:10.835 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:04:10.879 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 2
+15:04:10.915 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:04:10.921 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:07:47.971 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 6312 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:07:47.989 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:07:53.998 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.858 seconds (JVM running for 9.345)
+15:07:54.476 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:07:56.715 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:07:56.763 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 1
+15:07:56.801 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:07:56.806 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:08:53.777 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 3900 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:08:53.788 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:09:00.619 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 7.43 seconds (JVM running for 9.37)
+15:09:01.102 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:09:03.964 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:09:04.013 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 2
+15:09:04.062 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:09:04.068 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:10:25.712 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 16372 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:10:25.726 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:10:30.926 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 5.685 seconds (JVM running for 7.651)
+15:10:31.324 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:10:33.650 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:10:33.691 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 8
+15:10:33.742 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:10:33.748 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:11:46.982 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 5580 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:11:46.995 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:11:52.849 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.412 seconds (JVM running for 8.498)
+15:11:53.374 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:11:55.907 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:11:55.950 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 2
+15:11:55.990 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:11:55.996 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:12:23.470 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 4224 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:12:23.482 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:12:29.850 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.861 seconds (JVM running for 8.756)
+15:12:30.260 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:12:32.610 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:12:32.679 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 8
+15:12:32.738 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:12:32.782 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:14:08.476 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 16864 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:14:08.488 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:14:13.517 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 5.506 seconds (JVM running for 7.339)
+15:14:13.915 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:14:16.110 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:14:16.163 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=5, friendshipToId=4, friendRemark=null, friendshipStatus=0, friendshipSource=网络搜索, friendshipAdditionalInfo=null, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:14:16.210 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:14:16.215 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:15:14.948 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 16768 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:15:14.960 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:15:19.921 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 5.426 seconds (JVM running for 7.261)
+15:15:20.239 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:15:22.232 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:15:22.314 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:15:22.318 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:15:52.127 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 8340 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:15:52.139 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:15:58.049 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.385 seconds (JVM running for 8.187)
+15:15:58.442 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:16:00.691 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:16:00.742 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=2, friendRemark=小波奇, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:00.743 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=3, friendRemark=小喜多, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:00.743 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=4, friendRemark=小号, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:00.782 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:16:00.786 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:16:18.422 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 10352 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:16:18.434 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:16:24.047 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.134 seconds (JVM running for 7.967)
+15:16:24.446 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:16:26.675 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:16:26.723 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=2, friendRemark=小波奇, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:26.725 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=3, friendRemark=小喜多, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:26.725 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=4, friendRemark=小号, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:26.725 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=6, friendRemark=しろこ, friendshipStatus=0, friendshipSource=网络搜索, friendshipAdditionalInfo=我是冬坂五百里, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:16:26.764 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:16:26.770 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:18:46.178 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 10144 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:18:46.192 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+15:18:53.473 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 7.902 seconds (JVM running for 9.971)
+15:18:54.149 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:18:56.784 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:18:56.836 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=2, friendRemark=小波奇, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:18:56.836 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - friendship: NepFriendship(friendshipFromId=1, friendshipToId=3, friendRemark=小喜多, friendshipStatus=0, friendshipSource=系统申请, friendshipAdditionalInfo=好友申请, isBlack=false, friendshipExtra=null, createTime=null, updateTime=null)
+15:18:56.879 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:18:56.884 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:23:12.559 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 17412 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:23:12.571 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:23:17.861 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.85 seconds (JVM running for 7.706)
+15:23:18.241 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:23:20.335 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:23:20.465 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+15:23:20.523 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:23:20.548 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:29:54.365 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 17716 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:29:54.379 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:30:00.199 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.454 seconds (JVM running for 8.563)
+15:30:00.559 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:30:02.588 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:30:02.605 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 参数校验失败 - request: NepAddFriendshipRequest(requestHeader=NepRequestHeader(appId=1), requestBody=NepAddFriendship(friendFromId=1, friendToId=null, friendRemark=陌生人, friendshipSource=网络搜索, additionalInfo=我是冬坂五百里, friendshipExtra=null))
+15:30:02.611 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=900, message=参数校验失败)
+15:30:02.652 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:30:02.658 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:31:24.560 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 9100 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:31:24.572 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:31:29.711 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.626 seconds (JVM running for 7.592)
+15:31:30.027 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:31:31.819 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:31:31.947 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+15:31:32.011 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:31:32.032 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:32:26.125 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 16904 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:32:26.136 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:32:31.789 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.142 seconds (JVM running for 8.011)
+15:32:32.173 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:32:34.494 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:32:34.597 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 新增的好友关系中有一方用户是不存在的 - request: NepAddFriendshipRequest(requestHeader=NepRequestHeader(appId=1), requestBody=NepAddFriendship(friendFromId=2, friendToId=30, friendRemark=付丧神, friendshipSource=系统推荐, additionalInfo=吉他英雄, friendshipExtra=null))
+15:32:34.607 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=2000, message=查询的用户不存在)
+15:32:34.659 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:32:34.696 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:32:51.461 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18272 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:32:51.474 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:32:57.156 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.236 seconds (JVM running for 8.315)
+15:32:57.542 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:32:59.528 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:32:59.617 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 新增的好友关系中有一方用户是不存在的 - request: NepAddFriendshipRequest(requestHeader=NepRequestHeader(appId=1), requestBody=NepAddFriendship(friendFromId=90, friendToId=30, friendRemark=付丧神, friendshipSource=系统推荐, additionalInfo=吉他英雄, friendshipExtra=null))
+15:32:59.624 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=2000, message=查询的用户不存在)
+15:32:59.679 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:32:59.697 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:34:41.590 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18412 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:34:41.603 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:34:46.548 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.475 seconds (JVM running for 7.289)
+15:34:46.861 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:34:48.680 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:34:48.767 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 新增的好友关系中有一方用户是不存在的 - request: NepAddFriendshipRequest(requestHeader=NepRequestHeader(appId=1), requestBody=NepAddFriendship(friendFromId=18, friendToId=19, friendRemark=付丧神, friendshipSource=系统推荐, additionalInfo=吉他英雄, friendshipExtra=null))
+15:34:48.772 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=2000, message=查询的用户不存在)
+15:34:48.823 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:34:48.842 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+15:35:20.853 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 8580 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+15:35:20.866 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+15:35:25.976 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.596 seconds (JVM running for 7.361)
+15:35:26.332 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+15:35:28.673 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+15:35:28.806 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 对方不允许添加好友 - from: NepUser(userId=18, userAccount=null, userPassword=null, userNickName=幼儿缘, userGender=null, userAge=null, userBirthday=null, userLocation=null, userSelfSignature=地球是原的, userFriendshipAllowType=1, userAvatarAddress=unknown, userType=1, isDelete=false, userExtra=null, createTime=null, updateTime=null), to: NepUser(userId=19, userAccount=null, userPassword=null, userNickName=孤独传说, userGender=null, userAge=null, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=2, userAvatarAddress=unknown, userType=1, isDelete=false, userExtra=null, createTime=null, updateTime=null)
+15:35:28.813 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3004, message=对方禁止添加好友)
+15:35:28.881 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+15:35:28.907 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:22:35.000 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 5360 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:22:35.012 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:22:40.350 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.837 seconds (JVM running for 7.79)
+16:22:40.819 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:22:42.888 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:22:43.000 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService addFriendship: 对方不允许添加好友 - from: NepUser(userId=18, userAccount=null, userPassword=null, userNickName=幼儿缘, userGender=null, userAge=null, userBirthday=null, userLocation=null, userSelfSignature=地球是原的, userFriendshipAllowType=1, userAvatarAddress=unknown, userType=1, isDelete=false, userExtra=null, createTime=null, updateTime=null), to: NepUser(userId=19, userAccount=null, userPassword=null, userNickName=孤独传说, userGender=null, userAge=null, userBirthday=null, userLocation=null, userSelfSignature=这个人很懒，什么都没有填写~, userFriendshipAllowType=2, userAvatarAddress=unknown, userType=1, isDelete=false, userExtra=null, createTime=null, updateTime=null)
+16:22:43.006 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3004, message=对方禁止添加好友)
+16:22:43.064 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:22:43.096 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:23:11.339 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 2760 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:23:11.351 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:23:16.691 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.822 seconds (JVM running for 7.705)
+16:23:17.092 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:23:19.181 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:23:19.312 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+16:23:19.369 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:23:19.399 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:26:16.253 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 3700 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:26:16.268 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:26:21.224 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.52 seconds (JVM running for 7.655)
+16:26:21.557 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:26:23.502 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:26:23.678 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+16:26:23.731 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:26:23.756 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:36:18.257 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18704 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:36:18.268 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+16:36:23.314 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 5.525 seconds (JVM running for 7.369)
+16:36:23.666 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:36:25.729 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:36:25.791 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 1
+16:36:25.838 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:36:25.884 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:39:30.471 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Starting NepFriendshipMapperTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 19296 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:39:30.483 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - The following 1 profile is active: "dev"
+16:39:36.584 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - Started NepFriendshipMapperTest in 6.59 seconds (JVM running for 8.411)
+16:39:37.023 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:39:39.364 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:39:39.408 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.mapper.NepFriendshipMapperTest - result: 1
+16:39:39.453 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:39:39.459 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:41:05.226 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 17012 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:41:05.238 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:41:10.258 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 5.529 seconds (JVM running for 7.324)
+16:41:10.564 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:41:12.342 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:41:12.497 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+16:41:12.543 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:41:12.555 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:56:43.349 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18984 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:56:43.362 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:56:49.686 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.925 seconds (JVM running for 8.906)
+16:56:50.086 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:56:52.317 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:56:52.436 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+16:56:52.491 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:56:52.524 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:58:42.842 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 9000 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:58:42.858 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:58:48.975 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.674 seconds (JVM running for 8.821)
+16:58:49.373 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:58:51.547 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:58:51.642 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService editFriendship: 好友关系不存在 - fromId: 30, toId: 32
+16:58:51.647 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3000, message=好友关系不存在)
+16:58:51.694 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:58:51.712 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:59:12.067 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 676 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:59:12.080 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:59:18.575 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 7.122 seconds (JVM running for 9.532)
+16:59:18.993 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:59:21.247 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:59:21.266 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService editFriendship: 参数校验失败 - request: NepEditFriendshipRemarkRequest(requestHeader=NepRequestHeader(appId=1), friendFromId=30, friendToId=null, friendRemark=神必的陌生人)
+16:59:21.273 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=900, message=参数校验失败)
+16:59:21.314 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:59:21.320 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+16:59:43.356 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18604 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+16:59:43.372 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+16:59:49.762 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.992 seconds (JVM running for 9.178)
+16:59:50.195 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+16:59:52.350 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+16:59:52.456 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService editFriendship: 好友关系不存在 - fromId: 1, toId: 5
+16:59:52.463 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3000, message=好友关系不存在)
+16:59:52.533 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+16:59:52.542 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+17:02:46.684 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 2696 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+17:02:46.698 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+17:02:53.280 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 7.229 seconds (JVM running for 9.665)
+17:02:53.719 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+17:02:56.063 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+17:02:56.198 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+17:02:56.253 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+17:02:56.280 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+17:03:21.393 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 10520 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+17:03:21.412 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+17:03:27.619 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.816 seconds (JVM running for 9.142)
+17:03:28.038 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+17:03:30.210 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+17:03:30.329 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3000, message=好友关系不存在)
+17:03:30.390 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+17:03:30.434 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+17:04:09.661 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 3876 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+17:04:09.676 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+17:04:15.677 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.607 seconds (JVM running for 9.113)
+17:04:16.093 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+17:04:18.193 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+17:04:18.288 [main] ERROR com.fuyusakaiori.nep.im.service.core.friendship.service.impl.NepFriendshipService - NeptuneFriendshipService releaseFriendship: 好友关系不存在 - fromId: 100, toId: 6
+17:04:18.295 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=3000, message=好友关系不存在)
+17:04:18.346 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+17:04:18.366 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.
+17:05:59.376 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Starting NepFriendshipServiceTest using Java 1.8.0_271 on LAPTOP-VOCD6QC2 with PID 18016 (started by shenzhouhang in D:\project\java\neptune-im-system\neptune-im-service)
+17:05:59.387 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - The following 1 profile is active: "dev"
+17:06:05.411 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - Started NepFriendshipServiceTest in 6.604 seconds (JVM running for 8.861)
+17:06:05.815 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Starting...
+17:06:07.888 [main] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Start completed.
+17:06:08.106 [main] INFO  com.fuyusakaiori.nep.im.service.core.friendship.service.NepFriendshipServiceTest - response: NepModifyFriendshipResponse(code=200, message=请求处理成功)
+17:06:08.176 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown initiated...
+17:06:08.202 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - DataSourceHikari - Shutdown completed.

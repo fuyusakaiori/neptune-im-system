@@ -8,13 +8,12 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface INepFriendshipApplicationMapper
-{
+public interface INepFriendshipApplicationMapper {
 
     /**
      * <h3>新增好友申请: 外部调用</h3>
      */
-    int sendFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application);
+    int sendFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
 
     /**
      * <h3>更新好友申请：内部调用</h3>

@@ -13,8 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepEditFriendship
-{
+public class NepEditFriendship {
 
     //=========================== 查询条件 ===========================
     /**
@@ -47,7 +46,5 @@ public class NepEditFriendship
      * <h3>更新后的好友关系</h3>
      */
     private Integer friendshipStatus;
-
-    private String friendshipExtra;
 
 }

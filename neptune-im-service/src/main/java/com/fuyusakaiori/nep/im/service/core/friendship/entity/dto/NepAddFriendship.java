@@ -11,8 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepAddFriendship
-{
+public class NepAddFriendship {
 
     private Integer friendFromId;
 
@@ -35,14 +34,4 @@ public class NepAddFriendship
      * <h3>好友申请的附加信息</h3>
      */
     private String additionalInfo;
-
-    /**
-     * <h3>拓展字段</h3>
-     */
-    private String friendshipExtra;
-
-    private Long createTime;
-
-    private Long updateTime;
-
 }

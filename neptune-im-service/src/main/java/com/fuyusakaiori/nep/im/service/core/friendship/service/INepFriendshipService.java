@@ -9,17 +9,13 @@ public interface INepFriendshipService {
 
     NepModifyFriendshipResponse addFriendship(NepAddFriendshipRequest request);
 
-    NepModifyFriendshipResponse editFriendship(NepEditFriendshipRequest request);
+    NepModifyFriendshipResponse editFriendshipRemark(NepEditFriendshipRemarkRequest request);
 
     NepModifyFriendshipResponse releaseFriendship(NeptuneReleaseFriendshipRequest request);
 
     NepModifyFriendshipResponse releaseAllFriendship(NeptuneReleaseAllFriendshipRequest request);
 
     NepCheckFriendshipResponse checkFriendship(NepCheckFriendshipRequest request);
-
-    NepQueryFriendshipResponse queryFriendshipById(NepQueryFriendshipByIdRequest request);
-
-    NepQueryFriendshipResponse queryAllFriendship(NepQueryAllFriendshipRequest request);
 
 
 }

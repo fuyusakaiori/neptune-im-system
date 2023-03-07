@@ -14,5 +14,12 @@ public class NepCheckCommonParamUtil {
         return !Objects.isNull(userId) && userId > 0;
     }
 
+    /**
+     * <h3>校验好友关系的双方 ID是否为空</h3>
+     */
+    public static boolean checkFriendshipUniqueId(Integer friendFromId, Integer friendToId){
+        return !Objects.isNull(friendFromId) && friendFromId > 0 && !Objects.isNull(friendToId) && friendToId > 0;
+    }
+
 
 }

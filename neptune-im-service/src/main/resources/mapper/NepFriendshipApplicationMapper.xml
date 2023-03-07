@@ -18,12 +18,13 @@
          friendship_apply_source, friendship_apply_create_time, friendship_apply_update_time)
         values
         (#{application.friendFromId},#{application.friendToId},#{appId},#{application.additionalInfo},#{application.remark},
-         #{application.source},#{application.createTime},#{application.updateTime})
+         #{application.source},#{createTime},#{updateTime})
     </insert>
 
     <update id="updateFriendshipApplication">
         update `im-system`.im_friendship_application
         <set>
+            set friendship_apply_read_status = 0, friendship_apply_approve_status = 0,
             <if test="application.additionalInfo != null">friendship_apply_additional_info = #{application.additionalInfo},</if>
             <if test="application.remark != null">friendship_apply_remark = #{application.remark},</if>
             <if test="application.source != null">friendship_apply_source = #{application.source},</if>

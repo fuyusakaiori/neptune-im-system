@@ -20,8 +20,4 @@ public class NepSendFriendshipApplication {
 
     private String source;
 
-    private Long createTime;
-
-    private Long updateTime;
-
 }

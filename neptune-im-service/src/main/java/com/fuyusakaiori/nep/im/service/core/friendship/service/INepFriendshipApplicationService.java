@@ -8,8 +8,6 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.Nep
 
 public interface INepFriendshipApplicationService {
 
-    NepSendFriendshipApplicationResponse sendFriendshipApplication(NepSendFriendshipApplicationRequest request);
-
     NepApproveFriendshipApplicationResponse approveFriendshipApplication(NepApproveFriendshipApplicationRequest request);
 
 }
