@@ -3,6 +3,7 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMapper">
 
     <resultMap id="friendshipGroupMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
+        <id property="groupId" column="friendship_group_id"/>
         <result property="groupOwnerId" column="friendship_group_owner_id"/>
         <result property="groupName" column="friendship_group_name"/>
         <result property="isDelete" column="friendship_group_is_del"/>
@@ -15,21 +16,27 @@
         insert into `im-system`.im_friendship_group
         (friendship_group_owner_id, friendship_group_name, app_id, friendship_group_create_time, friendship_group_update_time)
         values
-        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{group.createTime}, #{group.updateTime})
+        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{createTime}, #{updateTime})
     </insert>
 
     <!-- 删除好友分组 -->
     <update id="deleteFriendshipGroup">
         update `im-system`.im_friendship_group
         set friendship_group_is_del = 1, friendship_group_update_time = #{updateTime}
-        where app_id = #{appId} and friendship_group_id = #{groupId};
+        where app_id = #{appId} and friendship_group_id = #{groupId} and friendship_group_is_del = 0
     </update>
+
+    <select id="queryFriendshipGroupById" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
+        select friendship_group_id, friendship_group_owner_id, friendship_group_name, friendship_group_is_del, app_id
+        from `im-system`.im_friendship_group
+        where app_id = #{appId} and friendship_group_id = #{groupId} and friendship_group_is_del = 0
+    </select>
 
     <!-- 查询所有好友分组 -->
     <select id="queryAllFriendshipGroup" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
         select friendship_group_id, friendship_group_owner_id, friendship_group_name, friendship_group_is_del, app_id
         from `im-system`.im_friendship_group
-        where app_id = #{appId} and friendship_group_owner_id = #{ownerId}
+        where app_id = #{appId} and friendship_group_owner_id = #{ownerId} and friendship_group_is_del = 0
     </select>
 
 </mapper>

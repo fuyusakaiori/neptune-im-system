@@ -7,15 +7,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepCreateFriendshipGroup
-{
+public class NepCreateFriendshipGroup {
 
     private Integer groupOwnerId;
 
     private String groupName;
-
-    private Long createTime;
-
-    private Long updateTime;
 
 }

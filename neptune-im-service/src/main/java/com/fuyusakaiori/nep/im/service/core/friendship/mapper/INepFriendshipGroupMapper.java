@@ -13,7 +13,7 @@ public interface INepFriendshipGroupMapper {
     /**
      * <h3>创建分组: 对外调用</h3>
      */
-    int createFriendshipGroup(@Param("appId") int appId, @Param("group") NepCreateFriendshipGroup group);
+    int createFriendshipGroup(@Param("appId") int appId, @Param("group") NepCreateFriendshipGroup group, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
 
     /**
      * <h3>删除分组: 对外调用</h3>

@@ -29,11 +29,11 @@ public interface INepFriendshipGroupMemberMapper {
     /**
      * <h3>查询用户所在的好友分组</h3>
      */
-    List<NepFriendshipGroupMember> queryFriendshipGroupMemberByMemberIdList(@Param("appId") int appId, @Param("memberIdList") List<Integer> memberIdList);
+    List<Integer> queryFriendshipGroupMemberByMemberIdList(@Param("appId") int appId, @Param("memberIdList") List<Integer> memberIdList);
 
     /**
      * <h3>查询自己创建的所有好友分组: 内部调用</h3>
      */
-    Map<Integer, List<Integer>> queryAllFriendshipGroupMember(@Param("appId") int appId, @Param("groupIdList") List<Integer> groupIdList);
+    List<NepFriendshipGroupMember> queryAllFriendshipGroupMember(@Param("appId") int appId, @Param("groupIdList") List<Integer> groupIdList);
 
 }

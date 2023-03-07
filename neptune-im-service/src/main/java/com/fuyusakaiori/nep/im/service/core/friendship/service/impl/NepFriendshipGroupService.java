@@ -43,7 +43,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 0. 准备返回结果
         NepModifyFriendshipGroupResponse response = new NepModifyFriendshipGroupResponse();
         // 1. 校验参数
-        if (NepCheckFriendGroupParamUtil.checkCreateFriendshipGroupRequestParam(request)){
+        if (!NepCheckFriendGroupParamUtil.checkCreateFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService createFriendshipGroup: 参数校验失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -61,7 +61,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
                            .setMessage(NepFriendshipGroupResponseCode.FRIEND_GROUP_OWNER_NOT_EXIST.getMessage());
         }
         // 5. 直接创建分组
-        int result = friendshipGroupMapper.createFriendshipGroup(header.getAppId(), transferToFriendshipGroup(groupOwnerId, groupName));
+        int result = friendshipGroupMapper.createFriendshipGroup(header.getAppId(), transferToFriendshipGroup(groupOwnerId, groupName), System.currentTimeMillis(), System.currentTimeMillis());
         if (result <= 0){
             log.error("NepFriendshipGroupService createFriendshipGroup: 分组创建失败 - request: {}", request);
             return response.setCode(NepFriendshipGroupResponseCode.FRIEND_GROUP_CREATE_FAIL.getCode())
@@ -76,7 +76,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 0. 准备返回结果
         NepModifyFriendshipGroupResponse response = new NepModifyFriendshipGroupResponse();
         // 1. 校验参数
-        if (NepCheckFriendGroupParamUtil.checkDeleteFriendshipGroupRequestParam(request)){
+        if (!NepCheckFriendGroupParamUtil.checkDeleteFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService deleteFriendshipGroup: 参数校验失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -115,7 +115,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 0. 准备返回结果
         NepQueryFriendshipGroupResponse response = new NepQueryFriendshipGroupResponse();
         // 1. 校验参数
-        if (NepCheckFriendGroupParamUtil.checkQueryAllFriendshipGroupRequestParam(request)){
+        if (!NepCheckFriendGroupParamUtil.checkQueryAllFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService queryAllFriendshipGroup: 参数校验失败 - request: {}", request);
             return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
@@ -147,8 +147,6 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
     private NepCreateFriendshipGroup transferToFriendshipGroup(Integer groupOwnerId, String groupName){
         return new NepCreateFriendshipGroup()
                        .setGroupOwnerId(groupOwnerId)
-                       .setGroupName(groupName)
-                       .setCreateTime(System.currentTimeMillis())
-                       .setUpdateTime(System.currentTimeMillis());
+                       .setGroupName(groupName);
     }
 }

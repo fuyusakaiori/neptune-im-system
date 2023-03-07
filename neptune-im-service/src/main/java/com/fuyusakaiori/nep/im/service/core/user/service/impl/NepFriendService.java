@@ -7,6 +7,7 @@ import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriend;
@@ -333,10 +334,16 @@ public class NepFriendService implements INepFriendService {
                            .setMessage(NepFriendshipGroupResponseCode.FRIEND_GROUP_NOT_EXIST.getMessage());
         }
         // 4. 查询每个分组下的成员
-        Map<Integer, List<Integer>> groupIdAndGroupMemberIdList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(header.getAppId(),
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(header.getAppId(),
                 groupList.stream().map(NepFriendshipGroup::getGroupId).collect(Collectors.toList()));
-        if (CollectionUtil.isEmpty(groupIdAndGroupMemberIdList)){
+        if (CollectionUtil.isEmpty(friendshipGroupMemberList)){
             // TODO
+        }
+        Map<Integer, List<Integer>> groupIdAndGroupMemberIdList = new HashMap<>();
+        for (NepFriendshipGroupMember friendshipGroupMember : friendshipGroupMemberList) {
+            List<Integer> groupMemberIdList = groupIdAndGroupMemberIdList.getOrDefault(friendshipGroupMember.getFriendshipGroupId(), new ArrayList<>());
+            groupMemberIdList.add(friendshipGroupMember.getFriendshipGroupMemberId());
+            groupIdAndGroupMemberIdList.put(friendshipGroupMember.getFriendshipGroupId(), groupMemberIdList);
         }
         // 5. 查询每个分组中的好友信息
         Map<NepFriendGroup, List<NepFriend>> groupAndGroupMember = new HashMap<>();

@@ -2,22 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper">
 
-    <resultMap id="friendshipGroupMemberMap" type="java.util.HashMap">
-        <id property="friendshipGroupId" column="friendship_group_id"/>
-        <collection property="friendshipGroupMemberList" javaType="java.util.ArrayList">
-            <id property="friendshipGroupMemberId" column="friendship_group_member_id"/>
-        </collection>
-    </resultMap>
-
     <!-- 向好友分组中添加成员 -->
     <insert id="addFriendshipGroupMember">
         insert into `im-system`.im_friendship_group_member
         (friendship_group_id, friendship_group_member_id, friendship_group_member_create_time, friendship_group_member_update_time, app_id)
         values
-        (#{member.friendshipGroupId},#{member.friendshipGroupMemberId},#{createTime},#{updateTime},#{appId})
+        <foreach collection="memberIdList" item="memberId" separator=",">
+            (#{groupId},#{memberId},#{createTime},#{updateTime},#{appId})
+        </foreach>
     </insert>
 
-    <!-- 将好友从分组中移除并且移入默认分组 -->
+    <!-- 变更好友分组 -->
     <update id="moveFriendshipGroupMember">
         update `im-system`.im_friendship_group_member
         set friendship_group_id = #{groupId}, friendship_group_member_update_time = #{updateTime}
@@ -28,14 +23,21 @@
     </update>
 
     <!-- 清空分组中的所有成员 -->
-    <update id="clearFriendshipGroupMember">
-        update `im-system`.im_friendship_group_member
-        set friendship_group_id = 1, friendship_group_member_update_time = #{updateTime}
+    <delete id="clearFriendshipGroupMember">
+        delete from `im-system`.im_friendship_group_member
         where app_id = #{appId} and friendship_group_id = #{groupId}
-    </update>
+    </delete>
+
+    <select id="queryFriendshipGroupMemberByMemberIdList" resultType="_int">
+        select friendship_group_member_id from `im-system`.im_friendship_group_member
+        where app_id = #{appId} and friendship_group_member_id in
+        <foreach collection="memberIdList" item="memberId" separator="," open="(" close=")">
+            #{memberId}
+        </foreach>
+    </select>
 
     <!-- 查询每个分组中的所有好友 -->
-    <select id="queryAllFriendshipGroupMember" resultMap="friendshipGroupMemberMap">
+    <select id="queryAllFriendshipGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember">
         select friendship_group_id, friendship_group_member_id from `im-system`.im_friendship_group_member
         where app_id = #{appId} and friendship_group_id in
         <foreach collection="groupIdList" item="groupId" separator="," open="(" close=")">
