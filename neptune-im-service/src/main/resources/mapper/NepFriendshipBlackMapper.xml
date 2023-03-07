@@ -13,24 +13,24 @@
     <update id="addFriendInBlackList">
         update `im-system`.im_friendship
         set friendship_is_black = 1, friendship_update_time = #{updateTime}
-        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId} and friendship_is_black = 0 and friendship_status = 0
     </update>
 
     <!-- 撤销好友拉黑 -->
     <update id="removeFriendInBlackList">
         update `im-system`.im_friendship
         set friendship_is_black = 0, friendship_update_time = #{updateTime}
-        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId} and friendship_is_black = 1 and friendship_status = 0
     </update>
     
     <!-- 单向校验好友之间的拉黑状态: 0 表示没有拉黑, 1 表拉黑 -->
-    <select id="checkFriendInBlackList" resultType="_int" resultMap="friendshipMap">
+    <select id="checkFriendInBlackList" resultType="_int">
         select if(friendship_is_black = 0, 0, 1) as status from `im-system`.im_friendship
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
     </select>
 
     <!-- 双向校验好友之间的拉黑状态: 0.双向拉黑 1.没有拉黑 2.左到右单向拉黑 3.右到左单向拉黑 -->
-    <select id="checkBiFriendInBlackList" resultType="_int" resultMap="friendshipMap">
+    <select id="checkBiFriendInBlackList" resultType="_int">
         select (
         case
         when a.status = 1 and b.status = 1 then 0
@@ -49,7 +49,7 @@
     </select>
 
     <!-- 查询自己黑名单中的好友 -->
-    <select id="queryAllFriendInBlackList" resultType="int" resultMap="friendshipMap">
+    <select id="queryAllFriendInBlackList" resultType="_int">
         select friendship_to_id from `im-system`.im_friendship
         where friendship_is_black = 1;
     </select>

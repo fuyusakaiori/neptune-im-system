@@ -17,4 +17,8 @@ public enum NepFriendshipBlackCheckType {
     {
         return type;
     }
+
+    public static boolean isIllegalBlackCheckType(int checkType){
+        return checkType == SINGLE.getType() || checkType == DOUBLE.getType();
+    }
 }
