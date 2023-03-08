@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="neptune-im-gateway" />
         <module name="neptune-im-common" />
         <module name="neptune-im-service" />
       </profile>
@@ -15,6 +16,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="neptune-im-common" options="-parameters" />
+      <module name="neptune-im-gateway" options="-parameters" />
       <module name="neptune-im-service" options="-parameters" />
     </option>
   </component>

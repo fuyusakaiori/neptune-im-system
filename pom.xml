@@ -21,6 +21,7 @@
     <modules>
         <module>neptune-im-common</module>
         <module>neptune-im-service</module>
+        <module>neptune-im-gateway</module>
     </modules>
 
 </project>
