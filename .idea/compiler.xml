@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="neptune-im-gateway" />
         <module name="neptune-im-common" />
+        <module name="neptune-im-codec" />
         <module name="neptune-im-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="neptune-im-codec" options="-parameters" />
       <module name="neptune-im-common" options="-parameters" />
       <module name="neptune-im-gateway" options="-parameters" />
       <module name="neptune-im-service" options="-parameters" />

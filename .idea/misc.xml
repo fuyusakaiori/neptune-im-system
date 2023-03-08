@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/neptune-im-common/pom.xml" />
         <option value="$PROJECT_DIR$/neptune-im-service/pom.xml" />
         <option value="$PROJECT_DIR$/neptune-im-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/neptune-im-codec/pom.xml" />
       </list>
     </option>
   </component>
