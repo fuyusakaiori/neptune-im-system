@@ -1,5 +1,6 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
+import com.fuyusakaiori.nep.im.codec.config.NepServerBootStrapConfig;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -17,18 +18,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NepTcpServer {
 
-    private EventLoopGroup boosGroup;
+    private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;
 
     private ServerBootstrap server;
 
-    public NepTcpServer(int port) {
+    private NepServerBootStrapConfig.NepServerConfig serverConfig;
+
+    public NepTcpServer(NepServerBootStrapConfig.NepServerConfig serverConfig) {
+        // 0. 初始化配置类
+        this.serverConfig = serverConfig;
         // 1. 准备服务端配置
-        server = new ServerBootstrap();
-        boosGroup = new NioEventLoopGroup(2);
-        workGroup = new NioEventLoopGroup(10);
+        this.server = new ServerBootstrap();
+        this.bossGroup = new NioEventLoopGroup(this.serverConfig.getBossThreadPoolSize());
+        this.workGroup = new NioEventLoopGroup(this.serverConfig.getWorkerThreadPoolSize());
         // 2. 初始化服务端配置
-        server.group(boosGroup, workGroup)
+        this.server.group(this.bossGroup, this.workGroup)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 10240)  // 服务端连接队列容量
                 .option(ChannelOption.SO_REUSEADDR, true) // 服务端是否允许重用端口号
@@ -41,7 +46,9 @@ public class NepTcpServer {
                         channel.pipeline().addLast(new LoggingHandler(LogLevel.INFO));
                     }
                 });
-        // 3. 启动服务端
-        server.bind(port);
+    }
+
+    public void start(){
+        this.server.bind(this.serverConfig.getTcpServerPort());
     }
 }

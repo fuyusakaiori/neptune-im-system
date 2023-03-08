@@ -40,6 +40,12 @@
 			<artifactId>netty-all</artifactId>
 		</dependency>
 
+		<!-- 配置文件解析: yaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+		</dependency>
+
 
 		<!-- 日志框架: log4j2  -->
 		<dependency>
@@ -59,6 +65,7 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>2.9.1</version>
 		</dependency>
+
 		<!-- slf4j核心包-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -72,8 +79,20 @@
 		</dependency>
 
 		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.8.11</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.fuyusakaiori</groupId>
 			<artifactId>neptune-im-codec</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fuyusakaiori</groupId>
+			<artifactId>neptune-im-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
