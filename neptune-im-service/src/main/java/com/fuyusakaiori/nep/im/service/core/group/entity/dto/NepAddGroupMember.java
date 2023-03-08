@@ -14,7 +14,4 @@ public class NepAddGroupMember {
     private Integer groupMemberId;
 
     private Integer groupEnterType;
-
-    private Long groupMemberEnterTime;
-
 }

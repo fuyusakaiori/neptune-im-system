@@ -15,11 +15,6 @@ public class NepEditGroup {
     private Integer groupId;
 
     /**
-     * <h3>群主 ID</h3>
-     */
-    private Integer groupOwnerId;
-
-    /**
      * <h3>群组名称</h3>
      */
     private String groupName;

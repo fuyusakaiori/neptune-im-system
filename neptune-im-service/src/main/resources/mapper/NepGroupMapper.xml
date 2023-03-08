@@ -30,15 +30,15 @@
 
     </update>
 
+    <select id="querySimpleGroupByNumber">
+
+    </select>
+
     <select id="queryDetailedGroupById">
 
     </select>
 
-    <select id="querySimpleGroupById">
-
-    </select>
-
-    <select id="queryDetailedGroupByName">
+    <select id="querySimpleGroupByName">
 
     </select>
 

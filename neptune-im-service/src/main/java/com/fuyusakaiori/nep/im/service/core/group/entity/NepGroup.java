@@ -20,6 +20,11 @@ public class NepGroup {
     private Integer groupOwnerId;
 
     /**
+     * <h3>群号</h3>
+     */
+    private String groupNumber;
+
+    /**
      * <h3>群组名称</h3>
      */
     private String groupName;

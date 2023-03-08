@@ -30,13 +30,13 @@ public interface INepGroupMemberMapper {
     /**
      * <h3>查询群组中的所有成员</h3>
      */
-    Map<Integer, List<NepGroupMember>> queryAllGroupMember(@Param("appId") int appId, @Param("groupId") int groupId);
+    List<NepGroupMember> queryAllGroupMember(@Param("appId") int appId, @Param("groupId") int groupId);
 
     /**
      * <h3>查询自己加入的所有群组</h3>
      */
-    List<Integer> queryMemberJoinedGroupId(@Param("appId") int appId, @Param("memberId") int memberId);
+    List<NepGroupMember> queryMemberJoinedGroupId(@Param("appId") int appId, @Param("memberId") int memberId);
 
-
+    // TODO 根据昵称、备注、账号查询查询群友
 
 }

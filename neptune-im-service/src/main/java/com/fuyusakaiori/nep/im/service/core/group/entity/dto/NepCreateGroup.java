@@ -11,6 +11,8 @@ public class NepCreateGroup {
 
     private Integer groupOwnerId;
 
+    private String groupNumber;
+
     private String groupName;
 
     private Integer groupType;
