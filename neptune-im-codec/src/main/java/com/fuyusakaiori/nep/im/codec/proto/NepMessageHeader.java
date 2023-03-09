@@ -4,11 +4,12 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepMessageHeader
-{
+public class NepMessageHeader implements Serializable {
 
     /**
      * <h3>协议版本号</h3>

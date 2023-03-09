@@ -3,6 +3,8 @@ package com.fuyusakaiori.nep.im.gateway;
 import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.constant.NepPathConstant;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.NepRabbitMQFactory;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver.NepMessageReceiver;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.server.NepTcpServer;
 import com.fuyusakaiori.nep.im.gateway.server.NepWebSocketServer;
@@ -35,6 +37,9 @@ public class NepServerBootStrap {
         new NepWebSocketServer(serverConfig).start();
         // 2. 启动 redis 服务器
         NepRedisClient.start(serverConfig);
+        // 3. 启动 rabbitmq 服务器
+        NepRabbitMQFactory.start(serverConfig);
+        NepMessageReceiver.start();
     }
 
     private static NepServerBootStrapConfig getServerBootStrapConfig() throws IOException {

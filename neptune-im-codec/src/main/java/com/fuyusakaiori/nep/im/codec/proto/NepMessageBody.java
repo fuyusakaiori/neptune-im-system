@@ -8,13 +8,14 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @Accessors(chain = true)
 @ToString
-public abstract class NepMessageBody {
+public abstract class NepMessageBody implements Serializable {
 
     private static final Map<Integer, Class<? extends NepMessageBody>> messageClass = new HashMap<>();
 

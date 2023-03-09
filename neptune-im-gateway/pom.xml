@@ -48,6 +48,11 @@
 			<version>${redisson.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+		</dependency>
+
 		<!-- yaml -->
 		<dependency>
 			<groupId>org.yaml</groupId>

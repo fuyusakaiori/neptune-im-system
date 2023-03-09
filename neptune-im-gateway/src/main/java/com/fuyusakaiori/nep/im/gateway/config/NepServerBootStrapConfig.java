@@ -22,6 +22,8 @@ public class NepServerBootStrapConfig {
         private Long heartBeatTimeout;
 
         private NepRedisConfig redis;
+
+        private NepRabbitMQ rabbitmq;
     }
 
     /**
@@ -55,6 +57,25 @@ public class NepServerBootStrapConfig {
     public static class NepRedisSingleConfig{
 
         private String address;
+
+    }
+
+
+    /**
+     * <h3>RabbitMQ 配置</h3>
+     */
+    @Data
+    public static class NepRabbitMQ {
+
+        private String host;
+
+        private Integer port;
+
+        private String virtualHost;
+
+        private String username;
+
+        private String password;
 
     }
 

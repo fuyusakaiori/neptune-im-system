@@ -15,7 +15,9 @@ public class NepRedisClient {
 
 
     public static void start(NepServerBootStrapConfig.NepServerConfig serverConfig){
-        redissonClient =  NepSingleRedisClient.getRedissonClient(serverConfig.getRedis());
+        if (redissonClient == null){
+            redissonClient =  NepSingleRedisClient.getRedissonClient(serverConfig.getRedis());
+        }
     }
 
     public static RedissonClient getRedissonClient(){
