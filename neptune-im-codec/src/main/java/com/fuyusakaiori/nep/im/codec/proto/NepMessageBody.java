@@ -1,6 +1,9 @@
 package com.fuyusakaiori.nep.im.codec.proto;
 
-import com.fuyusakaiori.nep.im.codec.proto.message.NepLoginRequestMessage;
+import com.example.neptune.im.common.enums.message.NepSystemMessageType;
+import com.fuyusakaiori.nep.im.codec.proto.message.NepLoginMessage;
+import com.fuyusakaiori.nep.im.codec.proto.message.NepLogoutMessage;
+import com.fuyusakaiori.nep.im.codec.proto.message.NepPingMessage;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -13,23 +16,15 @@ import java.util.Map;
 @ToString
 public abstract class NepMessageBody {
 
-    /**
-     * <h3>指令类型</h3>
-     */
-    private int messageType;
-
     private static final Map<Integer, Class<? extends NepMessageBody>> messageClass = new HashMap<>();
-
-    /**
-     * <h3>登陆请求</h3>
-     */
-    private static final int LoginRequestMessage = 0;
 
     public static Class<? extends NepMessageBody> getMessageClass(int messageType){
         return messageClass.get(messageType);
     }
 
     static {
-        messageClass.put(LoginRequestMessage, NepLoginRequestMessage.class);
+        messageClass.put(NepSystemMessageType.LOGIN.getMessageType(), NepLoginMessage.class);
+        messageClass.put(NepSystemMessageType.PING.getMessageType(), NepPingMessage.class);
+        messageClass.put(NepSystemMessageType.LOGOUT.getMessageType(), NepLogoutMessage.class);
     }
 }

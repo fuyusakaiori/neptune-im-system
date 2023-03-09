@@ -2,7 +2,8 @@ package com.fuyusakaiori.nep.im.gateway;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.constant.NepPathConstant;
-import com.fuyusakaiori.nep.im.codec.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.server.NepTcpServer;
 import com.fuyusakaiori.nep.im.gateway.server.NepWebSocketServer;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,16 @@ public class NepServerBootStrap {
     private static final String DEFAULT_CONFIG_FILE_NAME = "config.yml";
 
     public static void main(String[] args) throws IOException {
+        start();
+    }
+
+    public static void start() throws IOException {
         NepServerBootStrapConfig.NepServerConfig serverConfig = getServerBootStrapConfig().getServer();
+        // 1. 启动 netty 服务器
         new NepTcpServer(serverConfig).start();
         new NepWebSocketServer(serverConfig).start();
+        // 2. 启动 redis 服务器
+        NepRedisClient.start(serverConfig);
     }
 
     private static NepServerBootStrapConfig getServerBootStrapConfig() throws IOException {

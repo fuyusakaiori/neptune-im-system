@@ -10,11 +10,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class NepLoginRequestMessage extends NepMessageBody {
-
-    /**
-     * <h3>用户 ID</h3>
-     */
-    private Integer userId;
-
+public class NepPingMessage extends NepMessageBody
+{
 }

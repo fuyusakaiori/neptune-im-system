@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
-import com.fuyusakaiori.nep.im.codec.NepMessageDecoder;
-import com.fuyusakaiori.nep.im.codec.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.handler.NepServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
