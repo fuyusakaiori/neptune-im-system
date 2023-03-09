@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.constant.PathConstant;
+import com.example.neptune.im.common.constant.NepPathConstant;
 import com.fuyusakaiori.nep.im.codec.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.server.NepTcpServer;
 import com.fuyusakaiori.nep.im.gateway.server.NepWebSocketServer;
@@ -51,7 +51,7 @@ public class NepServerBootStrap {
             return StrUtil.EMPTY;
         }
         // 4. 处理文件路径
-        return url.getPath().substring(1).replace(PathConstant.LINUX_PATH_SEPARATOR, PathConstant.WINDOWS_PATH_SEPARATOR);
+        return url.getPath().substring(1).replace(NepPathConstant.LINUX_PATH_SEPARATOR, NepPathConstant.WINDOWS_PATH_SEPARATOR);
     }
 
 

@@ -1,6 +1,9 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
+import com.fuyusakaiori.nep.im.codec.NepMessageDecoder;
+import com.fuyusakaiori.nep.im.codec.NepMessageEncoder;
 import com.fuyusakaiori.nep.im.codec.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.handler.NepServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -42,8 +45,14 @@ public class NepTcpServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() { // 添加服务端处理器
                     @Override
                     protected void initChannel(NioSocketChannel channel) throws Exception {
-                        // 0. 默认添加日志处理器
-                        channel.pipeline().addLast(new LoggingHandler(LogLevel.INFO));
+                        // TODO 黏包拆包还没有解决
+                        // 1. 默认添加日志处理器
+                        channel.pipeline().addLast("tcp-server-log", new LoggingHandler(LogLevel.INFO));
+                        // 2. 添加编解码器
+                        channel.pipeline().addLast("tcp-server-decode", new NepMessageDecoder());
+                        channel.pipeline().addLast("tcp-server-encode", new NepMessageEncoder());
+                        // 3. 业务逻辑处理器
+                        channel.pipeline().addLast("server-handler", new NepServerHandler());
                     }
                 });
     }
