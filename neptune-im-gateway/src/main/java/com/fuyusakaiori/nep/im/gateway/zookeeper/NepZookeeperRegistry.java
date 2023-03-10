@@ -1,17 +1,13 @@
 package com.fuyusakaiori.nep.im.gateway.zookeeper;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.constant.NepZookeeperConstant;
+import com.example.nep.im.common.constant.NepZookeeperConstant;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Slf4j

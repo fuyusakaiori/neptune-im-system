@@ -1,10 +1,8 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepFriendshipBlackResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
-import com.example.neptune.im.common.enums.status.NepFriendshipBlackCheckType;
-import com.example.neptune.im.common.enums.status.NepFriendshipBlackStatus;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.status.NepFriendshipBlackCheckType;
+import com.example.nep.im.common.enums.status.NepFriendshipBlackStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;

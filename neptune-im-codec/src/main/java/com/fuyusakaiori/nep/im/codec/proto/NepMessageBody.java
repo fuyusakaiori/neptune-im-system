@@ -1,6 +1,6 @@
 package com.fuyusakaiori.nep.im.codec.proto;
 
-import com.example.neptune.im.common.enums.message.NepSystemMessageType;
+import com.example.nep.im.common.enums.message.NepSystemMessageType;
 import com.fuyusakaiori.nep.im.codec.proto.message.NepLoginMessage;
 import com.fuyusakaiori.nep.im.codec.proto.message.NepLogoutMessage;
 import com.fuyusakaiori.nep.im.codec.proto.message.NepPingMessage;

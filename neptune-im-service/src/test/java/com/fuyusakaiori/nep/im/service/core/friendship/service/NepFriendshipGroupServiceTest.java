@@ -1,6 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepCreateFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryAllFriendshipGroupRequest;

@@ -2,12 +2,12 @@ package com.fuyusakaiori.nep.im.gateway.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.neptune.im.common.constant.NepHeartBeatConstant;
-import com.example.neptune.im.common.constant.NepRedisConstant;
-import com.example.neptune.im.common.constant.NepUserConstant;
-import com.example.neptune.im.common.entity.session.NepUserSession;
-import com.example.neptune.im.common.enums.message.NepSystemMessageType;
-import com.example.neptune.im.common.enums.status.NepConnectStatus;
+import com.example.nep.im.common.constant.NepHeartBeatConstant;
+import com.example.nep.im.common.constant.NepRedisConstant;
+import com.example.nep.im.common.constant.NepUserConstant;
+import com.example.nep.im.common.entity.session.NepUserSession;
+import com.example.nep.im.common.enums.message.NepSystemMessageType;
+import com.example.nep.im.common.enums.status.NepConnectStatus;
 import com.fuyusakaiori.nep.im.codec.proto.NepMessageBody;
 import com.fuyusakaiori.nep.im.codec.proto.NepMessageHeader;
 import com.fuyusakaiori.nep.im.codec.proto.NepProtocol;

@@ -1,6 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.request;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepCreateGroup;
 import lombok.Data;
 import lombok.ToString;

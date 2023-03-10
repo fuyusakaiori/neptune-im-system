@@ -1,9 +1,9 @@
 package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
-import com.example.neptune.im.common.enums.code.NepUserResponseCode;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.code.NepBaseResponseCode;
+import com.example.nep.im.common.enums.code.NepUserResponseCode;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;

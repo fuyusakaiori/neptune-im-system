@@ -5,6 +5,7 @@ server:
   workerThreadPoolSize: 10 # 子线程池的线程数量
   heartBeatTimeout: 3000 # 心跳检测超时时间
   brokerId: 1000
+  loginMode: 1 # 1. 仅允许一台设备在线 2. 允许手机/电脑 + Web 在线 3. 允许手机 + 电脑 + Web 同时在线 4. 允许多台设备同时在线
 
   redis:
     mode: single # 单机模式：single 哨兵模式：sentinel 集群模式：cluster

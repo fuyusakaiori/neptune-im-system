@@ -1,6 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import lombok.Data;
 import lombok.ToString;

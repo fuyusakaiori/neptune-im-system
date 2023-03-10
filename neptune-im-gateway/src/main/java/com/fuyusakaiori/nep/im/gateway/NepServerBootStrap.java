@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.constant.NepPathConstant;
+import com.example.nep.im.common.constant.NepPathConstant;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.rabbitmq.NepRabbitMQFactory;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;

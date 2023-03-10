@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;

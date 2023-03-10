@@ -1,8 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.status.NepFriendshipApplicationApproveStatus;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
 import lombok.extern.slf4j.Slf4j;

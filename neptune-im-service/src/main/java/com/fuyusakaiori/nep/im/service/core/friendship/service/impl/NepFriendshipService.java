@@ -1,19 +1,17 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
-import com.example.neptune.im.common.enums.code.NepUserResponseCode;
-import com.example.neptune.im.common.enums.status.NepFriendshipAllowType;
-import com.example.neptune.im.common.enums.status.NepFriendshipStatus;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.code.NepBaseResponseCode;
+import com.example.nep.im.common.enums.code.NepFriendshipResponseCode;
+import com.example.nep.im.common.enums.code.NepUserResponseCode;
+import com.example.nep.im.common.enums.status.NepFriendshipAllowType;
+import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepCheckFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepQueryFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;

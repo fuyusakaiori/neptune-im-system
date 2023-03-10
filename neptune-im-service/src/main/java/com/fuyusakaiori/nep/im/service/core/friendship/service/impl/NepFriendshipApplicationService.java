@@ -1,23 +1,15 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipApplicationResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipBlackResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipResponseCode;
-import com.example.neptune.im.common.enums.status.NepFriendshipApplicationApproveStatus;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.code.NepBaseResponseCode;
+import com.example.nep.im.common.enums.code.NepFriendshipBlackResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipApplicationService;
 import com.fuyusakaiori.nep.im.service.util.NepCheckFriendshipApplicationParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Slf4j
 @Service

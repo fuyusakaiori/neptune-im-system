@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway.redis;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.constant.NepRedisConstant;
+import com.example.nep.im.common.constant.NepRedisConstant;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

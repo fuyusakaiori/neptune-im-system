@@ -1,13 +1,12 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.enums.code.NepBaseResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipGroupMemberResponseCode;
-import com.example.neptune.im.common.enums.code.NepFriendshipGroupResponseCode;
-import com.example.neptune.im.common.enums.code.NepUserResponseCode;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.code.NepBaseResponseCode;
+import com.example.nep.im.common.enums.code.NepFriendshipGroupMemberResponseCode;
+import com.example.nep.im.common.enums.code.NepFriendshipGroupResponseCode;
+import com.example.nep.im.common.enums.code.NepUserResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepAddFriendshipGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepMoveFriendshipGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepModifyFriendshipGroupMemberResponse;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

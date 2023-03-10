@@ -1,13 +1,12 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NepAddFriendshipRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NepEditFriendshipRemarkRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NeptuneReleaseAllFriendshipRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NeptuneReleaseFriendshipRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

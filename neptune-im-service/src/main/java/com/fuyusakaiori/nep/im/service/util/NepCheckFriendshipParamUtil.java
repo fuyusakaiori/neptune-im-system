@@ -1,13 +1,10 @@
 package com.fuyusakaiori.nep.im.service.util;
 
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.util.NepCheckBaseParamUtil;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
-
-import java.util.Objects;
 
 public class NepCheckFriendshipParamUtil {
 

@@ -3,7 +3,7 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;

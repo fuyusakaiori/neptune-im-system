@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver;
 
-import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.constant.NepRabbitMQConstant;
+import com.example.nep.im.common.constant.NepRabbitMQConstant;
 import com.fuyusakaiori.nep.im.gateway.rabbitmq.NepRabbitMQFactory;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;

@@ -1,6 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
-import com.example.neptune.im.common.enums.status.NepFriendshipApplicationApproveStatus;
+import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepSendFriendshipApplication;
 import lombok.extern.slf4j.Slf4j;

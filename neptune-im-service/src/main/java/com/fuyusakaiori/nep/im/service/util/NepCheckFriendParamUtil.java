@@ -1,10 +1,9 @@
 package com.fuyusakaiori.nep.im.service.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.neptune.im.common.entity.request.NepRequestHeader;
-import com.example.neptune.im.common.util.NepCheckBaseParamUtil;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepQueryUserByNickNameRequest;
 
 import java.util.Objects;
 
