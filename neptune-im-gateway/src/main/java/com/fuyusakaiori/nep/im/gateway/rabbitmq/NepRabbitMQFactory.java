@@ -1,6 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway.rabbitmq;
 
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver.NepMessageReceiver;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -14,12 +15,11 @@ public class NepRabbitMQFactory {
 
     private static ConnectionFactory connectionFactory;
 
-    private static Channel defaultChannel;
-
     private static final Map<String ,Channel> channelMap = new ConcurrentHashMap<>();
 
     public static void start(NepServerBootStrapConfig.NepServerConfig serverConfig){
-        NepServerBootStrapConfig.NepRabbitMQ rabbitmqConfig = serverConfig.getRabbitmq();
+        // 1. 配置 rabbitmq
+        NepServerBootStrapConfig.NepRabbitMQConfig rabbitmqConfig = serverConfig.getRabbitmq();
         if (connectionFactory == null){
             connectionFactory = new ConnectionFactory();
             connectionFactory.setHost(rabbitmqConfig.getHost());
@@ -28,6 +28,8 @@ public class NepRabbitMQFactory {
             connectionFactory.setUsername(rabbitmqConfig.getUsername());
             connectionFactory.setPassword(rabbitmqConfig.getPassword());
         }
+        // 2. 启动监听器
+        NepMessageReceiver.start(serverConfig.getBrokerId());
     }
 
     public static Channel getChannel(String channelName) throws IOException, TimeoutException {

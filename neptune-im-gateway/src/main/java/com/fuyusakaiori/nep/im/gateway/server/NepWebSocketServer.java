@@ -54,7 +54,7 @@ public class NepWebSocketServer {
                         // 5. 添加路由处理器: WebSocket协议指定客户端访问服务端的路由
                         channel.pipeline().addLast("websocket-protocol", new WebSocketServerProtocolHandler("/nep"));
                         // 6. 添加业务逻辑处理器
-                        channel.pipeline().addLast("server-handler", new NepServerHandler());
+                        channel.pipeline().addLast("server-handler", new NepServerHandler(serverConfig.getBrokerId()));
                     }
                 });
     }

@@ -4,15 +4,16 @@ import cn.hutool.core.util.StrUtil;
 import com.example.neptune.im.common.constant.NepPathConstant;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.rabbitmq.NepRabbitMQFactory;
-import com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver.NepMessageReceiver;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.server.NepTcpServer;
 import com.fuyusakaiori.nep.im.gateway.server.NepWebSocketServer;
+import com.fuyusakaiori.nep.im.gateway.zookeeper.NepZookeeperRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -39,7 +40,9 @@ public class NepServerBootStrap {
         NepRedisClient.start(serverConfig);
         // 3. 启动 rabbitmq 服务器
         NepRabbitMQFactory.start(serverConfig);
-        NepMessageReceiver.start();
+        // 4. 启动 zookeeper 服务器
+        NepZookeeperRegistry.start(InetAddress.getLoopbackAddress().getHostAddress(), serverConfig);
+
     }
 
     private static NepServerBootStrapConfig getServerBootStrapConfig() throws IOException {

@@ -4,6 +4,7 @@ server:
   bossThreadPoolSize: 2 # 主线程池的线程数量
   workerThreadPoolSize: 10 # 子线程池的线程数量
   heartBeatTimeout: 3000 # 心跳检测超时时间
+  brokerId: 1000
 
   redis:
     mode: single # 单机模式：single 哨兵模式：sentinel 集群模式：cluster
@@ -22,3 +23,7 @@ server:
     virtualHost: /
     username: 670232228
     password: shinobu
+
+  zookeeper:
+    address: 127.0.0.1:2181
+    connectTimeout: 5000

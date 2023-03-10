@@ -60,7 +60,7 @@ public class NepTcpServer {
                         // 4. 添加心跳检测的处理器: 如果在规定时间内没有响应, 那么就会进入该处理器的逻辑
                         channel.pipeline().addLast("heart-beat-handler", new NepHeartBeatHandler(serverConfig.getHeartBeatTimeout()));
                         // 5. 业务逻辑处理器
-                        channel.pipeline().addLast("server-handler", new NepServerHandler());
+                        channel.pipeline().addLast("server-handler", new NepServerHandler(serverConfig.getBrokerId()));
                     }
                 });
     }

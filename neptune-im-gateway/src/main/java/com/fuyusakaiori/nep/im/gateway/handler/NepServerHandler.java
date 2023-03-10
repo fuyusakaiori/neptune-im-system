@@ -22,8 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @Slf4j
 public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
+
+    private final int brokerId;
+
+    public NepServerHandler(int brokerId){
+        this.brokerId = brokerId;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext context, NepProtocol protocol) throws Exception {
@@ -39,7 +48,7 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         }
     }
 
-    private void loginMessageHandler(NepMessageHeader messageHeader, NepMessageBody messageBody, ChannelHandlerContext context){
+    private void loginMessageHandler(NepMessageHeader messageHeader, NepMessageBody messageBody, ChannelHandlerContext context) throws UnknownHostException {
         // 1. 强制转换为登陆消息
         NepLoginMessage message = (NepLoginMessage) messageBody;
         // 2. 用户相关信息保存在 channel -> 交给后续的处理器继续使用
@@ -66,7 +75,6 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         sessionMap.put(key, value);
     }
 
-    // TODO 疑问: 主动登出不需要发送消息吗?
     private void logoutMessageHandler(ChannelHandlerContext context){
         // 1. 直接从 channel 中获取用户的相关信息
         Integer userId = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.USER_ID)).get();
@@ -97,12 +105,14 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         super.userEventTriggered(ctx, evt);
     }
 
-    private NepUserSession transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody){
+    private NepUserSession transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody) throws UnknownHostException {
         return new NepUserSession()
                        .setUserId(messageBody.getUserId())
                        .setAppId(messageHeader.getAppId())
                        .setClientType(messageHeader.getClientType())
                        .setImei(messageHeader.getImeiBody())
-                       .setConnectStatus(NepConnectStatus.ONLINE.getStatus());
+                       .setConnectStatus(NepConnectStatus.ONLINE.getStatus())
+                       .setBrokerId(brokerId)
+                       .setBrokerHost(InetAddress.getLocalHost().getHostAddress());
     }
 }

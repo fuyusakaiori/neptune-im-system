@@ -25,4 +25,14 @@ public class NepUserSession {
 
     private String imei;
 
+    /**
+     * <h3>服务的标识 ID</h3>
+     */
+    private int brokerId;
+
+    /**
+     * <h3>服务的 IP 地址</h3>
+     */
+    private String brokerHost;
+
 }
