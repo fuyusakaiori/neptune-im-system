@@ -8,7 +8,7 @@ import com.example.nep.im.common.constant.NepUserConstant;
 import com.example.nep.im.common.entity.session.NepUserSession;
 import com.example.nep.im.common.enums.status.NepConnectStatus;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
-import com.fuyusakaiori.nep.im.gateway.util.NepUserSessionSocketHolder;
+import com.fuyusakaiori.nep.im.gateway.util.NepUserSocketHolder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -57,7 +57,7 @@ public class NepHeartBeatHandler extends ChannelInboundHandlerAdapter {
         Integer clientType = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.CLIENT_TYPE)).get();
         String imei = (String) context.channel().attr(AttributeKey.valueOf(NepUserConstant.IMEI)).get();
         // 2. 移除用户对应的 channel
-        NepUserSessionSocketHolder.remove(userId, appId, clientType, imei);
+        NepUserSocketHolder.remove(userId, appId, clientType, imei);
         // 3. 移除用户保存在 redis 中的信息
         // 3.1 获取客户端
         RedissonClient redissonClient = NepRedisClient.getRedissonClient();

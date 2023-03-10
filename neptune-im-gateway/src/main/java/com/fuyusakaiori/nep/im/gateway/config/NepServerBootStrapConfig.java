@@ -23,6 +23,8 @@ public class NepServerBootStrapConfig {
 
         private Integer brokerId;
 
+        private Integer loginMode;
+
         private NepRedisConfig redis;
 
         private NepRabbitMQConfig rabbitmq;

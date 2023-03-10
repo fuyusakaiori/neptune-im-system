@@ -14,13 +14,13 @@ public abstract class NepSerializer {
 
     private static final Map<Integer, INepSerializer> serializer = new HashMap<>();
 
-    private static final int kryo = 0x00;
+    public static final int kryo = 0x00;
 
-    private static final int jackson = 0x1;
+    public static final int jackson = 0x1;
 
-    private static final int hessian = 0x2;
+    public static final int hessian = 0x2;
 
-    private static final int jdk = 0x3;
+    public static final int jdk = 0x3;
 
     static {
         serializer.put(NepSerializer.jackson, new NepJackSonSerializer());

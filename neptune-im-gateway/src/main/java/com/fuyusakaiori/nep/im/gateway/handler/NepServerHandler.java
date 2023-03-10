@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.example.nep.im.common.constant.NepHeartBeatConstant;
 import com.example.nep.im.common.constant.NepRedisConstant;
 import com.example.nep.im.common.constant.NepUserConstant;
+import com.example.nep.im.common.entity.session.NepUserClientInfo;
 import com.example.nep.im.common.entity.session.NepUserSession;
 import com.example.nep.im.common.enums.message.NepSystemMessageType;
 import com.example.nep.im.common.enums.status.NepConnectStatus;
@@ -13,13 +14,14 @@ import com.fuyusakaiori.nep.im.codec.proto.NepMessageHeader;
 import com.fuyusakaiori.nep.im.codec.proto.NepProtocol;
 import com.fuyusakaiori.nep.im.codec.proto.message.NepLoginMessage;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
-import com.fuyusakaiori.nep.im.gateway.util.NepUserSessionSocketHolder;
+import com.fuyusakaiori.nep.im.gateway.util.NepUserSocketHolder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RMap;
+import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
 
 import java.net.InetAddress;
@@ -39,7 +41,10 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         NepMessageHeader messageHeader = protocol.getMessageHeader();
         NepMessageBody messageBody = protocol.getMessageBody();
         if (messageHeader.getMessageType() == NepSystemMessageType.LOGIN.getMessageType()){
+            // 1. 处理登陆请求
             loginMessageHandler(messageHeader, messageBody, context);
+            // 2. 广播消息给其他服务器, 根据登陆模式踢出其他客户端
+            sendLoginMessage(messageHeader, messageBody);
         }else if (messageHeader.getMessageType() == NepSystemMessageType.LOGOUT.getMessageType()){
             logoutMessageHandler(context);
         }else if (messageHeader.getMessageType() == NepSystemMessageType.PING.getMessageType()){
@@ -58,7 +63,7 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         context.channel().attr(AttributeKey.valueOf(NepUserConstant.CLIENT_IMEI)).set(messageHeader.getClientType() + messageHeader.getImeiBody());
         context.channel().attr(AttributeKey.valueOf(NepUserConstant.IMEI)).set(messageHeader.getImeiBody());
         // 3. 保存用户的 channel
-        NepUserSessionSocketHolder.put(message.getUserId(), messageHeader.getAppId(), messageHeader.getClientType(),
+        NepUserSocketHolder.put(message.getUserId(), messageHeader.getAppId(), messageHeader.getClientType(),
                 messageHeader.getImeiBody(), (NioSocketChannel) context.channel());
         // 4. 保存用户的信息在 redis
         // 4.1 将消息转换为用户信息
@@ -75,6 +80,18 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         sessionMap.put(key, value);
     }
 
+    private void sendLoginMessage(NepMessageHeader messageHeader, NepMessageBody messageBody){
+        NepLoginMessage message = (NepLoginMessage) messageBody;
+        // 1. 获取 redisson 客户端
+        RedissonClient redissonClient = NepRedisClient.getRedissonClient();
+        // 2. 获取主题
+        RTopic topic = redissonClient.getTopic(NepRedisConstant.USER_LOGIN_MESSAGE_QUEUE);
+        // 3. 获取发送的消息
+        NepUserClientInfo clientInfo = transferUserClientInfo(message.getUserId(), messageHeader.getAppId(), messageHeader.getClientType(), messageHeader.getImeiBody());
+        // TODO 4. 发布消息: 暂时采用 JSON 序列化
+        topic.publish(JSONUtil.toJsonStr(clientInfo));
+    }
+
     private void logoutMessageHandler(ChannelHandlerContext context){
         // 1. 直接从 channel 中获取用户的相关信息
         Integer userId = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.USER_ID)).get();
@@ -82,7 +99,7 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         Integer clientType = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.CLIENT_TYPE)).get();
         String imei = (String) context.channel().attr(AttributeKey.valueOf(NepUserConstant.IMEI)).get();
         // 2. 移除用户对应的 channel
-        NepUserSessionSocketHolder.remove(userId, appId, clientType, imei);
+        NepUserSocketHolder.remove(userId, appId, clientType, imei);
         // 3. 移除用户保存在 redis 中的信息
         RedissonClient redissonClient = NepRedisClient.getRedissonClient();
         // 3.1 拼接 filed
@@ -114,5 +131,13 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
                        .setConnectStatus(NepConnectStatus.ONLINE.getStatus())
                        .setBrokerId(brokerId)
                        .setBrokerHost(InetAddress.getLocalHost().getHostAddress());
+    }
+
+    private NepUserClientInfo transferUserClientInfo(int userId, int appId, int clientType, String imei){
+        return new NepUserClientInfo()
+                       .setUserId(userId)
+                       .setAppId(appId)
+                       .setAppId(appId)
+                       .setImei(imei);
     }
 }

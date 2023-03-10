@@ -10,7 +10,9 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ToString
 public class NepProtocol implements Serializable {
-    public static final int MESSAGE_LENGTH = 28;
+    public static final int PROTOCOL_LENGTH = 28;
+
+    public static final int PROTOCOL_VERSION = 1;
 
     private NepMessageHeader messageHeader;
 

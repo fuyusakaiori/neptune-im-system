@@ -6,4 +6,7 @@ public class NepRedisConstant {
 
     public static final String USER_SESSION = ":userSession:";
 
+
+    public static final String USER_LOGIN_MESSAGE_QUEUE = "signal/queue/login";
+
 }

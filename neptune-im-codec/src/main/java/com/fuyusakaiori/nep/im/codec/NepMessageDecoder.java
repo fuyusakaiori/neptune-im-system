@@ -20,7 +20,7 @@ public class NepMessageDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext context, ByteBuf byteBuf, List<Object> out) throws Exception {
         // 1. 检查协议传输的消息长度是否符合预期
-        if (byteBuf.readableBytes() < NepProtocol.MESSAGE_LENGTH){
+        if (byteBuf.readableBytes() < NepProtocol.PROTOCOL_LENGTH){
             throw new RuntimeException("NepMessageDecoder decode: 消息长度小于协议规定的固定长度");
         }
         // 2. 读取协议版本号

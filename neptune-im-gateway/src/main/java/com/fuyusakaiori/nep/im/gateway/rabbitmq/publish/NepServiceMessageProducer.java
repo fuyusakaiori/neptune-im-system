@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
-public class NepMessageProducer {
+public class NepServiceMessageProducer {
 
     public static void sendMessage(NepMessageBody messageBody){
 
