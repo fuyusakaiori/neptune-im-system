@@ -21,6 +21,23 @@ spring:
       pool-name: DataSourceHikari
       max-lifetime: 600000 # 连接最大持续时长
       connection-test-query: select 1
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 10 # 最大活跃线程数
+          max-idle: 5 # 最大空闲线程数
+          min-idle: 3 # 最小空闲线程数
+          max-wait: 1000 # 建立连接的超时时间
+    rabbitmq:
+      host: localhost
+      port: 5672
+      addresses: localhost
+      username: 670232228
+      password: shinobu
+
 
 # 持久化框架配置
 mybatis-plus:
@@ -51,8 +68,6 @@ logging:
 appConfig:
   loadBalanceType: 1
   consistentHash: 1
-  zkAddress: 127.0.0.1:2181
-  zkConnectTimeout: 5000
   callbackUrl: http://127.0.0.1:8989/callback
   staleConnCheckEnabled: false
   editUserAfterCallBack: false
@@ -63,6 +78,10 @@ appConfig:
   releaseAllFriendshipAfterCallBack: false
   addFriendInBlackListAfterCallBack: false
   removeFriendInBlackListCallBack: false
+
+zookeeper:
+  zkAddress: 127.0.0.1:2181
+  zkConnectTimeout: 5000
 
 httpClient:
   maxConn: 100

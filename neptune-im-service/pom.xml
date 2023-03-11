@@ -14,9 +14,10 @@
 	<name>neptune-im-service</name>
 	<description>neptune-im-service</description>
 
-	<!-- jdk 版本 -->
 	<properties>
 		<java.version>1.8</java.version>
+		<mysql.connector.version>5.1.49</mysql.connector.version>
+		<mybatis-plus.version>3.4.3</mybatis-plus.version>
 		<zookeeper.version>3.4.13</zookeeper.version>
 		<curator.version>4.2.0</curator.version>
 		<curator.recipes.version>4.2.0</curator.recipes.version>
@@ -49,14 +50,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- mysql 驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.49</version>
+			<version>${mysql.connector.version}</version>
 		</dependency>
 
 		<!-- hikari -->
@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.4.3</version>
+			<version>${mybatis-plus.version}</version>
 		</dependency>
 
 		<!-- redis 客户端 -->
@@ -78,6 +78,11 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
+		<!-- rabbitmq 客户端 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 
 		<!-- zookeeper -->
 		<dependency>
@@ -139,12 +144,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>2.0.7</version>
 		</dependency>
 
 		<!-- common 工具模块 -->
