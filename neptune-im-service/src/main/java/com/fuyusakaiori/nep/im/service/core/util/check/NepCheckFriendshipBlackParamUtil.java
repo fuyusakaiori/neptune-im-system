@@ -1,54 +1,47 @@
-package com.fuyusakaiori.nep.im.service.util.check;
+package com.fuyusakaiori.nep.im.service.core.util.check;
 
 
-import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.check.NepCheckCommonParamUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.status.NepFriendshipBlackCheckType;
 import com.example.nep.im.common.check.NepCheckBaseParamUtil;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepAddFriendshipBlackRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepCheckFriendshipBlackRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepRemoveFriendshipBlackRequest;
 
-public class NepCheckFriendshipParamUtil {
+import java.util.Objects;
 
-    /**
-     * <h3>校验添加好友关系时的请求</h3>
-     */
-    public static boolean checkNepAddFriendshipRequestParam(NepAddFriendshipRequest request){
-        return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(request.getRequestHeader())
-                       && NepCheckCommonParamUtil.checkFriendshipUniqueId(request.getRequestBody().getFriendFromId(), request.getRequestBody().getFriendToId());
-    }
-
-
-    public static boolean checkNepReleaseFriendshipRequestParam(NeptuneReleaseFriendshipRequest request){
+public class NepCheckFriendshipBlackParamUtil {
+    public static boolean checkAddFriendInBlackListRequestParam(NepAddFriendshipBlackRequest request) {
         NepRequestHeader header = request.getRequestHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-
         return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)
                        && NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId);
     }
 
-    public static boolean checkNepReleaseAllFriendshipRequestParam(NeptuneReleaseAllFriendshipRequest request){
-        NepRequestHeader header = request.getRequestHeader();
-        Integer friendFromId = request.getFriendFromId();
-        return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)
-                       && NepCheckCommonParamUtil.checkUserUniqueId(friendFromId);
-    }
-
-    public static boolean checkNepEditFriendshipRequestParam(NepEditFriendshipRemarkRequest request){
+    public static boolean checkRemoveFriendInBlackListRequestParam(NepRemoveFriendshipBlackRequest request) {
         NepRequestHeader header = request.getRequestHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-        String friendRemark = request.getFriendRemark();
+        return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)
+                       && NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId);
+    }
+
+    public static boolean checkVerifyFriendInBlackListRequestParam(NepCheckFriendshipBlackRequest request) {
+        NepRequestHeader header = request.getRequestHeader();
+        Integer friendFromId = request.getFriendFromId();
+        Integer friendToId = request.getFriendToId();
+        Integer checkType = request.getCheckType();
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
         if (!NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId)){
             return false;
         }
-        if (StrUtil.isEmpty(friendRemark)){
+        if (Objects.isNull(checkType) || !NepFriendshipBlackCheckType.isIllegalBlackCheckType(checkType)){
             return false;
         }
         return true;
     }
-
 }

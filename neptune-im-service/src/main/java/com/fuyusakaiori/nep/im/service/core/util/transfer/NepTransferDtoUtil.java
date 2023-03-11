@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util.transfer;
+package com.fuyusakaiori.nep.im.service.core.util.transfer;
 
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;

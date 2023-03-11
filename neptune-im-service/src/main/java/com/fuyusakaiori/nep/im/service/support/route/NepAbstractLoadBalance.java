@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.route;
+package com.fuyusakaiori.nep.im.service.support.route;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;

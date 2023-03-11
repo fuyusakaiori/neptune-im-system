@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util.check;
+package com.fuyusakaiori.nep.im.service.core.util.check;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;

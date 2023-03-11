@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util.check;
+package com.fuyusakaiori.nep.im.service.core.util.check;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;

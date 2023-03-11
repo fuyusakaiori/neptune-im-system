@@ -1,6 +1,6 @@
-package com.fuyusakaiori.nep.im.service.route.algorithm.random;
+package com.fuyusakaiori.nep.im.service.support.route.algorithm.random;
 
-import com.fuyusakaiori.nep.im.service.route.NepAbstractLoadBalance;
+import com.fuyusakaiori.nep.im.service.support.route.NepAbstractLoadBalance;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

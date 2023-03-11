@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.route;
+package com.fuyusakaiori.nep.im.service.support.route;
 
 
 import java.util.List;

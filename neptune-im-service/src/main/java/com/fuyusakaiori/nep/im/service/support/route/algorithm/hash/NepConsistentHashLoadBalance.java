@@ -1,6 +1,6 @@
-package com.fuyusakaiori.nep.im.service.route.algorithm.hash;
+package com.fuyusakaiori.nep.im.service.support.route.algorithm.hash;
 
-import com.fuyusakaiori.nep.im.service.route.NepAbstractLoadBalance;
+import com.fuyusakaiori.nep.im.service.support.route.NepAbstractLoadBalance;
 
 import java.util.List;
 

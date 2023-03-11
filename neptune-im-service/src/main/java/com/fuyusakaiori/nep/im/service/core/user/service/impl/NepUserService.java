@@ -15,8 +15,8 @@ import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQuery
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepModifyUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
-import com.fuyusakaiori.nep.im.service.callback.INepCallBackService;
-import com.fuyusakaiori.nep.im.service.util.check.NepCheckUserParamUtil;
+import com.fuyusakaiori.nep.im.service.support.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckUserParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

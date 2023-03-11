@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.http;
+package com.fuyusakaiori.nep.im.service.support.http;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.CharsetUtil;

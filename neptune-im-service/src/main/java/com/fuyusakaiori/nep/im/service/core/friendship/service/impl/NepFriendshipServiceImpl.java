@@ -6,7 +6,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
-import com.fuyusakaiori.nep.im.service.util.transfer.NepTransferDtoUtil;
+import com.fuyusakaiori.nep.im.service.core.util.transfer.NepTransferDtoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

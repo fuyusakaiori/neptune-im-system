@@ -19,7 +19,7 @@ import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQuery
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepFriendService;
-import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendParamUtil;
+import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

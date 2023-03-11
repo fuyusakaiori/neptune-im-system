@@ -12,8 +12,8 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepR
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepCheckFriendshipBlackResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipBlackService;
-import com.fuyusakaiori.nep.im.service.callback.INepCallBackService;
-import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipBlackParamUtil;
+import com.fuyusakaiori.nep.im.service.support.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendshipBlackParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

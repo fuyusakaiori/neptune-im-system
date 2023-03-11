@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.callback;
+package com.fuyusakaiori.nep.im.service.support.callback;
 
 
 import org.springframework.stereotype.Component;

@@ -17,7 +17,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipGroupService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendGroupParamUtil;
+import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendGroupParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

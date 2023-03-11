@@ -3,13 +3,12 @@ package com.fuyusakaiori.nep.im.service.config;
 
 import com.example.nep.im.common.enums.status.NepConsistentHashType;
 import com.example.nep.im.common.enums.status.NepLoadBalanceType;
-import com.fuyusakaiori.nep.im.service.route.INepLoadBalance;
-import com.fuyusakaiori.nep.im.service.route.algorithm.hash.NepAbstractConsistentHash;
+import com.fuyusakaiori.nep.im.service.support.route.INepLoadBalance;
+import com.fuyusakaiori.nep.im.service.support.route.algorithm.hash.NepAbstractConsistentHash;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.Objects;

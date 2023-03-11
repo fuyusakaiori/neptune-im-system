@@ -6,7 +6,7 @@ import com.example.nep.im.common.enums.code.NepFriendshipBlackResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipApplicationService;
-import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipApplicationParamUtil;
+import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendshipApplicationParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
