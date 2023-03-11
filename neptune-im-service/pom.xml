@@ -111,6 +111,16 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
 		<!-- sl4j2 日志框架: 不支持 properties 配置文件 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -53,3 +53,20 @@ appConfig:
   consistentHash: 1
   zkAddress: 127.0.0.1:2181
   zkConnectTimeout: 5000
+  callbackUrl: http://127.0.0.1:8989/callback
+  staleConnCheckEnabled: false
+  editUserAfterCallBack: false
+  addFriendshipBeforeCallBack: false
+  addFriendshipAfterCallBack: false
+  editFriendshipRemarkAfterCallBack: false
+  releaseFriendshipAfterCallBack: false
+  releaseAllFriendshipAfterCallBack: false
+  addFriendInBlackListAfterCallBack: false
+  removeFriendInBlackListCallBack: false
+
+httpClient:
+  maxConn: 100
+  macConcurrentConn: 50
+  connectTimeout: 2000
+  connRequestTimeout: 2000
+  socketTimeout: 5000

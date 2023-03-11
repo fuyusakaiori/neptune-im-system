@@ -1,9 +1,12 @@
 package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.json.JSONUtil;
+import com.example.nep.im.common.constant.NepCallBackConstant;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepUserResponseCode;
+import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
@@ -12,7 +15,8 @@ import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQuery
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepModifyUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
-import com.fuyusakaiori.nep.im.service.util.NepCheckUserParamUtil;
+import com.fuyusakaiori.nep.im.service.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckUserParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +29,13 @@ import java.util.*;
 public class NepUserService implements INepUserService {
 
     @Autowired
-    INepUserMapper userMapper;
+    private NepApplicationConfig applicationConfig;
+
+    @Autowired
+    private INepCallBackService callBackService;
+
+    @Autowired
+    private INepUserMapper userMapper;
 
     /**
      * <h3>单次插入用户资料的上限</h3>
@@ -46,8 +56,8 @@ public class NepUserService implements INepUserService {
         // 2. 请求头参数校验
         if(!NepCheckUserParamUtil.checkNepRegisterUserRequestParam(request)){
             log.error("NeptuneUserService registerUser: 请求头中的参数检查失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 3. 注册用户
         int result = userMapper.registerUser(header.getAppId(), body, System.currentTimeMillis(), System.currentTimeMillis());
@@ -69,8 +79,8 @@ public class NepUserService implements INepUserService {
         // 1. 参数校验
         if (!NepCheckUserParamUtil.checkNepEditUserRequestParam(request)){
             log.error("NeptuneUserService updateUser: 请求头中的参数检查失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -93,7 +103,11 @@ public class NepUserService implements INepUserService {
             return response.setCode(NepUserResponseCode.EDIT_USER_FAIL.getCode())
                     .setMessage(NepUserResponseCode.EDIT_USER_FAIL.getMessage());
         }
-        // 4. 设置返回信息
+        // TODO 5. 判断是否执行回调: 更新完用户资料后是否通知网关
+        if (applicationConfig.isEditUserAfterCallBack()){
+            callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.USER_EDIT_AFTER, JSONUtil.toJsonStr(request));
+        }
+        // 6. 设置返回信息
         return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                 .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
@@ -107,8 +121,8 @@ public class NepUserService implements INepUserService {
         // 1. 参数校验
         if (!NepCheckUserParamUtil.checkNepCancelUserRequestParam(request)){
             log.error("NeptuneUserService cancelUser: 请求头中的参数检查失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -140,8 +154,8 @@ public class NepUserService implements INepUserService {
         if (!NepCheckUserParamUtil.checkNepQueryUserByAccountRequestParam(request)){
             log.error("NeptuneUserService queryUserByAccount: 请求头中的参数检查失败 - request: {}", request);
             return response.setUserList(Collections.emptyList())
-                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -169,8 +183,8 @@ public class NepUserService implements INepUserService {
         if (!NepCheckUserParamUtil.checkNepQueryUserByNickNameRequestParam(request)){
             log.error("NeptuneUserService queryUserByNickName: 请求头中的参数检查失败 - request: {}", request);
             return response.setUserList(Collections.emptyList())
-                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+                           .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -201,8 +215,8 @@ public class NepUserService implements INepUserService {
         // 2. 请求头参数校验
         if(!NepCheckUserParamUtil.checkNepImportUserRequestParam(request)){
             log.error("NeptuneUserService registerUser: 请求头中的参数检查失败 - request: {}", request);
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             return response;
         }
         // 3 批量插入用户

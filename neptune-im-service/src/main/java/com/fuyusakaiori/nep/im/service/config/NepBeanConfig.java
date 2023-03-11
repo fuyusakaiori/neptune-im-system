@@ -3,13 +3,19 @@ package com.fuyusakaiori.nep.im.service.config;
 import com.example.nep.im.common.constant.NepZookeeperConstant;
 import com.example.nep.im.common.enums.status.NepConsistentHashType;
 import com.example.nep.im.common.enums.status.NepLoadBalanceType;
+import com.fuyusakaiori.nep.im.service.http.NepHttpClient;
 import com.fuyusakaiori.nep.im.service.route.INepLoadBalance;
 import com.fuyusakaiori.nep.im.service.route.algorithm.hash.NepAbstractConsistentHash;
 import com.fuyusakaiori.nep.im.service.route.algorithm.hash.NepConsistentHashLoadBalance;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +28,10 @@ public class NepBeanConfig {
     @Autowired
     private NepApplicationConfig applicationConfig;
 
-    @Bean
+    @Autowired
+    private NepHttpClientConfig httpClientConfig;
+
+    @Bean(name = "zookeeperClient")
     public CuratorFramework getZookeeperClient(){
         // 1. 配置 zookeeper 客户端
         CuratorFramework zookeeperClient = CuratorFrameworkFactory.builder()
@@ -38,7 +47,7 @@ public class NepBeanConfig {
         return zookeeperClient;
     }
 
-    @Bean
+    @Bean(name = "loadBalance")
     public INepLoadBalance getLoadBalance() throws Exception {
         // 1. 获取路由算法
         NepLoadBalanceType loadBalanceType = NepLoadBalanceType.getLoadBalance(applicationConfig.getLoadBalanceType());
@@ -65,5 +74,56 @@ public class NepBeanConfig {
         }
         return loadBalance;
     }
+
+
+    /**
+     * <h3>定义 http 客户端连接池管理器</h3>
+     */
+    @Bean(name = "httpClientConnectionManager")
+    public PoolingHttpClientConnectionManager getHttpClientConnectionManager(){
+        // 1. 实例化连接池管理器
+        PoolingHttpClientConnectionManager httpClientConnectionManager = new PoolingHttpClientConnectionManager();
+        // 2. 设置最大连接数
+        httpClientConnectionManager.setMaxTotal(httpClientConfig.getMaxConn());
+        // 3. 设置最大并发连接数
+        httpClientConnectionManager.setDefaultMaxPerRoute(httpClientConfig.getMacConcurrentConn());
+        // 4. 返回对象
+        return httpClientConnectionManager;
+    }
+
+    /**
+     * <h3>实例化 http 客户端连接池管理器</h3>
+     */
+    @Bean(name = "httpClientBuilder")
+    public HttpClientBuilder getHttpClientBuilder(@Qualifier(value = "httpClientConnectionManager") PoolingHttpClientConnectionManager httpClientConnectionManager){
+        return HttpClientBuilder.create().setConnectionManager(httpClientConnectionManager);
+    }
+
+
+    /**
+     * <h3>获取 http 客户端</h3>
+     */
+    @Bean(name = "httpCloseableHttpClient")
+    public CloseableHttpClient getHttpCloseableHttpClient(@Qualifier(value = "httpClientBuilder") HttpClientBuilder httpClientBuilder){
+        return httpClientBuilder.build();
+    }
+
+    /**
+     * <h3>设置 builder 信息</h3>
+     */
+    @Bean(name = "builder")
+    public RequestConfig.Builder getBuilder(){
+        return RequestConfig.custom()
+                .setConnectionRequestTimeout(httpClientConfig.getConnectTimeout())
+                .setConnectionRequestTimeout(httpClientConfig.getConnRequestTimeout())
+                .setSocketTimeout(httpClientConfig.getSocketTimeout());
+    }
+
+    @Bean(name = "requestConfig")
+    public RequestConfig getRequestConfig(@Qualifier(value = "builder") RequestConfig.Builder builder){
+        return builder.build();
+    }
+
+
 
 }

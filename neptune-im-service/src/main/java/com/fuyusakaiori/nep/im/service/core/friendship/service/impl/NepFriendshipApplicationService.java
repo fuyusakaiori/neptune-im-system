@@ -6,7 +6,7 @@ import com.example.nep.im.common.enums.code.NepFriendshipBlackResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipApplicationService;
-import com.fuyusakaiori.nep.im.service.util.NepCheckFriendshipApplicationParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipApplicationParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +25,8 @@ public class NepFriendshipApplicationService implements INepFriendshipApplicatio
         // 1. 参数校验
         if (NepCheckFriendshipApplicationParamUtil.checkApproveFriendshipApplicationRequestParam(request)){
             log.error("NepFriendshipApplicationService approveFriendshipApplication: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();

@@ -12,9 +12,11 @@ public enum NepBaseResponseCode implements INepBaseResponseCode
 
     INTERNAL_SERVER_ERROR(500, "服务器内部错误"),
 
-    CHECK_PARAM_FAILURE(900, "参数校验失败"),
+    CHECK_PARAM_FAIL(900, "参数校验失败"),
 
-    UNKNOWN_ERROR(1000,"未知错误");
+    UNKNOWN_ERROR(1000,"未知错误"),
+
+    CALLBACK_FAIL(300, "回调失败");
 
     private final int code;
 

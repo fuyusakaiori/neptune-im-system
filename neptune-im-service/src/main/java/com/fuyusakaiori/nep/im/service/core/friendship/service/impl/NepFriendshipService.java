@@ -1,12 +1,15 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.json.JSONUtil;
+import com.example.nep.im.common.constant.NepCallBackConstant;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipResponseCode;
 import com.example.nep.im.common.enums.code.NepUserResponseCode;
 import com.example.nep.im.common.enums.status.NepFriendshipAllowType;
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
+import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
@@ -16,7 +19,8 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapp
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.util.NepCheckFriendshipParamUtil;
+import com.fuyusakaiori.nep.im.service.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,12 @@ import java.util.*;
 @Slf4j
 @Service
 public class NepFriendshipService implements INepFriendshipService {
+
+    @Autowired
+    private NepApplicationConfig applicationConfig;
+
+    @Autowired
+    private INepCallBackService callBackService;
 
     @Autowired
     private INepUserMapper userMapper;
@@ -47,13 +57,22 @@ public class NepFriendshipService implements INepFriendshipService {
         // 1. 参数校验
         if (!NepCheckFriendshipParamUtil.checkNepAddFriendshipRequestParam(request)){
             log.error("NeptuneFriendshipService addFriendship: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
         NepAddFriendship body = request.getRequestBody();
-        // 3. 查询用户是否存在: 没有直接查关系表是因为需要判断用户是否可以添加好友
+        // TODO 2. 添加好友前执行回调
+        if (applicationConfig.isAddFriendshipBeforeCallBack()){
+            NepModifyFriendshipResponse callbackResponse = callBackService.beforeCallBack(header.getAppId(), NepCallBackConstant.FRIEND_ADD_BEFORE,
+                    JSONUtil.toJsonStr(request), NepModifyFriendshipResponse.class);
+            if (Objects.isNull(callbackResponse)){
+                return response.setCode(NepBaseResponseCode.CALLBACK_FAIL.getCode())
+                               .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+            }
+        }
+        // 4. 查询用户是否存在: 没有直接查关系表是因为需要判断用户是否可以添加好友
         NepUser fromUser = userMapper.querySimpleUserById(header.getAppId(), body.getFriendFromId());
         NepUser toUser = userMapper.querySimpleUserById(header.getAppId(), body.getFriendToId());
         if (Objects.isNull(fromUser) || fromUser.getIsDelete() || Objects.isNull(toUser) || toUser.getIsDelete()){
@@ -61,20 +80,20 @@ public class NepFriendshipService implements INepFriendshipService {
             return response.setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
                     .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
         }
-        // 4. 检查用户是否可以添加好友
+        // 5. 检查用户是否可以添加好友
         Integer type = toUser.getUserFriendshipAllowType();
         if (Objects.isNull(type)){
             log.error("NeptuneFriendshipService addFriendship: 用户添加好友类型为空 - fromId: {},  toId: {}", fromUser.getUserId(), toUser.getUserId());
             return response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
         }
-        // 4.1 如果对方不允许添加好友, 那么直接返回
+        // 5.1 如果对方不允许添加好友, 那么直接返回
         if (type == NepFriendshipAllowType.BAN.getType()){
             log.error("NeptuneFriendshipService addFriendship: 对方不允许添加好友 - from: {}, to: {}", fromUser, toUser);
             return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_IS_BAN.getCode())
                            .setMessage(NepFriendshipResponseCode.FRIENDSHIP_IS_BAN.getMessage());
         }
-        // 4.2 如果对方不需要验证就能添加好友, 那么直接添加
+        // 5.2 如果对方不需要验证就能添加好友, 那么直接添加
         if (type == NepFriendshipAllowType.ANY.getType()){
             int result = friendshipServiceImpl.doAddFriendship(header, body);
             if (result <= 0){
@@ -82,7 +101,7 @@ public class NepFriendshipService implements INepFriendshipService {
                                .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
             }
         }
-        // 4.3 如果对方需要验证才能添加, 那么走验证后添加的逻辑: 1. 发送好友申请后就结束 2. 对方审批好友申请后执行添加方法
+        // 5.3 如果对方需要验证才能添加, 那么走验证后添加的逻辑: 1. 发送好友申请后就结束 2. 对方审批好友申请后执行添加方法
         if (type == NepFriendshipAllowType.VALIDATION.getType()){
             int result = friendshipApplicationServiceImpl.doSendFriendshipApplication(header, body);
             if (result <= 0){
@@ -90,7 +109,11 @@ public class NepFriendshipService implements INepFriendshipService {
                                .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
             }
         }
-        // 5. 填充响应结果
+        // TODO 执行回调
+        if (applicationConfig.isAddFriendshipAfterCallBack()){
+            callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_ADD_AFTER, JSONUtil.toJsonStr(request));
+        }
+        // 6. 填充响应结果
         return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                 .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
@@ -105,8 +128,8 @@ public class NepFriendshipService implements INepFriendshipService {
         // 1. 参数校验
         if (!NepCheckFriendshipParamUtil.checkNepEditFriendshipRequestParam(request)){
             log.error("NeptuneFriendshipService editFriendship: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -123,6 +146,10 @@ public class NepFriendshipService implements INepFriendshipService {
                 log.error("NeptuneFriendshipService editFriendship: 更新好友关系失败 - fromId: {}, toId: {}", friendFromId, friendToId);
                 return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_UPDATE_FAIL.getCode())
                         .setMessage(NepFriendshipResponseCode.FRIENDSHIP_UPDATE_FAIL.getMessage());
+            }
+            // TODO 执行回调
+            if (applicationConfig.isEditFriendshipRemarkAfterCallBack()){
+                callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_EDIT_AFTER, JSONUtil.toJsonStr(request));
             }
             return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
@@ -142,8 +169,8 @@ public class NepFriendshipService implements INepFriendshipService {
         // 1. 参数校验
         if (!NepCheckFriendshipParamUtil.checkNepReleaseFriendshipRequestParam(request)){
             log.error("NeptuneFriendshipService releaseFriendship: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -158,6 +185,10 @@ public class NepFriendshipService implements INepFriendshipService {
                 log.error("NeptuneFriendshipService releaseFriendship: 好友关系删除失败 - fromId: {}, toId: {}", fromId, toId);
                 return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_RELEASE_FAIL.getCode())
                                .setMessage(NepFriendshipResponseCode.FRIENDSHIP_RELEASE_FAIL.getMessage());
+            }
+            // TODO 执行回调
+            if (applicationConfig.isReleaseFriendshipAfterCallBack()){
+                callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_DELETE_AFTER, JSONUtil.toJsonStr(request));
             }
             return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
@@ -177,8 +208,8 @@ public class NepFriendshipService implements INepFriendshipService {
         // 1. 参数校验
         if (!NepCheckFriendshipParamUtil.checkNepReleaseAllFriendshipRequestParam(request)){
             log.error("NeptuneFriendshipService releaseAllFriendship: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -196,13 +227,15 @@ public class NepFriendshipService implements INepFriendshipService {
         int result = friendshipMapper.releaseAllFriendship(header.getAppId(), fromId, System.currentTimeMillis());
         if (result <= 0){
             log.error("NeptuneFriendshipService releaseAllFriendship: 删除所有好友关系失败 - userId: {}", fromId);
-            response.setCode(NepFriendshipResponseCode.FRIENDSHIP_RELEASE_ALL_FAIL.getCode())
+            return response.setCode(NepFriendshipResponseCode.FRIENDSHIP_RELEASE_ALL_FAIL.getCode())
                     .setMessage(NepFriendshipResponseCode.FRIENDSHIP_RELEASE_ALL_FAIL.getMessage());
-            return response;
         }
-        response.setCode(NepBaseResponseCode.SUCCESS.getCode())
+        // TODO 执行回调
+        if (applicationConfig.isReleaseAllFriendshipAfterCallBack()){
+            callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_DELETE_AFTER, JSONUtil.toJsonStr(request));
+        }
+        return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                 .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-        return response;
     }
 
     @Override

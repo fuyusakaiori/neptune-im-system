@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "app-config")
 public class NepApplicationConfig {
 
+    //================== 系统配置 ==================
+
     private int loadBalanceType;
 
     private int consistentHashType;
@@ -19,5 +21,23 @@ public class NepApplicationConfig {
     private String zkAddress;
 
     private int zkConnectTimeout;
+
+    //================== 回调配置 ==================
+
+    private boolean editUserAfterCallBack;
+
+    private boolean addFriendshipBeforeCallBack;
+
+    private boolean addFriendshipAfterCallBack;
+
+    private boolean editFriendshipRemarkAfterCallBack;
+
+    private boolean releaseFriendshipAfterCallBack;
+
+    private boolean releaseAllFriendshipAfterCallBack;
+
+    private boolean addFriendInBlackListAfterCallBack;
+
+    private boolean removeFriendInBlackListCallBack;
 
 }

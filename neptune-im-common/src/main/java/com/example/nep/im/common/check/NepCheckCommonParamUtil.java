@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util;
+package com.example.nep.im.common.check;
 
 import java.util.Objects;
 

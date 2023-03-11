@@ -1,15 +1,19 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
+import cn.hutool.json.JSONUtil;
+import com.example.nep.im.common.constant.NepCallBackConstant;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipBlackResponseCode;
+import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepAddFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepCheckFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepRemoveFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepCheckFriendshipBlackResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipBlackService;
-import com.fuyusakaiori.nep.im.service.util.NepCheckFriendshipBlackParamUtil;
+import com.fuyusakaiori.nep.im.service.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipBlackParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class NepFriendshipBlackService implements INepFriendshipBlackService {
+
+    @Autowired
+    private NepApplicationConfig applicationConfig;
+
+    @Autowired
+    private INepCallBackService callBackService;
 
     @Autowired
     private NepFriendshipBlackServiceImpl friendshipBlackServiceImpl;
@@ -28,8 +38,8 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
         // 1. 参数校验
         if (!NepCheckFriendshipBlackParamUtil.checkAddFriendInBlackListRequestParam(request)){
             log.error("NepFriendshipBlackService addFriendInBlackList: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -42,6 +52,10 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
             return response.setCode(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getCode())
                            .setMessage(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getMessage());
         }
+        // TODO 执行回调
+        if (applicationConfig.isAddFriendInBlackListAfterCallBack()){
+            callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_BLACK_ADD_AFTER, JSONUtil.toJsonStr(request));
+        }
         return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
@@ -53,8 +67,8 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
         // 1. 参数校验
         if (!NepCheckFriendshipBlackParamUtil.checkRemoveFriendInBlackListRequestParam(request)){
             log.error("NepFriendshipBlackService removeFriendInBlackList: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -67,6 +81,9 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
             return response.setCode(NepFriendshipBlackResponseCode.FRIEND_WHITE_FAIL.getCode())
                            .setMessage(NepFriendshipBlackResponseCode.FRIEND_WHITE_FAIL.getMessage());
         }
+        if (applicationConfig.isRemoveFriendInBlackListCallBack()){
+            callBackService.afterCallBack(header.getAppId(), NepCallBackConstant.FRIEND_BLACK_REMOVE_AFTER, JSONUtil.toJsonStr(request));
+        }
         return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
@@ -78,8 +95,8 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
         // 1. 参数校验
         if (!NepCheckFriendshipBlackParamUtil.checkVerifyFriendInBlackListRequestParam(request)){
             log.error("NepFriendshipBlackService checkFriendInBlackList: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();

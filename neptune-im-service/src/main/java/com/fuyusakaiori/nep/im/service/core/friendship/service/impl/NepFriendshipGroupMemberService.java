@@ -15,7 +15,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipGroupMemberService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.util.NepCheckFriendGroupMemberParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendGroupMemberParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +43,8 @@ public class NepFriendshipGroupMemberService implements INepFriendshipGroupMembe
         // 1. 参数校验
         if (!NepCheckFriendGroupMemberParamUtil.checkAddFriendshipGroupMemberRequestParam(request)){
             log.error("NepFriendshipApplicationService addFriendshipGroupMember: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -99,8 +99,8 @@ public class NepFriendshipGroupMemberService implements INepFriendshipGroupMembe
         // 1. 参数校验
         if (!NepCheckFriendGroupMemberParamUtil.checkMoveFriendshipGroupMemberRequestParam(request)){
             log.error("NepFriendshipApplicationService moveFriendshipGroupMember: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();

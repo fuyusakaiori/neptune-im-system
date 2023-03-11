@@ -1,8 +1,8 @@
-package com.fuyusakaiori.nep.im.service.util;
+package com.fuyusakaiori.nep.im.service.util.check;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.example.nep.im.common.util.NepCheckBaseParamUtil;
+import com.example.nep.im.common.check.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepCreateFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryAllFriendshipGroupRequest;

@@ -17,7 +17,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipGroupService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.util.NepCheckFriendGroupParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendGroupParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +45,8 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 1. 校验参数
         if (!NepCheckFriendGroupParamUtil.checkCreateFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService createFriendshipGroup: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -78,8 +78,8 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 1. 校验参数
         if (!NepCheckFriendGroupParamUtil.checkDeleteFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService deleteFriendshipGroup: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();
@@ -117,8 +117,8 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         // 1. 校验参数
         if (!NepCheckFriendGroupParamUtil.checkQueryAllFriendshipGroupRequestParam(request)){
             log.error("NepFriendshipGroupService queryAllFriendshipGroup: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAILURE.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAILURE.getMessage());
+            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
         }
         // 2. 获取变量
         NepRequestHeader header = request.getRequestHeader();

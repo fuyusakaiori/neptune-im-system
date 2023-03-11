@@ -1,8 +1,8 @@
-package com.fuyusakaiori.nep.im.service.util;
+package com.fuyusakaiori.nep.im.service.util.check;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
-import com.example.nep.im.common.util.NepCheckBaseParamUtil;
+import com.example.nep.im.common.check.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
 
 import java.util.Objects;
