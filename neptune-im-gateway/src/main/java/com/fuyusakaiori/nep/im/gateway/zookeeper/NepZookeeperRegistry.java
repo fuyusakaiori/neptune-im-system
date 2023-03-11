@@ -37,14 +37,14 @@ public class NepZookeeperRegistry {
             if (zookeeperClient.checkExists().forPath(tcpServer) == null){
                 zookeeperClient.create()
                         .creatingParentContainersIfNeeded()
-                        .withMode(CreateMode.PERSISTENT)
+                        .withMode(CreateMode.EPHEMERAL)
                         .forPath(tcpServer);
             }
             String websocketServer = NepZookeeperConstant.IM_CORE_GATEWAY + NepZookeeperConstant.IM_CORE_GATEWAY_WEB + StrUtil.SLASH + address + StrUtil.COLON + websocketServerPort;
             if (zookeeperClient.checkExists().forPath(websocketServer) == null){
                 zookeeperClient.create()
                         .creatingParentContainersIfNeeded()
-                        .withMode(CreateMode.PERSISTENT)
+                        .withMode(CreateMode.EPHEMERAL)
                         .forPath(websocketServer);
             }
         } catch (Exception exception) {

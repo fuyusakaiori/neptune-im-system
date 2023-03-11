@@ -47,3 +47,9 @@ logging:
     org.apache.tomcat: INFO
     org.springframework: INFO
     com.chinamobile.cmss.bdpaas.resource.monitor: DEBUG
+
+appConfig:
+  loadBalanceType: 1
+  consistentHash: 1
+  zkAddress: 127.0.0.1:2181
+  zkConnectTimeout: 5000

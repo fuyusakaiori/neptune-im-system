@@ -17,6 +17,11 @@
 	<!-- jdk 版本 -->
 	<properties>
 		<java.version>1.8</java.version>
+		<zookeeper.version>3.4.13</zookeeper.version>
+		<curator.version>4.2.0</curator.version>
+		<curator.recipes.version>4.2.0</curator.recipes.version>
+		<lombok.version>1.18.26</lombok.version>
+		<hutool.version>5.8.11</hutool.version>
 	</properties>
 
 	<!-- service 模块选用的依赖 -->
@@ -32,6 +37,12 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!-- configuration properties -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
 		</dependency>
 
 		<!-- springboot 测试依赖-->
@@ -67,6 +78,39 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
+
+		<!-- zookeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- curator framework-->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>${curator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>${curator.recipes.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.zookeeper</groupId>
+					<artifactId>zookeeper</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!-- sl4j2 日志框架: 不支持 properties 配置文件 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,14 +121,14 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
-			<version>5.8.11</version>
+			<version>${hutool.version}</version>
 		</dependency>
 
 		<!-- lombok 工具类 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.24</version>
+			<version>${lombok.version}</version>
 		</dependency>
 
 		<dependency>
