@@ -59,18 +59,18 @@ public class NepFriendshipBlackServiceImpl {
         return friendshipBlackMapper.removeFriendInBlackList(header.getAppId(), friendFromId, friendToId, System.currentTimeMillis());
     }
 
-    public int checkFriendInBlackList(NepRequestHeader header, int friendFromId, int friendToId, int checkType){
+    public int doCheckFriendInBlackList(int appId, int friendFromId, int friendToId, int checkType){
         // 1. 查询好友关系
-        NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
+        NepFriendship friendship = friendshipMapper.queryFriendshipById(appId, friendFromId, friendToId);
         // 2. 校验好友关系是否存在
         if (Objects.isNull(friendship)){
             log.error("NepFriendshipBlackService checkFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
         }
         // 3. 校验拉黑状态
         if (NepFriendshipBlackCheckType.SINGLE.getType() == checkType){
-            return friendshipBlackMapper.checkFriendInBlackList(header.getAppId(), friendFromId, friendToId);
+            return friendshipBlackMapper.checkFriendInBlackList(appId, friendFromId, friendToId);
         }else{
-            return friendshipBlackMapper.checkBiFriendInBlackList(header.getAppId(), friendFromId, friendToId);
+            return friendshipBlackMapper.checkBiFriendInBlackList(appId, friendFromId, friendToId);
         }
     }
 

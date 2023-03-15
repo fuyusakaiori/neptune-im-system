@@ -4,7 +4,7 @@ public class NepRabbitMQConstant {
 
     public static final String Im2UserService = "pipeline2UserService";
 
-    public static final String Im2MessageService = "pipeline2MessageService";
+    public static final String MESSAGE_GATEWAY_TO_SERVICE = "message_gateway_to_service";
 
     public static final String Im2GroupService = "pipeline2GroupService";
 

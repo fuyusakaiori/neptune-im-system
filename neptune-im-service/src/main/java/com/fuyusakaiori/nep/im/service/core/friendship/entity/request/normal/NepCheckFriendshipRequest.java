@@ -16,4 +16,6 @@ public class NepCheckFriendshipRequest {
 
     private Integer friendToId;
 
+    private Integer checkType;
+
 }

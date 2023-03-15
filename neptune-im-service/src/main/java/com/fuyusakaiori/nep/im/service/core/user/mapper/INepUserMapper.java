@@ -1,34 +1,30 @@
 package com.fuyusakaiori.nep.im.service.core.user.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepEditUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * <h3>完全采用 Mybatis 实现的, 没有使用 Mybatis Plus 实现</h3>
- */
+
 @Mapper
-public interface INepUserMapper
-{
+public interface INepUserMapper {
 
     /**
-     * <h3>单个用户注册</h3>
+     * <h3>注册用户</h3>
      */
-    int registerUser(@Param("appId") int appId, @Param("user") NepRegisterUser user, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int registerUser(@Param("appId") int appId, @Param("user") NepUser user);
 
     /**
-     * <h3>批量用户注册</h3>
+     * <h3>更新头像地址</h3>
      */
-    int batchRegisterUser(@Param("appId") int appId, @Param("userList") List<NepRegisterUser> userList, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int updateUserAvatarAddress(@Param("appId") int appId, @Param("userId") int userId, @Param("avatarAddress") String avatarAddress, @Param("updateTime") long updateTime);
+
 
     /**
-     * <h3>单个用户更新</h3>
+     * <h3>更新用户个人资料</h3>
      */
-    int editUser(@Param("appId")int appId, @Param("user") NepEditUser user, @Param("updateTime") long updateTime);
+    int updateUserInfo(@Param("appId")int appId, @Param("user") NepUser user);
 
     /**
      * <h3>单个用户注销</h3>
@@ -39,7 +35,7 @@ public interface INepUserMapper
     /**
      * <h3>查询用户: 通过账号查询</h3>
      */
-    NepUser queryUserByAccount(@Param("appId") int appId, @Param("account") String account);
+    NepUser queryUserByUserName(@Param("appId") int appId, @Param("username") String username);
 
     /**
      * <h3>查询用户: 通过昵称查询</h3>
@@ -47,23 +43,20 @@ public interface INepUserMapper
     List<NepUser> queryUserByNickName(@Param("appId") int appId, @Param("nickname") String nickname);
 
     /**
+     * <h3>登陆账号</h3>
+     */
+    NepUser loginUserInImSystem(@Param("appId") int appId, @Param("username") String username, @Param("password") String password);
+
+
+    /**
      * <h3>查询用户: 通过 ID 查询</h3>
      */
-    NepUser querySimpleUserById(@Param("appId") int appId, @Param("userId") Integer userId);
+    NepUser queryUserById(@Param("appId") int appId, @Param("userId") Integer userId);
+
 
     /**
-     * <h3>查询用户: 通过账号查询</h3>
+     * <h3>查询用户: 根据 ID 集合查询</h3>
      */
-    NepUser querySimpleUserByAccount(@Param("appId") int appId, @Param("account") String account);
-
-    /**
-     * <h3>查询用户: 通过昵称查询</h3>
-     */
-    List<NepUser> querySimpleUserByNickName(@Param("appId") int appId, @Param("nickName") String nickName);
-
-    /**
-     * <h3>查询所有好友的缩略信息</h3>
-     */
-    List<NepUser> querySimpleUserByIdList(@Param("appId") int appId, @Param("list") List<Integer> userIdList);
+    List<NepUser> queryUserByIdList(@Param("appId") int appId, @Param("list") List<Integer> userIdList);
 
 }

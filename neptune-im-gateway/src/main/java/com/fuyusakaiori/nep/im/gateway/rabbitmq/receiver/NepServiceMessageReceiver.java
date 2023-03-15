@@ -13,8 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
-public class NepServiceMessageReceiver
-{
+public class NepServiceMessageReceiver {
 
     private static int brokerId;
 

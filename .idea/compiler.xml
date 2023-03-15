@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="neptune-im-gateway" />
         <module name="neptune-im-common" />
-        <module name="neptune-im-codec" />
         <module name="neptune-im-service" />
       </profile>
     </annotationProcessing>

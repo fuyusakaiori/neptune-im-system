@@ -19,7 +19,9 @@ public enum NepFriendshipResponseCode implements INepBaseResponseCode
 
     FRIENDSHIP_UPDATE_FAIL(3006, "更新好友关系失败"),
 
-    FRIENDSHIP_EXIST(3007, "好友关系已经存在");
+    FRIENDSHIP_EXIST(3007, "好友关系已经存在"),
+
+    FRIENDSHIP_CHECK_FAIL(3008, "校验好友关系失败");
 
     private final int code;
     private final String message;

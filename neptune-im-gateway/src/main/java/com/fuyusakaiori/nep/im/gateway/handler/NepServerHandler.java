@@ -6,13 +6,14 @@ import com.example.nep.im.common.constant.NepHeartBeatConstant;
 import com.example.nep.im.common.constant.NepRedisConstant;
 import com.example.nep.im.common.constant.NepUserConstant;
 import com.example.nep.im.common.entity.session.NepUserClientInfo;
-import com.example.nep.im.common.entity.session.NepUserSession;
+import com.example.nep.im.common.entity.session.NepUserSessionInfo;
 import com.example.nep.im.common.enums.message.NepSystemMessageType;
 import com.example.nep.im.common.enums.status.NepConnectStatus;
-import com.fuyusakaiori.nep.im.codec.proto.NepMessageBody;
-import com.fuyusakaiori.nep.im.codec.proto.NepMessageHeader;
-import com.fuyusakaiori.nep.im.codec.proto.NepProtocol;
-import com.fuyusakaiori.nep.im.codec.proto.message.NepLoginMessage;
+import com.example.nep.im.common.entity.proto.NepMessageBody;
+import com.example.nep.im.common.entity.proto.NepMessageHeader;
+import com.example.nep.im.common.entity.proto.NepProtocol;
+import com.example.nep.im.common.entity.proto.message.NepLoginMessage;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.publish.NepServiceMessageProducer;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.util.NepUserSocketHolder;
 import io.netty.channel.ChannelHandlerContext;
@@ -36,20 +37,28 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         this.brokerId = brokerId;
     }
 
+    /**
+     * <h3>netty 服务器仅处理消息的分发逻辑, springboot 服务器处理用户和好友的管理逻辑</h3>
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext context, NepProtocol protocol) throws Exception {
         NepMessageHeader messageHeader = protocol.getMessageHeader();
         NepMessageBody messageBody = protocol.getMessageBody();
+        // 1. 处理器处理用户登录事件
         if (messageHeader.getMessageType() == NepSystemMessageType.LOGIN.getMessageType()){
-            // 1. 处理登陆请求
+            // 1.1. 处理登陆请求
             loginMessageHandler(messageHeader, messageBody, context);
-            // 2. 广播消息给其他服务器, 根据登陆模式踢出其他客户端
+            // 1.2. 广播消息给其他服务器, 根据登陆模式踢出其他客户端
             sendLoginMessage(messageHeader, messageBody);
         }else if (messageHeader.getMessageType() == NepSystemMessageType.LOGOUT.getMessageType()){
+            // 2. 处理器处理用户退出的事件
             logoutMessageHandler(context);
         }else if (messageHeader.getMessageType() == NepSystemMessageType.PING.getMessageType()){
-            // 设置上一次读写时间
+            // 3. 处理器处理心跳检测的事件
             context.channel().attr(AttributeKey.valueOf(NepHeartBeatConstant.LAST_READ_TIME)).set(System.currentTimeMillis());
+        }else{
+            // 4. 处理器处理消息事件
+            NepServiceMessageProducer.sendMessage(messageBody);
         }
     }
 
@@ -67,7 +76,7 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
                 messageHeader.getImeiBody(), (NioSocketChannel) context.channel());
         // 4. 保存用户的信息在 redis
         // 4.1 将消息转换为用户信息
-        NepUserSession userSession = transferUserSession(messageHeader, message);
+        NepUserSessionInfo userSession = transferUserSession(messageHeader, message);
         // 4.2 获取客户端
         RedissonClient redissonClient = NepRedisClient.getRedissonClient();
         // 4.3 拼接 field
@@ -122,8 +131,8 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         super.userEventTriggered(ctx, evt);
     }
 
-    private NepUserSession transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody) throws UnknownHostException {
-        return new NepUserSession()
+    private NepUserSessionInfo transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody) throws UnknownHostException {
+        return new NepUserSessionInfo()
                        .setUserId(messageBody.getUserId())
                        .setAppId(messageHeader.getAppId())
                        .setClientType(messageHeader.getClientType())

@@ -2,7 +2,6 @@ package com.fuyusakaiori.nep.im.service.core.user.entity.request.normal;
 
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepRegisterUser;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -18,11 +17,26 @@ public class NepRegisterUserRequest {
     /**
      * <h3>请求头</h3>
      */
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     /**
-     * <h3>用户资料集合</h3>
+     * <h3>用户账号: 默认用户账号和用户昵称初始时一致</h3>
      */
-    NepRegisterUser requestBody;
+    private String username;
+
+    /**
+     * <h3>用户昵称</h3>
+     */
+    private String nickname;
+
+    /**
+     * <h3>用户密码</h3>
+     */
+    private String password;
+
+    /**
+     * <h3>用户性别</h3>
+     */
+    private Integer gender;
 
 }

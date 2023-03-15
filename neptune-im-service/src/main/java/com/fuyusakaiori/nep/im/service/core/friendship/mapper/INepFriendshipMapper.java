@@ -55,4 +55,14 @@ public interface INepFriendshipMapper {
     List<NepFriendship> queryAllFriendship(@Param("appId") int appId, @Param("fromId") int friendFromId);
 
 
+    /**
+     * <h3>单向校验好友关系状态</h3>
+     */
+    int checkFriendshipStatus(@Param("appId") int appId, @Param("fromId") int friendFromId, @Param("toId") int friendToId);
+
+    /**
+     * <h3>双向校验好友关系</h3>
+     */
+    int checkBiFriendshipStatus(@Param("appId") int appId, @Param("fromId") int friendFromId, @Param("toId") int friendToId);
+
 }

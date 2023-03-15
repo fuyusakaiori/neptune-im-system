@@ -95,5 +95,27 @@
         where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_status = 0
     </select>
 
+    <select id="checkFriendshipStatus" resultType="_int">
+        select if(friendship_status = 0, 0, 1) as status from `im-system`.im_friendship
+        where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}
+    </select>
+
+    <select id="checkBiFriendshipStatus" resultType="_int">
+        select (
+        case
+        when a.status = 0 and b.status = 0 then 0 -- 表示双方都是好友
+        when a.status = 1 and b.status = 1 then 1 -- 表示双方都不是好友
+        when a.status = 1 and b.status = 0 then 2 -- 表示从左到右不是好友
+        when a.status = 0 and b.status = 1 then 3 -- 表示从右到左不是好友
+        end ) as status
+        from
+            (select if(friendship_status = 0, 0, 1) as status -- 校验从左到右的好友关系
+             from `im-system`.im_friendship
+             where app_id = #{appId} and friendship_from_id = #{fromId} and friendship_to_id = #{toId}) as a
+                inner join
+            (select if(friendship_status = 0, 0, 1) as status -- 校验从右到左的好友关系
+             from `im-system`.im_friendship
+             where app_id = #{appId} and friendship_from_id = #{toId} and friendship_to_id = #{fromId}) as b
+    </select>
 
 </mapper>

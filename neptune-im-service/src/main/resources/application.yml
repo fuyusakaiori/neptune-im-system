@@ -1,6 +1,6 @@
 # 服务端端口配置
 server:
-  port: 8080
+  port: 8081
 
 spring:
   profiles:
@@ -67,9 +67,8 @@ logging:
 
 appConfig:
   loadBalanceType: 1
-  consistentHash: 1
+  consistentHashType: 1
   callbackUrl: http://127.0.0.1:8989/callback
-  staleConnCheckEnabled: false
   editUserAfterCallBack: false
   addFriendshipBeforeCallBack: false
   addFriendshipAfterCallBack: false
@@ -78,10 +77,21 @@ appConfig:
   releaseAllFriendshipAfterCallBack: false
   addFriendInBlackListAfterCallBack: false
   removeFriendInBlackListCallBack: false
+  sendMessageCheckFriendship: true
+  sendMessageCheckFriendshipBlack: true
 
 zookeeper:
   zkAddress: 127.0.0.1:2181
   zkConnectTimeout: 5000
+
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:             #缩略图生成参数
+    width: 80
+    height: 80
+  tracker-list:            #TrackerList参数,支持多个
+    - 42.192.84.87:22122
 
 httpClient:
   maxConn: 100

@@ -17,7 +17,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipGroupService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendGroupParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendGroupParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         Integer groupOwnerId = request.getGroupOwnerId();
         String groupName = request.getGroupName();
         // 3. 查询用户
-        NepUser user = userMapper.querySimpleUserById(header.getAppId(), groupOwnerId);
+        NepUser user = userMapper.queryUserById(header.getAppId(), groupOwnerId);
         // 4. 校验用户是否存在
         if (Objects.isNull(user)){
             log.error("NepFriendshipGroupService createFriendshipGroup: 创建分组的用户不存在 - request: {}", request);
@@ -124,7 +124,7 @@ public class NepFriendshipGroupService implements INepFriendshipGroupService {
         NepRequestHeader header = request.getRequestHeader();
         Integer groupOwnerId = request.getGroupOwnerId();
         // 3. 查询用户
-        NepUser user = userMapper.querySimpleUserById(header.getAppId(), groupOwnerId);
+        NepUser user = userMapper.queryUserById(header.getAppId(), groupOwnerId);
         // 4. 校验用户是否存在
         if (Objects.isNull(user)){
             log.error("NepFriendshipGroupService queryAllFriendshipGroup: 该用户不存在 - request: {}", request);

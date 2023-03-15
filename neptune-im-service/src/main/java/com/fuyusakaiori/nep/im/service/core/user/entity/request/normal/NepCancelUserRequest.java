@@ -17,10 +17,10 @@ public class NepCancelUserRequest {
     /**
      * <h3>请求头</h3>
      */
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     /**
-     * <h3>需要删除的用户的 ID</h3>
+     * <h3>用户 ID</h3>
      */
     private Integer userId;
 

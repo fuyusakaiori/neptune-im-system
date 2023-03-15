@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.example.nep.im.common.constant.NepHeartBeatConstant;
 import com.example.nep.im.common.constant.NepRedisConstant;
 import com.example.nep.im.common.constant.NepUserConstant;
-import com.example.nep.im.common.entity.session.NepUserSession;
+import com.example.nep.im.common.entity.session.NepUserSessionInfo;
 import com.example.nep.im.common.enums.status.NepConnectStatus;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.util.NepUserSocketHolder;
@@ -68,7 +68,7 @@ public class NepHeartBeatHandler extends ChannelInboundHandlerAdapter {
         // 3.4 拼接 key
         String key = clientType + StrUtil.COLON + imei;
         // 3.5 获取 session
-        NepUserSession userSession = JSONUtil.toBean(sessionMap.get(key), NepUserSession.class);
+        NepUserSessionInfo userSession = JSONUtil.toBean(sessionMap.get(key), NepUserSessionInfo.class);
         if (Objects.isNull(userSession)){
             throw new RuntimeException("NepHeartBeatHandler hearBeatHandler: 用户 Session 不存在");
         }

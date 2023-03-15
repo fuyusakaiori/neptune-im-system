@@ -10,9 +10,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepRequestHeader
-{
+public class NepRequestHeader {
 
     private Integer appId;
+
+    private Integer clientType;
+
+    private String imei;
 
 }

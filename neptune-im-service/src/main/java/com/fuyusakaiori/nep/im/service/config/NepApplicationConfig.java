@@ -3,8 +3,8 @@ package com.fuyusakaiori.nep.im.service.config;
 
 import com.example.nep.im.common.enums.status.NepConsistentHashType;
 import com.example.nep.im.common.enums.status.NepLoadBalanceType;
-import com.fuyusakaiori.nep.im.service.support.route.INepLoadBalance;
-import com.fuyusakaiori.nep.im.service.support.route.algorithm.hash.NepAbstractConsistentHash;
+import com.fuyusakaiori.nep.im.service.route.INepLoadBalance;
+import com.fuyusakaiori.nep.im.service.route.algorithm.hash.NepAbstractConsistentHash;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +25,8 @@ public class NepApplicationConfig {
 
     private int consistentHashType;
 
+    private String callBackUrl;
+
     //================== 回调配置 ==================
 
     private boolean editUserAfterCallBack;
@@ -42,6 +44,12 @@ public class NepApplicationConfig {
     private boolean addFriendInBlackListAfterCallBack;
 
     private boolean removeFriendInBlackListCallBack;
+
+    //================== 消息配置 ==================
+
+    private boolean sendMessageCheckFriendship;
+
+    private boolean sendMessageCheckFriendshipBlack;
 
     @Bean(name = "loadBalance")
     public INepLoadBalance getLoadBalance() throws Exception {

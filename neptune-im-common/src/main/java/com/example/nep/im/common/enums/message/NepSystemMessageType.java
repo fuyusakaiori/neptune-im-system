@@ -15,19 +15,19 @@ public enum NepSystemMessageType implements INepBaseMessageType {
     LOGIN_ACK(0x2329),
 
     /**
-     * <h3>登出消息：9003</h3>
-     */
-    LOGOUT(0x232b),
-
-    /**
      * <h3>多端互斥下线: 9002</h3>
      */
     MUTUAL_LOGIN(0x232a),
 
     /**
-     * <h3>心跳检测</h3>
+     * <h3>登出消息：9003</h3>
      */
-    PING(0x270f),;
+    LOGOUT(0x232b),
+
+    /**
+     * <h3>心跳检测: 9999</h3>
+     */
+    PING(0x270f);
 
     private final int messageType;
 

@@ -1,12 +1,16 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.message.NepFriendshipMessageType;
+import com.example.nep.im.common.enums.status.NepFriendshipCheckType;
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NepAddFriendshipRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
-import com.fuyusakaiori.nep.im.service.core.util.transfer.NepTransferDtoUtil;
+import com.fuyusakaiori.nep.im.service.util.mq.publish.NepServiceToGateWayMessageProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,9 @@ public class NepFriendshipServiceImpl {
 
     @Autowired
     private INepFriendshipMapper friendshipMapper;
+
+    @Autowired
+    private NepServiceToGateWayMessageProducer messageProducer;
 
     @Transactional(rollbackFor = Exception.class)
     public int doAddFriendship(NepRequestHeader header, NepAddFriendship body){
@@ -47,8 +54,8 @@ public class NepFriendshipServiceImpl {
                 log.error("NeptuneFriendshipService addFriendship: 用户: {} 和 用户: {} 已经是好友了", friendFromId, friendToId);
                 return result;
             }
-            // 2.2.2: 需要重新更新好友关系的状态、备注、来源、附加信息、拓展字段
-            NepEditFriendship friendship = NepTransferDtoUtil.transferToEditFriendship(friendFromId, friendToId, remark, source, additionalInfo);
+            // TODO 2.2.2: 需要重新更新好友关系的状态、备注、来源、附加信息、拓展字段
+            NepEditFriendship friendship = BeanUtil.copyProperties(body, NepEditFriendship.class);
             // 2.2.3 如果好友关系没有被删除, 那么重新更新好友关系
             result = friendshipMapper.editFriendship(header.getAppId(), friendship, System.currentTimeMillis());
             if (result <= 0){
@@ -56,8 +63,28 @@ public class NepFriendshipServiceImpl {
                 return result;
             }
         }
+        // TODO 消息通知
+        messageProducer.sendMessage(header.getAppId(), friendFromId, NepFriendshipMessageType.FRIEND_ADD.getMessageType(),
+                new NepAddFriendshipRequest().setRequestHeader(header).setRequestBody(body));
+        messageProducer.sendMessage(header.getAppId(), friendToId, NepFriendshipMessageType.FRIEND_ADD.getMessageType(),
+                new NepAddFriendshipRequest().setRequestHeader(header).setRequestBody(body));
         return result;
     }
 
 
+    public int doCheckFriendship(int appId, int friendFromId, int friendToId, int checkType) {
+        // 1. 查询好友关系
+        NepFriendship friendship = friendshipMapper.queryFriendshipById(appId, friendFromId, friendToId);
+        // 2. 校验好友关系是否存在
+        if (Objects.isNull(friendship)){
+            // 注: 如果没有查出好友关系, 那么双方肯定不是好友
+            return NepFriendshipStatus.FRIENDSHIP_RELEASE.getStatus();
+        }
+        // 3. 校验好友关系
+        if (checkType == NepFriendshipCheckType.SINGLE.getType()){
+            return friendshipMapper.checkFriendshipStatus(appId, friendFromId, friendToId);
+        }else {
+            return friendshipMapper.checkBiFriendshipStatus(appId, friendFromId, friendToId);
+        }
+    }
 }

@@ -21,6 +21,7 @@
 		<zookeeper.version>3.4.13</zookeeper.version>
 		<curator.version>4.2.0</curator.version>
 		<curator.recipes.version>4.2.0</curator.recipes.version>
+		<fastdfs.version>1.26.2</fastdfs.version>
 		<lombok.version>1.18.26</lombok.version>
 		<hutool.version>5.8.11</hutool.version>
 	</properties>
@@ -102,6 +103,12 @@
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
 			<version>${curator.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>zookeeper</artifactId>
+					<groupId>org.apache.zookeeper</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -116,6 +123,29 @@
 			</exclusions>
 		</dependency>
 
+		<!-- fastdfs client -->
+		<dependency>
+			<groupId>com.github.tobato</groupId>
+			<artifactId>fastdfs-client</artifactId>
+			<version>${fastdfs.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jcl-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>logback-classic</artifactId>
+					<groupId>ch.qos.logback</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- http client -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>

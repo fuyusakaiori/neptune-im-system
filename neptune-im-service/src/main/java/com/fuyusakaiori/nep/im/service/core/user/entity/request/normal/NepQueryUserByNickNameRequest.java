@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepQueryUserByNickNameRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private String userNickName;
 }

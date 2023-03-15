@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/neptune-im-codec/neptune-im-codec.iml" filepath="$PROJECT_DIR$/neptune-im-codec/neptune-im-codec.iml" />
       <module fileurl="file://$PROJECT_DIR$/neptune-im-common/neptune-im-common.iml" filepath="$PROJECT_DIR$/neptune-im-common/neptune-im-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/neptune-im-gateway/neptune-im-gateway.iml" filepath="$PROJECT_DIR$/neptune-im-gateway/neptune-im-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/neptune-im-service/neptune-im-service.iml" filepath="$PROJECT_DIR$/neptune-im-service/neptune-im-service.iml" />

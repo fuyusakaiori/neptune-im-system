@@ -1,8 +1,8 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
 import com.example.nep.im.common.constant.NepHeartBeatConstant;
-import com.fuyusakaiori.nep.im.codec.NepMessageDecoder;
-import com.fuyusakaiori.nep.im.codec.NepMessageEncoder;
+import com.fuyusakaiori.nep.im.gateway.codec.NepMessageDecoder;
+import com.fuyusakaiori.nep.im.gateway.codec.NepMessageEncoder;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.handler.NepHeartBeatHandler;
 import com.fuyusakaiori.nep.im.gateway.handler.NepServerHandler;

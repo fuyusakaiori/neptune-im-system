@@ -50,7 +50,7 @@ public class NepWebSocketServer {
                         // 3. 添加大数据量处理器
                         channel.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
                         // 4. 添加数据聚合处理器: HTTP 消息在传输的过程中可能因为某些原因被分成多个 - 数据聚合器就是为了将多个消息重新合并成一个 HTTP 请求
-                        channel.pipeline().addLast("http-aggregator", new HttpObjectAggregator(65535));
+                        channel.pipeline().addLast("http-aggregator", new HttpObjectAggregator(1024 * 64));
                         // 5. 添加路由处理器: WebSocket协议指定客户端访问服务端的路由
                         channel.pipeline().addLast("websocket-protocol", new WebSocketServerProtocolHandler("/nep"));
                         // 6. 添加业务逻辑处理器

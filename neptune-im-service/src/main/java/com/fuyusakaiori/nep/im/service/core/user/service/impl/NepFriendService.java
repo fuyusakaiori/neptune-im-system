@@ -19,7 +19,7 @@ import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQuery
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepQueryUserResponse;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepFriendService;
-import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,7 +73,7 @@ public class NepFriendService implements INepFriendService {
         List<Integer> friendIdList = friendshipList.stream()
                                              .map(NepFriendship::getFriendshipToId)
                                              .collect(Collectors.toList());
-        List<NepUser> friendList = userMapper.querySimpleUserByIdList(header.getAppId(), friendIdList);
+        List<NepUser> friendList = userMapper.queryUserByIdList(header.getAppId(), friendIdList);
         // 4. 检查结果
         if (CollectionUtil.isEmpty(friendList)){
             log.info("NepFriendUserService queryAllFriendUser: 没有根据用户的好友关系查询到相应的用户 - request: {}", request);
@@ -103,7 +103,7 @@ public class NepFriendService implements INepFriendService {
         String userAccount = request.getUserAccount();
         // 注: 因为无法直接通过账号查询好友关系, 所以先查询用户, 然后再判断是否是好友
         // 3. 查询用户
-        NepUser user = userMapper.querySimpleUserByAccount(header.getAppId(), userAccount);
+        NepUser user = userMapper.queryUserByUserName(header.getAppId(), userAccount);
         // 4. 判断用户是否存在
         if (Objects.isNull(user)){
             log.error("NepFriendUserService queryFriendByAccount: 参数校验失败 - request: {}", request);
@@ -166,7 +166,7 @@ public class NepFriendService implements INepFriendService {
 
     private List<NepUser> getFriendByNickName(NepRequestHeader header, Integer friendFromId, String friendName) {
         // 1. 根据昵称查询用户
-        List<NepUser> userList = userMapper.querySimpleUserByNickName(header.getAppId(), friendName);
+        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), friendName);
         if (CollectionUtil.isEmpty(userList)){
             return Collections.emptyList();
         }
@@ -198,7 +198,7 @@ public class NepFriendService implements INepFriendService {
             return Collections.emptyList();
         }
         // 2. 通过好友关系查询对应的用户
-        List<NepUser> friendByRemark = userMapper.querySimpleUserByIdList(header.getAppId(), friendIdListByRemark);
+        List<NepUser> friendByRemark = userMapper.queryUserByIdList(header.getAppId(), friendIdListByRemark);
         if (CollectionUtil.isEmpty(friendByRemark)){
             return Collections.emptyList();
         }
@@ -228,7 +228,7 @@ public class NepFriendService implements INepFriendService {
                            .setMessage(NepFriendshipBlackResponseCode.FRIEND_BLACK_NOT_EXIST.getMessage());
         }
         // 4. 查询被拉黑好友的简易信息
-        List<NepUser> blackUserList = userMapper.querySimpleUserByIdList(header.getAppId(), friendToIdList);
+        List<NepUser> blackUserList = userMapper.queryUserByIdList(header.getAppId(), friendToIdList);
         if(CollectionUtil.isEmpty(blackUserList)){
             log.error("NepFriendService queryAllFriendBlackList: 用户拉黑的好友不存在 - request: {}", request);
             return response.setUserList(Collections.emptyList())
@@ -265,7 +265,7 @@ public class NepFriendService implements INepFriendService {
         // TODO 将所有未读的好友申请变为已读
 
         // 4. 查询发出申请的用户信息
-        List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), applicationList.stream()
+        List<NepUser> userList = userMapper.queryUserByIdList(header.getAppId(), applicationList.stream()
                                                                                                .map(NepFriendshipApplication::getFriendshipFromId)
                                                                                                .collect(Collectors.toList()));
         if(CollectionUtil.isEmpty(userList)){
@@ -290,9 +290,9 @@ public class NepFriendService implements INepFriendService {
         Map<Integer, NepQueryFriendApplication> map = userList.stream()
                                                               .map(user -> new NepQueryFriendApplication()
                                                                                    .setFriendFromId(user.getUserId())
-                                                                                   .setFriendAccount(user.getUserAccount())
-                                                                                   .setFriendNickName(user.getUserNickName())
-                                                                                   .setFriendAvatarAddress(user.getUserAvatarAddress()))
+                                                                                   .setFriendAccount(user.getUsername())
+                                                                                   .setFriendNickName(user.getNickname())
+                                                                                   .setFriendAvatarAddress(user.getAvatarAddress()))
                                                               .collect(Collectors.toMap(NepQueryFriendApplication::getFriendFromId, NepQueryFriendApplication -> NepQueryFriendApplication));
         // 2. 将好友申请中的信息填充到返回结果中
         for (NepFriendshipApplication application : applicationList) {
@@ -350,7 +350,7 @@ public class NepFriendService implements INepFriendService {
         for(Map.Entry<Integer, List<Integer>> entry : groupIdAndGroupMemberIdList.entrySet()){
             Integer groupId = entry.getKey();
             List<Integer> groupMemberIdList = entry.getValue();
-            List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), groupMemberIdList);
+            List<NepUser> userList = userMapper.queryUserByIdList(header.getAppId(), groupMemberIdList);
             NepFriendshipGroup friendshipGroup = groupList.get(groupId);
             NepFriendGroup friendGroup = transferFriendshipGroupToFriendGroup(friendshipGroup);
             List<NepFriend> friendGroupMemberList = userList.stream().map(this::transferUserToFriend).collect(Collectors.toList());
@@ -370,9 +370,9 @@ public class NepFriendService implements INepFriendService {
     private NepFriend transferUserToFriend(NepUser user) {
         return new NepFriend()
                        .setUserId(user.getUserId())
-                       .setUserAccount(user.getUserAccount())
-                       .setUserNickName(user.getUserNickName())
-                       .setUserAvatarAddress(user.getUserAvatarAddress())
-                       .setUserSelfSignature(user.getUserSelfSignature());
+                       .setUserAccount(user.getUsername())
+                       .setUserNickName(user.getNickname())
+                       .setUserAvatarAddress(user.getAvatarAddress())
+                       .setUserSelfSignature(user.getSelfSignature());
     }
 }

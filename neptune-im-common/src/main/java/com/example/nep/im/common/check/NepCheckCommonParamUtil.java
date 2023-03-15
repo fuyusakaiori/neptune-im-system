@@ -7,12 +7,6 @@ import java.util.Objects;
  */
 public class NepCheckCommonParamUtil {
 
-    /**
-     * <h3>校验用户 ID 是否为空</h3>
-     */
-    public static boolean checkUserUniqueId(Integer userId){
-        return !Objects.isNull(userId) && userId > 0;
-    }
 
     /**
      * <h3>校验好友关系的双方 ID是否为空</h3>

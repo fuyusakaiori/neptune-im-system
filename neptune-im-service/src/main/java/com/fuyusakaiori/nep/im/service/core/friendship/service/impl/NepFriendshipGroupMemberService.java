@@ -15,7 +15,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipGroupMemberService;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
-import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendGroupMemberParamUtil;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendGroupMemberParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +65,7 @@ public class NepFriendshipGroupMemberService implements INepFriendshipGroupMembe
         // 7. 首先向好友分组中添加没有加入任何分组的成员
         if (CollectionUtil.isNotEmpty(groupDisjointMemberIdList)){
             // 7.1 查询这些没有加入分组的用户是否存在
-            List<NepUser> userList = userMapper.querySimpleUserByIdList(header.getAppId(), groupDisjointMemberIdList);
+            List<NepUser> userList = userMapper.queryUserByIdList(header.getAppId(), groupDisjointMemberIdList);
             if (CollectionUtil.isEmpty(userList) || userList.size() != groupDisjointMemberIdList.size()){
                 log.error("NepFriendshipApplicationService addFriendshipGroupMember: 移入好友分组中的好友不存在或者部分不存在 - request: {}", request);
                 return response.setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())

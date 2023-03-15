@@ -12,8 +12,8 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepR
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepCheckFriendshipBlackResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.service.INepFriendshipBlackService;
-import com.fuyusakaiori.nep.im.service.support.callback.INepCallBackService;
-import com.fuyusakaiori.nep.im.service.core.util.check.NepCheckFriendshipBlackParamUtil;
+import com.fuyusakaiori.nep.im.service.util.callback.INepCallBackService;
+import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendshipBlackParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,7 +103,7 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         Integer checkType = request.getCheckType();
-        int result = friendshipBlackServiceImpl.checkFriendInBlackList(header, friendFromId, friendToId, checkType);
+        int result = friendshipBlackServiceImpl.doCheckFriendInBlackList(header.getAppId(), friendFromId, friendToId, checkType);
         if (result < 0){
             log.error("NepFriendshipBlackService checkFriendInBlackList: 校验好友关系的拉黑状态失败 - fromId: {}, toId: {}", friendFromId, friendToId);
             return response.setCode(NepFriendshipBlackResponseCode.FRIEND_CHECK_BLACK_FAIL.getCode())
