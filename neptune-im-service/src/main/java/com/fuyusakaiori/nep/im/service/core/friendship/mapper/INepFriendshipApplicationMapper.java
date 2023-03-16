@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepSendFriendshipApplication;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,12 +12,12 @@ public interface INepFriendshipApplicationMapper {
     /**
      * <h3>新增好友申请: 外部调用</h3>
      */
-    int sendFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int sendFriendshipApplication(@Param("appId") int appId, @Param("application") NepFriendshipApplication application);
 
     /**
      * <h3>更新好友申请：内部调用</h3>
      */
-    int updateFriendshipApplication(@Param("appId") int appId, @Param("application") NepSendFriendshipApplication application, @Param("updateTime") long updateTime);
+    int updateFriendshipApplication(@Param("appId") int appId, @Param("application") NepFriendshipApplication application);
 
     /**
      * <h3>审批好友请求是否通过: 外部调用</h3>

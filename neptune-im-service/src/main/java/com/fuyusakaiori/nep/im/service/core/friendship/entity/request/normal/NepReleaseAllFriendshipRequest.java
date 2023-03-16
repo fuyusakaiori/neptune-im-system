@@ -9,9 +9,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NeptuneReleaseAllFriendshipRequest {
+public class NepReleaseAllFriendshipRequest
+{
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer friendFromId;
 

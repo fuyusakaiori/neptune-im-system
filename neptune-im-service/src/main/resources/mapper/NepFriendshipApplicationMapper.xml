@@ -3,11 +3,13 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper">
 
     <resultMap id="applicationMap" type="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
+        <result property="friendFromId" column="friendship_from_id"/>
+        <result property="friendToId" column="friendship_to_id"/>
+        <result property="friendRemark" column="friendship_apply_remark"/>
+        <result property="friendshipSource" column="friendship_apply_source"/>
+        <result property="additionalInfo" column="friendship_apply_additional_info"/>
         <result property="applyReadStatus" column="friendship_apply_read_status"/>
-        <result property="applyRemark" column="friendship_apply_remark"/>
-        <result property="applyAdditionalInfo" column="friendship_apply_additional_info"/>
         <result property="applyApproveStatus" column="friendship_apply_approve_status"/>
-        <result property="applySource" column="friendship_apply_source"/>
         <result property="createTime" column="friendship_apply_create_time"/>
         <result property="updateTime" column="friendship_apply_update_time"/>
     </resultMap>
@@ -17,8 +19,8 @@
         (friendship_from_id, friendship_to_id, app_id, friendship_apply_additional_info, friendship_apply_remark,
          friendship_apply_source, friendship_apply_create_time, friendship_apply_update_time)
         values
-        (#{application.friendFromId},#{application.friendToId},#{appId},#{application.additionalInfo},#{application.remark},
-         #{application.source},#{createTime},#{updateTime})
+        (#{application.friendFromId},#{application.friendToId},#{appId},#{application.additionalInfo},#{application.friendRemark},
+         #{application.friendshipSource},#{application.createTime},#{application.updateTime})
     </insert>
 
     <update id="updateFriendshipApplication">
@@ -26,9 +28,9 @@
         <set>
             friendship_apply_read_status = 0, friendship_apply_approve_status = 0,
             <if test="application.additionalInfo != null">friendship_apply_additional_info = #{application.additionalInfo},</if>
-            <if test="application.remark != null">friendship_apply_remark = #{application.remark},</if>
-            <if test="application.source != null">friendship_apply_source = #{application.source},</if>
-            <if test="updateTime != null">friendship_apply_update_time = #{updateTime},</if>
+            <if test="application.friendRemark != null">friendship_apply_remark = #{application.friendRemark},</if>
+            <if test="application.friendshipSource != null">friendship_apply_source = #{application.friendshipSourc},</if>
+            <if test="application.updateTime != null">friendship_apply_update_time = #{application.updateTime},</if>
         </set>
         where app_id = #{appId} and friendship_from_id = #{application.friendFromId} and friendship_to_id = #{application.friendToId}
     </update>

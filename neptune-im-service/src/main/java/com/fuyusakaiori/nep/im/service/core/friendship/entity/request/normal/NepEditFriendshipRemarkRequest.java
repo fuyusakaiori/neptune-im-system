@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepEditFriendshipRemarkRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer friendFromId;
 

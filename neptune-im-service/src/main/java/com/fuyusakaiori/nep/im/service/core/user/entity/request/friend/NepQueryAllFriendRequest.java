@@ -8,10 +8,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryAllFriendRequest
-{
+public class NepQueryAllFriendRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer friendFromId;
 

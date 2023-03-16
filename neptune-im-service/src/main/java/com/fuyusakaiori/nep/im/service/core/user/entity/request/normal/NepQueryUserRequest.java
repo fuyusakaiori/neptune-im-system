@@ -11,10 +11,11 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryUserByUserNameRequest {
+public class NepQueryUserRequest {
 
     private NepRequestHeader header;
 
     private String username;
 
+    private String nickname;
 }

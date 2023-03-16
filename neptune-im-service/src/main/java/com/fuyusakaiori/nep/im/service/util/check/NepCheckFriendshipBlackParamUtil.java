@@ -1,10 +1,9 @@
 package com.fuyusakaiori.nep.im.service.util.check;
 
 
-import com.example.nep.im.common.check.NepCheckCommonParamUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.status.NepFriendshipBlackCheckType;
-import com.example.nep.im.common.check.NepCheckBaseParamUtil;
+import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepAddFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepCheckFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepRemoveFriendshipBlackRequest;
@@ -16,27 +15,37 @@ public class NepCheckFriendshipBlackParamUtil {
         NepRequestHeader header = request.getRequestHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-        return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)
-                       && NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId);
+        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(friendFromId) || friendFromId <= 0 || Objects.isNull(friendToId) || friendToId <= 0){
+            return false;
+        }
+        return true;
     }
 
     public static boolean checkRemoveFriendInBlackListRequestParam(NepRemoveFriendshipBlackRequest request) {
         NepRequestHeader header = request.getRequestHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-        return NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)
-                       && NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId);
+        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(friendFromId) || friendFromId <= 0 || Objects.isNull(friendToId) || friendToId <= 0){
+            return false;
+        }
+        return true;
     }
 
     public static boolean checkVerifyFriendInBlackListRequestParam(NepCheckFriendshipBlackRequest request) {
-        NepRequestHeader header = request.getRequestHeader();
+        NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         Integer checkType = request.getCheckType();
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (!NepCheckCommonParamUtil.checkFriendshipUniqueId(friendFromId, friendToId)){
+        if (Objects.isNull(friendFromId) || friendFromId <= 0 || Objects.isNull(friendToId) || friendToId <= 0){
             return false;
         }
         if (Objects.isNull(checkType) || !NepFriendshipBlackCheckType.isIllegalBlackCheckType(checkType)){

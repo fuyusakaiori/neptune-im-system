@@ -22,7 +22,7 @@ public class NepFriendshipApplicationServiceTest {
     public void approveFriendshipApplication(){
         NepRequestHeader header = new NepRequestHeader().setAppId(1);
         NepApproveFriendshipApplicationRequest request = new NepApproveFriendshipApplicationRequest()
-                                                                 .setRequestHeader(header)
+                                                                 .setHeader(header)
                                                                  .setApproveStatus(NepFriendshipApplicationApproveStatus.AGREE.getStatus())
                                                                  .setApplyId(3);
         NepApproveFriendshipApplicationResponse response = friendshipApplicationService.approveFriendshipApplication(request);

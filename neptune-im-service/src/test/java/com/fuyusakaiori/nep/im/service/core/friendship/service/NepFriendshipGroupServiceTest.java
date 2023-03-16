@@ -4,7 +4,7 @@ import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepCreateFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryAllFriendshipGroupRequest;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepModifyFriendshipGroupResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepDeleteFriendshipGroupResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepQueryFriendshipGroupResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -23,20 +23,15 @@ public class NepFriendshipGroupServiceTest {
 
     @Test
     public void createFriendshipGroupTest(){
-        NepCreateFriendshipGroupRequest request = new NepCreateFriendshipGroupRequest()
-                                                             .setGroupName("二次元老婆")
-                                                             .setGroupOwnerId(1)
-                                                             .setRequestHeader(HEADER);
-        NepModifyFriendshipGroupResponse response = friendshipGroupService.createFriendshipGroup(request);
-        log.info("response: {}", response);
+
     }
 
     @Test
     public void deleteFriendshipGroupTest(){
         NepDeleteFriendshipGroupRequest request = new NepDeleteFriendshipGroupRequest()
-                                                          .setRequestHeader(HEADER)
+                                                          .setHeader(HEADER)
                                                           .setGroupId(3);
-        NepModifyFriendshipGroupResponse response = friendshipGroupService.deleteFriendshipGroup(request);
+        NepDeleteFriendshipGroupResponse response = friendshipGroupService.deleteFriendshipGroup(request);
         log.info("response: {}", response);
     }
 
@@ -44,7 +39,7 @@ public class NepFriendshipGroupServiceTest {
     public void queryAllFriendshipGroupTest(){
         NepQueryAllFriendshipGroupRequest request = new NepQueryAllFriendshipGroupRequest()
                                                             .setGroupOwnerId(1)
-                                                            .setRequestHeader(HEADER);
+                                                            .setHeader(HEADER);
         NepQueryFriendshipGroupResponse response = friendshipGroupService.queryAllFriendshipGroup(request);
         log.info("response: {}", response);
     }

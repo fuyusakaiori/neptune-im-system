@@ -3,14 +3,15 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepAddFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepCheckFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepRemoveFriendshipBlackRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepBlackFriendshipResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.black.NepCheckFriendshipBlackResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepReleaseFriendshipResponse;
 
 public interface INepFriendshipBlackService {
 
-    NepModifyFriendshipResponse addFriendInBlackList(NepAddFriendshipBlackRequest request);
+    NepBlackFriendshipResponse addFriendInBlackList(NepAddFriendshipBlackRequest request);
 
-    NepModifyFriendshipResponse removeFriendInBlackList(NepRemoveFriendshipBlackRequest request);
+    NepBlackFriendshipResponse removeFriendInBlackList(NepRemoveFriendshipBlackRequest request);
 
     NepCheckFriendshipBlackResponse checkFriendInBlackList(NepCheckFriendshipBlackRequest request);
 

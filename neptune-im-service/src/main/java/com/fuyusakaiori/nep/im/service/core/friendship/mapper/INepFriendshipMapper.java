@@ -2,7 +2,6 @@ package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,12 +13,12 @@ public interface INepFriendshipMapper {
     /**
      * <h3>双向添加好友关系: 外部调用</h3>
      */
-    int addFriendship(@Param("appId") int appId, @Param("friendship") NepAddFriendship friendship, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int addFriendship(@Param("appId") int appId, @Param("friendship") NepFriendship friendship);
 
     /**
      * <h3>单向更新好友关系: 内部调用</h3>
      */
-    int editFriendship(@Param("appId") int appId, @Param("friendship") NepEditFriendship friendship, @Param("updateTime") long updateTime);
+    int editFriendship(@Param("appId") int appId, @Param("friendship") NepFriendship friendship);
 
     int editFriendshipRemark(@Param("appId") int appId, @Param("fromId") int friendshipFromId, @Param("toId") int friendshipToId, @Param("remark") String remark, @Param("updateTime") long updateTime);
 

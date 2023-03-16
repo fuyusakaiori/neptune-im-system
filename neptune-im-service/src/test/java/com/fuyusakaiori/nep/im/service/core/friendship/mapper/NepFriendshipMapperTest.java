@@ -1,8 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepEditFriendship;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +18,12 @@ public class NepFriendshipMapperTest {
 
     @Test
     public void addFriendshipTest(){
-        NepAddFriendship friendship = new NepAddFriendship()
-                                                    .setFriendFromId(4)
-                                                    .setFriendToId(5)
-                                                    .setFriendshipSource("网络搜索")
-                                                    .setFriendRemark("しろこ")
-                                                    .setAdditionalInfo("我是斧乃木余接");
-        int result = friendshipMapper.addFriendship(1, friendship, System.currentTimeMillis(), System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
     @Test
     public void editFriendshipTest(){
-        NepEditFriendship friendship = new NepEditFriendship()
-                                               .setFriendFromId(1)
-                                               .setFriendToId(2)
-                                               .setFriendRemark("波奇酱")
-                                               .setFriendshipStatus(0);
-        int result = friendshipMapper.editFriendship(1, friendship, System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
     @Test

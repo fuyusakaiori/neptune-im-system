@@ -13,9 +13,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NeptuneReleaseFriendshipRequest {
+public class NepReleaseFriendshipRequest
+{
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     /**
      * <h3>好友关系的发起者</h3>

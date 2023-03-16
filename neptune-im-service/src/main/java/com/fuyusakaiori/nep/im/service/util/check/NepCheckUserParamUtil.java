@@ -2,7 +2,7 @@ package com.fuyusakaiori.nep.im.service.util.check;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.example.nep.im.common.check.NepCheckBaseParamUtil;
+import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 
 import java.util.Objects;
@@ -76,29 +76,22 @@ public class NepCheckUserParamUtil {
     /**
      * <h3>校验通过账号查询用户的请求</h3>
      */
-    public static boolean checkNepQueryUserByAccountRequestParam(NepQueryUserByUserNameRequest request){
+    public static boolean checkNepQueryUserRequestParam(NepQueryUserRequest request){
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();
-        String userAccount = request.getUsername();
+        String username = request.getUsername();
+        String nickname = request.getNickname();
         // 2. 校验请求头
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
         // 3. 校验用户账号是否合法
-        return !StrUtil.isEmpty(userAccount);
-    }
-
-    public static boolean checkNepQueryUserByNickNameRequestParam(NepQueryUserByNickNameRequest request){
-        // 1. 获取变量
-        NepRequestHeader header = request.getHeader();
-        String userNickName = request.getUserNickName();
-        // 2. 校验请求头
-        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+        if (StrUtil.isEmpty(username) && StrUtil.isEmpty(nickname)){
             return false;
         }
-        // 3. 校验用户昵称是否合法
-        return !StrUtil.isEmpty(userNickName);
+        return true;
     }
+
 
     public static boolean checkNepLoginUserInImSystemRequestParam(NepLoginUserRequest request) {
         // 1. 获取变量

@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepCreateFriendshipGroup;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +12,7 @@ public interface INepFriendshipGroupMapper {
     /**
      * <h3>创建分组: 对外调用</h3>
      */
-    int createFriendshipGroup(@Param("appId") int appId, @Param("group") NepCreateFriendshipGroup group, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
+    int createFriendshipGroup(@Param("appId") int appId, @Param("group") NepFriendshipGroup group);
 
     /**
      * <h3>删除分组: 对外调用</h3>

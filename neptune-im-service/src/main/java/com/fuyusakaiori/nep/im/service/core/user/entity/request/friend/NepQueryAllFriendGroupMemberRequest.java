@@ -16,7 +16,7 @@ public class NepQueryAllFriendGroupMemberRequest {
     /**
      * <h3>请求头</h3>
      */
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     /**
      * <h3>好友分组的创建 ID</h3>

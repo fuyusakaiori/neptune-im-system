@@ -2,6 +2,7 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
+import com.example.nep.im.common.enums.code.NepFriendshipApplicationResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipBlackResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.apply.NepApproveFriendshipApplicationResponse;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
@@ -24,23 +25,30 @@ public class NepFriendshipApplicationService implements INepFriendshipApplicatio
         NepApproveFriendshipApplicationResponse response = new NepApproveFriendshipApplicationResponse();
         // 1. 参数校验
         if (NepCheckFriendshipApplicationParamUtil.checkApproveFriendshipApplicationRequestParam(request)){
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: 参数校验失败 - request: {}", request);
-            return response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
-                           .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
+            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
+            log.error("NepFriendshipApplicationService approveFriendshipApplication: 参数校验失败 - request: {}, response: {}", request, response);
+            return response;
         }
-        // 2. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
-        Integer applyId = request.getApplyId();
-        Integer approveStatus = request.getApproveStatus();
-        // 3. 审批好友申请
-        int result = friendshipApplicationServiceImpl.doApproveFriendshipApplication(header, applyId, approveStatus);
-        if (result <= 0){
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求失败 - request: {}", request);
-            return response.setCode(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getCode())
-                           .setMessage(NepFriendshipBlackResponseCode.FRIEND_BLACK_FAIL.getMessage());
+        // 2. 审批请求
+        try {
+            int result = friendshipApplicationServiceImpl.doApproveFriendshipApplication(request);
+            if (result <= 0){
+                response.setCode(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_APPROVED.getCode())
+                        .setMessage(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_APPROVED.getMessage());
+                log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求失败 - request: {}, response: {}", request, response);
+                return response;
+            }
+            response.setCode(NepBaseResponseCode.SUCCESS.getCode())
+                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+            log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求成功 - request: {}, response: {}", request, response);
+            return response;
+        }catch (Exception exception){
+            response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+                    .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
+            log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求出现异常 - request: {}, response: {}", request, response, exception);
+            return response;
         }
-        return response.setCode(NepBaseResponseCode.SUCCESS.getCode())
-                       .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
     }
 
 

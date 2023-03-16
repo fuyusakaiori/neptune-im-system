@@ -3,8 +3,6 @@ package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
-import com.example.nep.im.common.constant.NepCallBackConstant;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
@@ -20,9 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -148,33 +145,38 @@ public class NepUserServiceImpl {
         return userMapper.cancelUser(appId, userId, System.currentTimeMillis());
     }
 
-
-    public List<NepUser> doQueryUserByNickName(NepQueryUserByNickNameRequest request) {
-        // 1. 获取变量
-        NepRequestHeader header = request.getHeader();
-        String nickname = request.getUserNickName();
-        // 3. 查询结果
-        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), nickname);
-        // 4. 检查结果
-        if (CollectionUtil.isEmpty(userList)){
-            log.info("NeptuneUserService doQueryUserByNickName: 没有查询到任何用户 - request: {}", request);
-            return Collections.emptyList();
-        }
-        return userList;
-    }
-
-    public NepUser doQueryUserByUserName(NepQueryUserByUserNameRequest request) {
+    public List<NepUser> doQueryUser(NepQueryUserRequest request) {
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();
         String username = request.getUsername();
-        // 2. 查询结果
+        String nickname = request.getNickname();
+        // 2. 根据用户名查询用户
         NepUser user = userMapper.queryUserByUserName(header.getAppId(), username);
-        // 3. 检查结果
-        if (Objects.isNull(user) || user.isDelete()){
-            log.info("NeptuneUserService doQueryUserByUserName: 没有查询到相应的用户 - request: {}", request);
-            return null;
+        // 3. 根据昵称查询用户
+        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), nickname);
+        // 4. 检查结果
+        if ((Objects.isNull(user) || user.isDelete()) && CollectionUtil.isEmpty(userList)){
+            log.info("NeptuneUserService doQueryUser: 没有查询到相应的用户 - request: {}", request);
+            return Collections.emptyList();
         }
-        return user;
+        // 5. 合并结果
+        List<NepUser> currentUserList = new ArrayList<>();
+        if (Objects.nonNull(user)){
+            currentUserList.add(user);
+        }
+        if (CollectionUtil.isNotEmpty(userList)) {
+            currentUserList.addAll(userList);
+        }
+        // 6. 结果去重
+        Set<Integer> currentUserIdSet = currentUserList.stream().map(NepUser::getUserId).collect(Collectors.toSet());
+        // 7. 得到新的结果
+        List<NepUser> searchUserList = new ArrayList<>();
+        currentUserList.forEach(current -> {
+            if (currentUserIdSet.contains(current.getUserId())){
+                searchUserList.add(current);
+            }
+        });
+        return searchUserList;
     }
 
     public NepUser doLoginUserInImSystem(NepLoginUserRequest request) {

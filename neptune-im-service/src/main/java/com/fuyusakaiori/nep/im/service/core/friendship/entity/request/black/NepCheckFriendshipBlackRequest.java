@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepCheckFriendshipBlackRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer friendFromId;
 

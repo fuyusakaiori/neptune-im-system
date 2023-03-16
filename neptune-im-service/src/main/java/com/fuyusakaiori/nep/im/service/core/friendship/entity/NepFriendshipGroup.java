@@ -27,10 +27,10 @@ public class NepFriendshipGroup {
     /**
      * <h3>分组是否被删除</h3>
      */
-    private Boolean isDelete;
+    private boolean delete;
 
-    private Long createTime;
+    private long createTime;
 
-    private Long updateTime;
+    private long updateTime;
 
 }

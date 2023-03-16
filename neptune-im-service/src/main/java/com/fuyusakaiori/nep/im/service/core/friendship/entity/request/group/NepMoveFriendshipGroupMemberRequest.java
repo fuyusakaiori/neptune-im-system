@@ -10,10 +10,9 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepMoveFriendshipGroupMemberRequest
-{
+public class NepMoveFriendshipGroupMemberRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer groupId;
 

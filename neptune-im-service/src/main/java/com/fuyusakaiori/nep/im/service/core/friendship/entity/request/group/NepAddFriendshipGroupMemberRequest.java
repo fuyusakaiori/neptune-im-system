@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class NepAddFriendshipGroupMemberRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer groupId;
 

@@ -6,7 +6,7 @@
         <id property="groupId" column="friendship_group_id"/>
         <result property="groupOwnerId" column="friendship_group_owner_id"/>
         <result property="groupName" column="friendship_group_name"/>
-        <result property="isDelete" column="friendship_group_is_del"/>
+        <result property="delete" column="friendship_group_is_del"/>
         <result property="createTime" column="friendship_group_create_time"/>
         <result property="updateTime" column="friendship_group_update_time"/>
     </resultMap>
@@ -16,7 +16,7 @@
         insert into `im-system`.im_friendship_group
         (friendship_group_owner_id, friendship_group_name, app_id, friendship_group_create_time, friendship_group_update_time)
         values
-        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{createTime}, #{updateTime})
+        (#{group.groupOwnerId}, #{group.groupName}, #{appId}, #{group.createTime}, #{group.updateTime})
     </insert>
 
     <!-- 删除好友分组 -->

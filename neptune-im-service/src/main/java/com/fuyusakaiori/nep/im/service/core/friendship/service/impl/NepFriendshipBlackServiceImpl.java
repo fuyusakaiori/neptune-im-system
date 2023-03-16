@@ -4,6 +4,8 @@ import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.status.NepFriendshipBlackCheckType;
 import com.example.nep.im.common.enums.status.NepFriendshipBlackStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepAddFriendshipBlackRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.black.NepRemoveFriendshipBlackRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipBlackMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,11 @@ public class NepFriendshipBlackServiceImpl {
     private INepFriendshipBlackMapper friendshipBlackMapper;
 
 
-    public int doAddFriendInBlackList(NepRequestHeader header, int friendFromId, int friendToId){
+    public int doAddFriendInBlackList(NepAddFriendshipBlackRequest request){
+        // 0. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        Integer friendFromId = request.getFriendFromId();
+        Integer friendToId = request.getFriendToId();
         // 1. 查询好友关系
         NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
         // 2. 校验好友关系是否存在
@@ -41,7 +47,11 @@ public class NepFriendshipBlackServiceImpl {
         return friendshipBlackMapper.addFriendInBlackList(header.getAppId(), friendFromId, friendToId, System.currentTimeMillis());
     }
 
-    public int doRemoveFriendInBlackList(NepRequestHeader header, int friendFromId, int friendToId){
+    public int doRemoveFriendInBlackList(NepRemoveFriendshipBlackRequest request){
+        // 0. 获取变量
+        NepRequestHeader header = request.getRequestHeader();
+        Integer friendFromId = request.getFriendFromId();
+        Integer friendToId = request.getFriendToId();
         // 1. 查询好友关系
         NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
         // 2. 校验好友关系是否存在

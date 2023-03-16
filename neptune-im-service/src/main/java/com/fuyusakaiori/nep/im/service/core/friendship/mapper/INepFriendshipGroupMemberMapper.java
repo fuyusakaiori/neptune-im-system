@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface INepFriendshipGroupMemberMapper {
@@ -15,11 +14,15 @@ public interface INepFriendshipGroupMemberMapper {
      */
     int addFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberIdList") List<Integer> memberIdList, @Param("createTime") Long createTime, @Param("updateTime") Long updateTime);
 
-
     /**
      * <h3>移除好友分组中的成员并添加到默认分组中去: 对外调用</h3>
      */
     int moveFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberIdList") List<Integer> memberId, @Param("updateTime") long updateTime);
+
+    /**
+     * <h3>移除好友所在分组: 外部调用</h3>
+     */
+    int removeFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId);
 
     /**
      * <h3>解散好友分组中的所有成员: 内部调用</h3>

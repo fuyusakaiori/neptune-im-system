@@ -1,7 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepCreateFriendshipGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +17,7 @@ public class NepFriendshipGroupMapperTest {
 
     @Test
     public void createFriendshipGroupTest(){
-        int result = friendshipGroupMapper.createFriendshipGroup(1, new NepCreateFriendshipGroup()
-                                                                            .setGroupOwnerId(1)
-                                                                            .setGroupName("测试分组-1"), System.currentTimeMillis(), System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
 

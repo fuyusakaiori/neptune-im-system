@@ -12,21 +12,21 @@ public class NepFriendshipGroupMember {
     /**
      * <h3>好友分组 ID</h3>
      */
-    private Integer friendshipGroupId;
+    private Integer friendGroupId;
 
     /**
      * <h3>好友分组中的成员 ID</h3>
      */
-    private Integer friendshipGroupMemberId;
+    private Integer friendGroupMemberId;
 
     /**
      * <h3>创建时间</h3>
      */
-    private Long createTime;
+    private long createTime;
 
     /**
      * <h3>更新时间</h3>
      */
-    private Long updateTime;
+    private long updateTime;
 
 }

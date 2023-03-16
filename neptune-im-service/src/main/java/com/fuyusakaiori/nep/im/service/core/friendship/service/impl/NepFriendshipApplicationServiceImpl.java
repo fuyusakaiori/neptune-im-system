@@ -1,11 +1,11 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepAddFriendship;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.dto.NepSendFriendshipApplication;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.NepAddFriendshipRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipApplicationMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,35 +23,41 @@ public class NepFriendshipApplicationServiceImpl {
     @Autowired
     private NepFriendshipServiceImpl friendshipServiceImpl;
 
-    public int doSendFriendshipApplication(NepRequestHeader header, NepAddFriendship body) {
+    public int doSendFriendshipApplication(NepAddFriendshipRequest request) {
         // 1. 获取变量
-        Integer friendFromId = body.getFriendFromId();
-        Integer friendToId = body.getFriendToId();
+        Integer appId = request.getHeader().getAppId();
+        Integer friendFromId = request.getFriendFromId();
+        Integer friendToId = request.getFriendToId();
         // 2. 查询此前用户是否向对方发送过好友请求
         NepFriendshipApplication application =
-                friendshipApplicationMapper.queryFriendshipApplicationByUserId(header.getAppId(), friendFromId, friendToId);
+                friendshipApplicationMapper.queryFriendshipApplicationByUserId(appId, friendFromId, friendToId);
         // 3. 校验好友申请
-        int result = 0;
+        int result;
         if (Objects.isNull(application)){
             // 3.1 如果好友申请不存在, 那么向数据库中插入新的好友申请
-            result = friendshipApplicationMapper.sendFriendshipApplication(header.getAppId(), BeanUtil.copyProperties(body, NepSendFriendshipApplication.class),
-                    System.currentTimeMillis(), System.currentTimeMillis());
+            result = friendshipApplicationMapper.sendFriendshipApplication(appId, BeanUtil.copyProperties(request, NepFriendshipApplication.class)
+                                                                                          .setCreateTime(System.currentTimeMillis()).setUpdateTime(System.currentTimeMillis()));
             if (result <= 0){
-                log.error("NepFriendshipApplicationServiceImpl doSendFriendshipApplication: {} 向 {} 发送好友申请失败 - body: {}", friendFromId, friendToId, body);
+                log.error("NepFriendshipApplicationServiceImpl doSendFriendshipApplication: 用户-{} 向 用户-{} 发送好友申请失败 - request: {}", friendFromId, friendToId, result);
             }
         }else{
-            // TODO 3.2 如果好友申请存在, 那么就更新好友申请的信息
-            result = friendshipApplicationMapper.updateFriendshipApplication(header.getAppId(), BeanUtil.copyProperties(body, NepSendFriendshipApplication.class), System.currentTimeMillis());
+            // 3.2 如果好友申请存在, 那么就更新好友申请的信息
+            result = friendshipApplicationMapper.updateFriendshipApplication(appId, BeanUtil.copyProperties(request, NepFriendshipApplication.class)
+                                                                                            .setUpdateTime(System.currentTimeMillis()));
             if (result <= 0){
-                log.error("NepFriendshipApplicationServiceImpl doSendFriendshipApplication: {} 向 {} 发送好友申请失败 (更新) - body: {}", friendFromId, friendToId, body);
+                log.error("NepFriendshipApplicationServiceImpl doSendFriendshipApplication: {} 向 {} 发送好友申请失败 (更新) - request: {}", friendFromId, friendToId, request);
             }
         }
         return result;
     }
 
-    public int doApproveFriendshipApplication(NepRequestHeader header, int applyId, int approveStatus){
+    public int doApproveFriendshipApplication(NepApproveFriendshipApplicationRequest request){
+        // 0. 获取变量
+        Integer appId = request.getHeader().getAppId();
+        Integer applyId = request.getApplyId();
+        Integer approveStatus = request.getApproveStatus();
         // 1. 查询是否有好友请求
-        NepFriendshipApplication application = friendshipApplicationMapper.queryFriendshipApplicationById(header.getAppId(), applyId);
+        NepFriendshipApplication application = friendshipApplicationMapper.queryFriendshipApplicationById(appId, applyId);
         // TODO 这里首先需要检验发起审批请求的是否是自己
         // 2. 校验好友请求是否合法
         if (Objects.isNull(application)){
@@ -63,14 +69,15 @@ public class NepFriendshipApplicationServiceImpl {
             return 0;
         }
         // 3. 审批好友请求
-        int isApprove = friendshipApplicationMapper.approveFriendshipApplication(header.getAppId(), applyId, approveStatus, System.currentTimeMillis());
+        int isApprove = friendshipApplicationMapper.approveFriendshipApplication(appId, applyId, approveStatus, System.currentTimeMillis());
         if (isApprove <= 0){
             log.error("NepFriendshipApplicationService doApproveFriendshipApplication: {} 审批 {} 发送的好友申请失败 - applyId: {}",
-                    application.getFriendshipToId(), application.getFriendshipFromId(), applyId);
+                    application.getFriendToId(), application.getFriendFromId(), applyId);
             return isApprove;
         }
-        // TODO 4. 如果同意好友申请, 那么执行好友添加
-        return friendshipServiceImpl.doAddFriendship(header, BeanUtil.copyProperties(application, NepAddFriendship.class));
+        // 4. 如果同意好友申请, 那么执行好友添加
+        return friendshipServiceImpl.doAddFriendshipDirectly(appId, BeanUtil.copyProperties(application, NepFriendship.class,
+                "friendshipApplyId", "applyReadStatus", "applyApproveStatus"));
     }
 
 }

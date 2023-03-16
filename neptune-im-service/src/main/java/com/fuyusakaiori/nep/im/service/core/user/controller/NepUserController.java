@@ -1,14 +1,10 @@
 package com.fuyusakaiori.nep.im.service.core.user.controller;
 
 
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepEditUserAvatarRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepEditUserInfoRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepLoginUserRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.NepRegisterUserRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepEditUserAvatarResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepEditUserInfoResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepLoginUserResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.NepRegisterUserResponse;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
+import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +27,9 @@ public class NepUserController {
     }
 
 
+    /**
+     * TODO 登陆到底是利用 HTTP 短连接还是 TCP 长连接
+     */
     @PostMapping(value = "/login")
     public NepLoginUserResponse loginUser(@RequestBody NepLoginUserRequest request){
         log.info("NepUserController loginUser: 准备开始登陆用户 - request: {}", request);
@@ -54,6 +53,21 @@ public class NepUserController {
         log.info("NepUserController editUserInfo: 开始更新用户资料 - request: {}", request);
         NepEditUserInfoResponse response = userService.updateUserInfo(request);
         log.info("NepUserController editUserInfo: 用户资料更新结束 - request: {}, response: {}", request, response);
+        return response;
+    }
+
+    /**
+     * TODO 查询的结果需要包含是否是好友
+     */
+    @GetMapping(value = "/search-user")
+    public NepQueryUserResponse queryUserByUserName(@RequestParam("appId") Integer appId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
+        NepQueryUserRequest request = new NepQueryUserRequest()
+                                              .setUsername(username)
+                                              .setNickname(nickname)
+                                              .setHeader(new NepRequestHeader().setAppId(appId));
+        log.info("NepUserController queryUserByUserName: 开始查询用户 - request: {}", request);
+        NepQueryUserResponse response = userService.queryUser(request);
+        log.info("NepUserController queryUserByUserName: 查询用户结束 - request: {}, response: {}", request, response);
         return response;
     }
 

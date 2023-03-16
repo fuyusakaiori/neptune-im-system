@@ -16,7 +16,7 @@ public class NepQueryAllFriendApplicationRequest {
     /**
      * <h3>请求头</h3>
      */
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     /**
      * <h3>自己的 ID</h3>

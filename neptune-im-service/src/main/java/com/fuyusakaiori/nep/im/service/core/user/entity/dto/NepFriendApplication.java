@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryFriendApplication {
+public class NepFriendApplication {
 
     private Integer friendApplicationId;
 

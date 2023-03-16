@@ -6,15 +6,15 @@ public enum NepFriendshipAllowType
     /**
      * <h3>任何人都可以添加</h3>
      */
-    ANY(0),
+    ANY(1),
     /**
      * <h3>验证后添加</h3>
      */
-    VALIDATION(1),
+    VALIDATION(2),
     /**
      * <h3>禁止任何人添加好友</h3>
      */
-    BAN(2);
+    BAN(3);
 
 
     private final int type;

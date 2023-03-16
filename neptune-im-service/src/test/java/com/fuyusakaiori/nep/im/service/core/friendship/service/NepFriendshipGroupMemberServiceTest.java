@@ -25,7 +25,7 @@ public class NepFriendshipGroupMemberServiceTest {
         NepAddFriendshipGroupMemberRequest request = new NepAddFriendshipGroupMemberRequest()
                                                                                         .setGroupId(4)
                                                                                         .setGroupMemberIdList(Arrays.asList(5, 6))
-                                                                                        .setRequestHeader(HEADER);
+                                                                                        .setHeader(HEADER);
         NepModifyFriendshipGroupMemberResponse response = friendshipGroupMemberService.addFriendshipGroupMember(request);
         log.info("response: {}", response);
     }
@@ -36,7 +36,7 @@ public class NepFriendshipGroupMemberServiceTest {
         NepMoveFriendshipGroupMemberRequest request = new NepMoveFriendshipGroupMemberRequest()
                                                               .setGroupId(4)
                                                               .setGroupMemberIdList(Arrays.asList(2, 3, 4))
-                                                              .setRequestHeader(HEADER);
+                                                              .setHeader(HEADER);
         NepModifyFriendshipGroupMemberResponse response = friendshipGroupMemberService.moveFriendshipGroupMember(request);
         log.info("response: {}", response);
     }

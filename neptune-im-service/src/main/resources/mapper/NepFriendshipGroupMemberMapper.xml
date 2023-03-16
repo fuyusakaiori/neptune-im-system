@@ -22,6 +22,11 @@
         </foreach>
     </update>
 
+    <delete id="removeFriendshipGroupMember">
+        delete from `im-system`.im_friendship_group_member
+        where app_id = #{appId} and friendship_group_id = #{groupId} and friendship_group_member_id = #{memberId}
+    </delete>
+
     <!-- 清空分组中的所有成员 -->
     <delete id="clearFriendshipGroupMember">
         delete from `im-system`.im_friendship_group_member

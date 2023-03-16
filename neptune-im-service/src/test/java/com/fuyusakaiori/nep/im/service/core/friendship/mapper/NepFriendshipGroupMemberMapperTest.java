@@ -46,9 +46,9 @@ public class NepFriendshipGroupMemberMapperTest {
         List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(1, Arrays.asList(2, 3, 4));
         Map<Integer, List<Integer>> groupIdAndGroupMemberIdList = new HashMap<>();
         for (NepFriendshipGroupMember friendshipGroupMember : friendshipGroupMemberList) {
-            List<Integer> groupMemberIdList = groupIdAndGroupMemberIdList.getOrDefault(friendshipGroupMember.getFriendshipGroupId(), new ArrayList<>());
-            groupMemberIdList.add(friendshipGroupMember.getFriendshipGroupMemberId());
-            groupIdAndGroupMemberIdList.put(friendshipGroupMember.getFriendshipGroupId(), groupMemberIdList);
+            List<Integer> groupMemberIdList = groupIdAndGroupMemberIdList.getOrDefault(friendshipGroupMember.getFriendGroupId(), new ArrayList<>());
+            groupMemberIdList.add(friendshipGroupMember.getFriendGroupMemberId());
+            groupIdAndGroupMemberIdList.put(friendshipGroupMember.getFriendGroupId(), groupMemberIdList);
         }
         log.info("map: {}", groupIdAndGroupMemberIdList);
     }

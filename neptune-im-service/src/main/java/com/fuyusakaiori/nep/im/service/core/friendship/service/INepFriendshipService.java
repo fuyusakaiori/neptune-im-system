@@ -1,19 +1,17 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepCheckFriendshipResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepModifyFriendshipResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.NepQueryFriendshipResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.normal.*;
 
 public interface INepFriendshipService {
 
-    NepModifyFriendshipResponse addFriendship(NepAddFriendshipRequest request);
+    NepAddFriendshipResponse addFriendship(NepAddFriendshipRequest request);
 
-    NepModifyFriendshipResponse editFriendshipRemark(NepEditFriendshipRemarkRequest request);
+    NepEditFriendshipRemarkResponse editFriendshipRemark(NepEditFriendshipRemarkRequest request);
 
-    NepModifyFriendshipResponse releaseFriendship(NeptuneReleaseFriendshipRequest request);
+    NepReleaseFriendshipResponse releaseFriendship(NepReleaseFriendshipRequest request);
 
-    NepModifyFriendshipResponse releaseAllFriendship(NeptuneReleaseAllFriendshipRequest request);
+    NepReleaseFriendshipResponse releaseAllFriendship(NepReleaseAllFriendshipRequest request);
 
     NepCheckFriendshipResponse checkFriendship(NepCheckFriendshipRequest request);
 

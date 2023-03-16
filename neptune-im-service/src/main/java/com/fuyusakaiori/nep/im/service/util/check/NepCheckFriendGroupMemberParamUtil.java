@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.service.util.check;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.example.nep.im.common.check.NepCheckBaseParamUtil;
+import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepAddFriendshipGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepMoveFriendshipGroupMemberRequest;
 
@@ -12,11 +12,11 @@ public class NepCheckFriendGroupMemberParamUtil {
 
 
     public static boolean checkAddFriendshipGroupMemberRequestParam(NepAddFriendshipGroupMemberRequest request) {
-        return checkFriendshipGroupMemberRequestParam(request.getRequestHeader(), request.getGroupId(), request.getGroupMemberIdList());
+        return checkFriendshipGroupMemberRequestParam(request.getHeader(), request.getGroupId(), request.getGroupMemberIdList());
     }
 
     public static boolean checkMoveFriendshipGroupMemberRequestParam(NepMoveFriendshipGroupMemberRequest request) {
-        return checkFriendshipGroupMemberRequestParam(request.getRequestHeader(), request.getGroupId(), request.getGroupMemberIdList());
+        return checkFriendshipGroupMemberRequestParam(request.getHeader(), request.getGroupId(), request.getGroupMemberIdList());
     }
 
     private static boolean checkFriendshipGroupMemberRequestParam(NepRequestHeader header, Integer groupId, List<Integer> groupMemberIdList) {

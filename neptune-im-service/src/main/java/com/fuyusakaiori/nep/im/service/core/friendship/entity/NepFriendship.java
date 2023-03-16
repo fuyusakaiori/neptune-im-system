@@ -7,18 +7,17 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepFriendship
-{
+public class NepFriendship {
 
     /**
      * <h3>好友关系发起者的唯一标识符</h3>
      */
-    private Integer friendshipFromId;
+    private Integer friendFromId;
 
     /**
      * <h3>好友关系接收者的唯一标识符</h3>
      */
-    private Integer friendshipToId;
+    private Integer friendToId;
 
     /**
      * <h3>好友备注</h3>
@@ -38,16 +37,14 @@ public class NepFriendship
     /**
      * <h3>添加好友时的附加信息</h3>
      */
-    private String friendshipAdditionalInfo;
+    private String additionalInfo;
 
     /**
      * <h3>好友是否被拉黑: 0 表示没有拉黑, 1 表示已经拉黑</h3>
      */
-    private Boolean isBlack;
+    private boolean black;
 
-    private String friendshipExtra;
+    private long createTime;
 
-    private Long createTime;
-
-    private Long updateTime;
+    private long updateTime;
 }

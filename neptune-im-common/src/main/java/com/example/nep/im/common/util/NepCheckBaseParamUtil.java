@@ -1,4 +1,4 @@
-package com.example.nep.im.common.check;
+package com.example.nep.im.common.util;
 
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
