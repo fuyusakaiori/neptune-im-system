@@ -13,8 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepReleaseFriendshipRequest
-{
+public class NepReleaseFriendshipRequest {
 
     private NepRequestHeader header;
 

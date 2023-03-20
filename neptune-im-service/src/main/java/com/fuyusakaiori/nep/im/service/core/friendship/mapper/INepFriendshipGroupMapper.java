@@ -25,6 +25,12 @@ public interface INepFriendshipGroupMapper {
     NepFriendshipGroup queryFriendshipGroupById(@Param("appId") int appId, @Param("groupId") int groupId);
 
     /**
+     * <h3>查询好友分组: 根据成员 ID 和创建者 ID</h3>
+     */
+    NepFriendshipGroup queryFriendshipGroupByMemberIdAndOwnerId(@Param("appId") int appId, @Param("memberId") int memberId, @Param("ownerId") int ownerId);
+
+
+    /**
      * <h3>查询所有分组: 对外调用</h3>
      */
     List<NepFriendshipGroup> queryAllFriendshipGroup(@Param("appId") int appId, @Param("ownerId") int ownerId);

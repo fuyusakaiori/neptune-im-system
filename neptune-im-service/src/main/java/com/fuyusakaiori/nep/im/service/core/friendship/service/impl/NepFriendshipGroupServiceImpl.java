@@ -3,13 +3,12 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.example.nep.im.common.enums.code.NepBaseResponseCode;
-import com.example.nep.im.common.enums.code.NepFriendshipGroupMemberResponseCode;
-import com.example.nep.im.common.enums.code.NepFriendshipGroupResponseCode;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepCreateFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryAllFriendshipGroupRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -72,19 +72,26 @@ public class NepFriendshipGroupServiceImpl {
             return 0;
         }
         // 4. 先删除好友分组
-        int result = friendshipGroupMapper.deleteFriendshipGroup(appId, groupId, System.currentTimeMillis());
-        if (result <= 0){
+        int isDeleteGroup = friendshipGroupMapper.deleteFriendshipGroup(appId, groupId, System.currentTimeMillis());
+        if (isDeleteGroup <= 0){
             log.error("NepFriendshipGroupService doDeleteFriendshipGroup: 好友分组删除失败 - request: {}", request);
-            return result;
+            return isDeleteGroup;
         }
-        // 5. 再删除该好友分组下的成员
-        result = friendshipGroupMemberMapper.clearFriendshipGroupMember(appId, groupId, System.currentTimeMillis());
-        if (result <= 0){
+        // 5. 查询该好友分组下的成员
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryAllFriendshipGroupMemberInGroup(appId, groupId);
+        // 6. 判断好友成员是否为空
+        if (CollectionUtil.isEmpty(friendshipGroupMemberList)){
+            log.info("NepFriendshipGroupService doDeleteFriendshipGroup: 该好友分组下没有任何成员 - request: {}", request);
+            return isDeleteGroup;
+        }
+        // 7. 清空好友分组下的所有成员
+        int isClearGroupMember = friendshipGroupMemberMapper.clearFriendshipGroupMember(appId, groupId);
+        if (isClearGroupMember <= 0){
             log.error("NepFriendshipGroupService doDeleteFriendshipGroup: 好友分组下的好友成员删除失败 - request: {}", request);
-            return result;
+            return isClearGroupMember;
         }
         // TODO 6. 通知该用户的其他客户端
-        return result;
+        return isClearGroupMember;
     }
 
     public List<NepFriendshipGroup> doQueryAllFriendshipGroup(NepQueryAllFriendshipGroupRequest request) {
@@ -107,4 +114,6 @@ public class NepFriendshipGroupServiceImpl {
         }
         return friendshipGroupList;
     }
+
+
 }

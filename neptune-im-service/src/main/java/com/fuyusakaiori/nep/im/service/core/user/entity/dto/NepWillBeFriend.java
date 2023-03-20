@@ -1,6 +1,5 @@
 package com.fuyusakaiori.nep.im.service.core.user.entity.dto;
 
-
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -8,11 +7,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepFriend {
+public class NepWillBeFriend {
 
-    /**
-     * <h3>用户全局唯一标识符</h3>
-     */
     private Integer userId;
 
     /**
@@ -52,18 +48,8 @@ public class NepFriend {
     private String friendRemark;
 
     /**
-     * <h3>好友所在分组的 ID</h3>
+     * <h3>是否已经是好友: false 表示不是好友, true 表示是好友</h3>
      */
-    private Integer groupId;
-
-    /**
-     * <h3>好友所在分组的名字</h3>
-     */
-    private String groupName;
-
-    /**
-     * <h3>好友是否被拉黑</h3>
-     */
-    private boolean black;
+    private boolean friend;
 
 }

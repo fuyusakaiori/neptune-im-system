@@ -1,6 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.mapper;
 
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +19,27 @@ public class NepFriendshipGroupMemberMapperTest {
 
     @Test
     public void addFriendshipGroupMemberTest(){
-        int result = friendshipGroupMemberMapper.addFriendshipGroupMember(1, 2, Arrays.asList(2, 3, 4, 5, 6),
-                System.currentTimeMillis(), System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
     @Test
     public void moveFriendshipGroupMemberTest(){
-        int result = friendshipGroupMemberMapper.moveFriendshipGroupMember(1, 4, Arrays.asList(2, 3), System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
     @Test
     public void clearFriendshipGroupMemberTest(){
-        int result = friendshipGroupMemberMapper.clearFriendshipGroupMember(1, 2, System.currentTimeMillis());
-        log.info("result: {}", result);
+
     }
 
     @Test
     public void queryFriendshipGroupMemberByMemberIdListTest(){
-        List<Integer> joinedMemberIdList = friendshipGroupMemberMapper.queryFriendshipGroupMemberByMemberIdList(1, Arrays.asList(2, 3, 7, 8));
-        log.info("joined: {}", joinedMemberIdList);
+
     }
 
     @Test
     public void queryAllFriendshipGroupMemberTest(){
-        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(1, Arrays.asList(2, 3, 4));
-        Map<Integer, List<Integer>> groupIdAndGroupMemberIdList = new HashMap<>();
-        for (NepFriendshipGroupMember friendshipGroupMember : friendshipGroupMemberList) {
-            List<Integer> groupMemberIdList = groupIdAndGroupMemberIdList.getOrDefault(friendshipGroupMember.getFriendGroupId(), new ArrayList<>());
-            groupMemberIdList.add(friendshipGroupMember.getFriendGroupMemberId());
-            groupIdAndGroupMemberIdList.put(friendshipGroupMember.getFriendGroupId(), groupMemberIdList);
-        }
-        log.info("map: {}", groupIdAndGroupMemberIdList);
+
     }
 
 

@@ -15,6 +15,11 @@ public class NepFriendshipGroupMember {
     private Integer friendGroupId;
 
     /**
+     * <h3>好友分组的名称: 联表查询才会有</h3>
+     */
+    private String friendGroupName;
+
+    /**
      * <h3>好友分组中的成员 ID</h3>
      */
     private Integer friendGroupMemberId;

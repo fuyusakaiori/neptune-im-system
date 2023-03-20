@@ -3,17 +3,13 @@ package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipApplicationResponseCode;
-import com.example.nep.im.common.enums.code.NepFriendshipGroupMemberResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipResponseCode;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriend;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendApplication;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendGroup;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryAllFriendApplicationResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendGroupMemberResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepFriendService;
 import com.fuyusakaiori.nep.im.service.util.check.NepCheckFriendParamUtil;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -105,7 +100,7 @@ public class NepFriendService implements INepFriendService {
         // 0. 响应结果准备
         NepQueryAllFriendApplicationResponse response = new NepQueryAllFriendApplicationResponse();
         // 1. 参数校验
-        if (NepCheckFriendParamUtil.checkNepQueryAllFriendApplicationRequestParam(request)){
+        if (!NepCheckFriendParamUtil.checkNepQueryAllFriendApplicationRequestParam(request)){
             response.setApplicationList(Collections.emptyList())
                            .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                            .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
@@ -131,42 +126,6 @@ public class NepFriendService implements INepFriendService {
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NepFriendUserService queryAllFriendApplication: 查询好友申请出现异常 - request: {}, response: {}", request, response, exception);
-            return response;
-        }
-    }
-
-
-    @Override
-    public NepQueryFriendGroupMemberResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request) {
-        // 0. 响应结果准备
-        NepQueryFriendGroupMemberResponse response = new NepQueryFriendGroupMemberResponse();
-        // 1. 参数校验
-        if (NepCheckFriendParamUtil.checkNepQueryAllFriendGroupMemberRequestParam(request)){
-            response.setFriendGroupMemberMap(Collections.emptyMap())
-                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
-            log.error("NepFriendService queryAllFriendGroupMember: 参数校验失败 - request: {}, response: {}", request, response);
-            return response;
-        }
-        try {
-            Map<NepFriendGroup, List<NepFriend>> groupAndGroupMember = friendServiceImpl.doQueryAllFriendGroupMember(request);
-            if (CollectionUtil.isNotEmpty(groupAndGroupMember)){
-                response.setFriendGroupMemberMap(Collections.emptyMap())
-                        .setCode(NepFriendshipGroupMemberResponseCode.GROUP_MEMBER_NOT_EXIST.getCode())
-                        .setMessage(NepFriendshipGroupMemberResponseCode.GROUP_MEMBER_NOT_EXIST.getMessage());
-                log.info("NepFriendUserService queryAllFriendGroupMember: 没有查询到好友分组及其成员 - request: {}, response: {}", request, response);
-                return response;
-            }
-            log.info("NepFriendUserService queryAllFriendGroupMember: 成功查询到用户的所有好友分组和成员 - request: {}, response: {}", request, response);
-            response.setFriendGroupMemberMap(groupAndGroupMember)
-                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
-                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            return response;
-        } catch (Exception exception) {
-            response.setFriendGroupMemberMap(Collections.emptyMap())
-                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
-                    .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
-            log.error("NepFriendUserService queryAllFriendGroupMember: 查询到用户的所有好友分组和成员出现异常 - request: {}, response: {}", request, response, exception);
             return response;
         }
     }

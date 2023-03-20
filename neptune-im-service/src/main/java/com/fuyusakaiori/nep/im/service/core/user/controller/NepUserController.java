@@ -3,7 +3,6 @@ package com.fuyusakaiori.nep.im.service.core.user.controller;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -60,13 +59,14 @@ public class NepUserController {
      * TODO 查询的结果需要包含是否是好友
      */
     @GetMapping(value = "/search-user")
-    public NepQueryUserResponse queryUserByUserName(@RequestParam("appId") Integer appId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
-        NepQueryUserRequest request = new NepQueryUserRequest()
+    public NepQueryWillBeFriendResponse queryUser(@RequestParam("appId") Integer appId, @RequestParam("userId") Integer userId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
+        NepQueryWillBeFriendRequest request = new NepQueryWillBeFriendRequest()
+                                              .setUserId(userId)
                                               .setUsername(username)
                                               .setNickname(nickname)
                                               .setHeader(new NepRequestHeader().setAppId(appId));
         log.info("NepUserController queryUserByUserName: 开始查询用户 - request: {}", request);
-        NepQueryUserResponse response = userService.queryUser(request);
+        NepQueryWillBeFriendResponse response = userService.queryWillBeFriend(request);
         log.info("NepUserController queryUserByUserName: 查询用户结束 - request: {}, response: {}", request, response);
         return response;
     }

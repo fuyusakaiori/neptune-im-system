@@ -2,6 +2,7 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
+import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.apply.NepApproveFriendshipApplicationRequest;
@@ -21,7 +22,7 @@ public class NepFriendshipApplicationServiceImpl {
     private INepFriendshipApplicationMapper friendshipApplicationMapper;
 
     @Autowired
-    private NepFriendshipServiceImpl friendshipServiceImpl;
+    private NepFriendshipDealService friendshipDealService;
 
     public int doSendFriendshipApplication(NepAddFriendshipRequest request) {
         // 1. 获取变量
@@ -75,9 +76,13 @@ public class NepFriendshipApplicationServiceImpl {
                     application.getFriendToId(), application.getFriendFromId(), applyId);
             return isApprove;
         }
-        // 4. 如果同意好友申请, 那么执行好友添加
-        return friendshipServiceImpl.doAddFriendshipDirectly(appId, BeanUtil.copyProperties(application, NepFriendship.class,
-                "friendshipApplyId", "applyReadStatus", "applyApproveStatus"));
+        // 4. 如果拒绝添加好友, 那么直接返回
+        if (NepFriendshipApplicationApproveStatus.REJECT.getStatus() == approveStatus){
+            return isApprove;
+        }
+        // 5. 如果同意好友申请, 那么执行好友添加
+        return friendshipDealService.doAddFriendshipDirectly(appId, BeanUtil.copyProperties(application, NepFriendship.class,
+                "friendshipApplyId", "applyReadStatus", "applyApproveStatus").setFriendshipStatus(NepFriendshipStatus.FRIENDSHIP_NORMAL.getStatus()));
     }
 
 }

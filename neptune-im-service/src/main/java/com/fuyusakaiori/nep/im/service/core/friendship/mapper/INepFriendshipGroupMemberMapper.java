@@ -12,12 +12,12 @@ public interface INepFriendshipGroupMemberMapper {
     /**
      * <h3>向好友分组中添加成员: 对外调用</h3>
      */
-    int addFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberIdList") List<Integer> memberIdList, @Param("createTime") Long createTime, @Param("updateTime") Long updateTime);
+    int addFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId, @Param("createTime") long createTime, @Param("updateTime") long updateTime);
 
     /**
      * <h3>移除好友分组中的成员并添加到默认分组中去: 对外调用</h3>
      */
-    int moveFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberIdList") List<Integer> memberId, @Param("updateTime") long updateTime);
+    int moveFriendshipGroupMember(@Param("appId") int appId, @Param("oldGroupId") int oldGroupId, @Param("newGroupId") int newGroupId, @Param("memberId") int memberId, @Param("updateTime") long updateTime);
 
     /**
      * <h3>移除好友所在分组: 外部调用</h3>
@@ -27,16 +27,16 @@ public interface INepFriendshipGroupMemberMapper {
     /**
      * <h3>解散好友分组中的所有成员: 内部调用</h3>
      */
-    int clearFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("updateTime") long updateTime);
+    int clearFriendshipGroupMember(@Param("appId") int appId, @Param("groupId") int groupId);
 
     /**
-     * <h3>查询用户所在的好友分组</h3>
+     * <h3>查询分组下的所有成员</h3>
      */
-    List<Integer> queryFriendshipGroupMemberByMemberIdList(@Param("appId") int appId, @Param("memberIdList") List<Integer> memberIdList);
+    List<NepFriendshipGroupMember> queryAllFriendshipGroupMemberInGroup(@Param("appId") int appId, @Param("groupId") int groupId);
 
     /**
-     * <h3>查询自己创建的所有好友分组: 内部调用</h3>
+     * <h3>查询分组成员: 根据分组创建者和分组成员的 ID</h3>
      */
-    List<NepFriendshipGroupMember> queryAllFriendshipGroupMember(@Param("appId") int appId, @Param("groupIdList") List<Integer> groupIdList);
+    List<NepFriendshipGroupMember> queryFriendshipGroupMemberList(@Param("appId") int appId, @Param("ownerId") int owner, @Param("memberIdList") List<Integer> memberIdList);
 
 }

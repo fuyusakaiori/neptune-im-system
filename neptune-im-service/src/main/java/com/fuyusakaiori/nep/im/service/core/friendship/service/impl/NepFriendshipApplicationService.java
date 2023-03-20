@@ -41,7 +41,7 @@ public class NepFriendshipApplicationService implements INepFriendshipApplicatio
             }
             response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.error("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求成功 - request: {}, response: {}", request, response);
+            log.info("NepFriendshipApplicationService approveFriendshipApplication: 审批好友请求成功 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
             response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())

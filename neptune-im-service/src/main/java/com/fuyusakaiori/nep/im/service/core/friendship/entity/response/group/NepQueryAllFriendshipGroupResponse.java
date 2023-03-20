@@ -10,11 +10,12 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryFriendshipGroupResponse {
+public class NepQueryAllFriendshipGroupResponse {
 
-    private NepFriendshipGroup group;
+    private List<NepFriendshipGroup> groupList;
 
     private int code;
 
     private String message;
+
 }

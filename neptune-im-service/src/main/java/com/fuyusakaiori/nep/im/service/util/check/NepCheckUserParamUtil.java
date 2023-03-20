@@ -41,7 +41,17 @@ public class NepCheckUserParamUtil {
             return false;
         }
         // 3. 校验用户 ID
-        if(Objects.isNull(userId) || userId <= 0){
+        if (Objects.isNull(userId) || userId <= 0){
+            return false;
+        }
+        // 4. 校验年龄字段是否合法
+        Integer age = request.getAge();
+        if (Objects.nonNull(age) && (age <= 0 || age > 100)){
+            return false;
+        }
+        // 5. 校验性别字段是否合法
+        Integer gender = request.getGender();
+        if (Objects.nonNull(gender) && gender != 0 && gender != 1 && gender != 2) {
             return false;
         }
         return true;
@@ -76,23 +86,28 @@ public class NepCheckUserParamUtil {
     /**
      * <h3>校验通过账号查询用户的请求</h3>
      */
-    public static boolean checkNepQueryUserRequestParam(NepQueryUserRequest request){
+    public static boolean checkNepQueryUserRequestParam(NepQueryWillBeFriendRequest request){
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
         String username = request.getUsername();
         String nickname = request.getNickname();
         // 2. 校验请求头
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        // 3. 校验用户账号是否合法
+        if (Objects.isNull(userId) || userId <= 0){
+            return false;
+        }
         if (StrUtil.isEmpty(username) && StrUtil.isEmpty(nickname)){
             return false;
         }
         return true;
     }
 
-
+    /**
+     * <h3>校验用户登录系统的请求</h3>
+     */
     public static boolean checkNepLoginUserInImSystemRequestParam(NepLoginUserRequest request) {
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();

@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-@ToString
 public class NepFriendGroup {
 
     private Integer groupId;
@@ -15,4 +14,9 @@ public class NepFriendGroup {
 
     private String groupName;
 
+    @Override
+    public String toString() {
+
+        return "{" + "\"groupId\":" + groupId + ",\"groupOwnerId\":" + groupOwnerId + ",\"groupName\":\"" + groupName + "\"}";
+    }
 }

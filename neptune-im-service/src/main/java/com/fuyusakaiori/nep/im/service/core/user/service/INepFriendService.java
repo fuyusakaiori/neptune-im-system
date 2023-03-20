@@ -3,7 +3,6 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryAllFriendApplicationResponse;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendGroupMemberResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
 
 public interface INepFriendService {
@@ -23,10 +22,5 @@ public interface INepFriendService {
      * <h3>查询所有给自己发送好友申请的用户</h3>
      */
     NepQueryAllFriendApplicationResponse queryAllFriendApplication(NepQueryAllFriendApplicationRequest request);
-
-    /**
-     * <h3>查询所有好友分组中的成员</h3>
-     */
-    NepQueryFriendGroupMemberResponse queryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request);
 
 }

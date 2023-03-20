@@ -23,6 +23,9 @@ public class NepFriendshipController {
     @Autowired
     private INepFriendshipService friendshipService;
 
+    /**
+     * <h3>完成</h3>
+     */
     @PostMapping(value = "/add")
     public NepAddFriendshipResponse addFriendship(@RequestBody NepAddFriendshipRequest request){
         log.info("NepFriendshipController addFriendship: 开始准备添加好友 - request: {}", request);
@@ -31,6 +34,9 @@ public class NepFriendshipController {
         return response;
     }
 
+    /**
+     * <h3>完成</h3>
+     */
     @PostMapping(value = "/release")
     public NepReleaseFriendshipResponse releaseFriendship(@RequestBody NepReleaseFriendshipRequest request){
         log.info("NepFriendshipController releaseFriendship: 开始准备删除好友 - request: {}", request);

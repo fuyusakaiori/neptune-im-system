@@ -3,7 +3,9 @@ package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepAddFriendshipGroupMemberRequest;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepMoveFriendshipGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
@@ -29,77 +31,84 @@ public class NepFriendshipGroupMemberServiceImpl {
     @Autowired
     private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
 
-    public int doAddFriendshipGroupMember(NepAddFriendshipGroupMemberRequest request) {
-        // 1. 获取变量
-        NepRequestHeader header = request.getHeader();
-        Integer groupId = request.getGroupId();
-        List<Integer> groupMemberIdList = request.getGroupMemberIdList();
-        // 2. 查询分组
-        NepFriendshipGroup friendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(header.getAppId(), groupId);
-        // 3. 校验分组是否存在
-        if (Objects.isNull(friendshipGroup)){
-            log.error("NepFriendshipApplicationService doAddFriendshipGroupMember: 好友分组不存在 - request: {}", request);
-            return 0;
-        }
-        // 4. 查询好友分组中的成员
-        List<Integer> groupJoinedMemberIdList = friendshipGroupMemberMapper.queryFriendshipGroupMemberByMemberIdList(header.getAppId(), groupMemberIdList);
-        // 5. 计算没有加入任何分组的成员
-        List<Integer> groupDisjointMemberIdList = CollectionUtil.subtractToList(groupMemberIdList, groupJoinedMemberIdList);
-        // 6. 首先向好友分组中添加没有加入任何分组的成员
-        if (CollectionUtil.isNotEmpty(groupDisjointMemberIdList)){
-            // 6.1 查询这些没有加入分组的用户是否存在
-            List<NepUser> userList = userMapper.queryUserByIdList(header.getAppId(), groupDisjointMemberIdList);
-            if (CollectionUtil.isEmpty(userList) || userList.size() != groupDisjointMemberIdList.size()){
-                log.error("NepFriendshipApplicationService doAddFriendshipGroupMember: 移入好友分组中的好友不存在或者部分不存在 - request: {}", request);
-                return 0;
-            }
-            // 6.2 向好友分组中添加好友
-            int result = friendshipGroupMemberMapper.addFriendshipGroupMember(header.getAppId(), groupId, groupDisjointMemberIdList, System.currentTimeMillis(), System.currentTimeMillis());
-            if (result <= 0){
-                log.error("NepFriendshipApplicationService addFriendshipGroupMember: 移入好友分组失败 - request: {}", request);
-                return result;
-            }
-            return result;
-        }
-        // 7. 然后变更已经在好友分组的成员
-        if (CollectionUtil.isNotEmpty(groupJoinedMemberIdList)){
-            int result = friendshipGroupMemberMapper.moveFriendshipGroupMember(header.getAppId(), groupId, groupJoinedMemberIdList, System.currentTimeMillis());
-            if (result <= 0){
-                log.error("NepFriendshipApplicationService doAddFriendshipGroupMember: 变更好友分组失败 - request: {}", request);
-                return result;
-            }
-            return result;
-        }
-        // TODO 8. 通知用户的其他客户端
-        return 0;
-    }
-
     public int doMoveFriendshipGroupMember(NepMoveFriendshipGroupMemberRequest request) {
         // 1. 获取变量
         Integer appId = request.getHeader().getAppId();
-        Integer groupId = request.getGroupId();
-        List<Integer> groupMemberIdList = request.getGroupMemberIdList();
+        Integer oldGroupId = request.getOldGroupId();
+        Integer newGroupId = request.getNewGroupId();
+        Integer groupMemberId = request.getGroupMemberId();
         // 2. 查询分组
-        NepFriendshipGroup friendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, groupId);
-        // 3. 校验分组是否存在
-        if (Objects.isNull(friendshipGroup)){
+        NepFriendshipGroup oldFriendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, oldGroupId);
+        NepFriendshipGroup newFriendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, newGroupId);
+        // 3. 校验分组是否存在:
+        if (Objects.isNull(newFriendshipGroup) || Objects.isNull(oldFriendshipGroup)){
             log.error("NepFriendshipApplicationService doMoveFriendshipGroupMember: 好友分组不存在 - request: {}", request);
             return 0;
         }
-        // 4. 查询用户所在的分组
-        List<Integer> groupJoinedMemberIdList = friendshipGroupMemberMapper.queryFriendshipGroupMemberByMemberIdList(appId, groupMemberIdList);
-        // 5. 校验用户是否已有分组
-        if (CollectionUtil.isEmpty(groupJoinedMemberIdList) || groupJoinedMemberIdList.size() != groupMemberIdList.size()){
-            log.error("NepFriendshipApplicationService doMoveFriendshipGroupMember: 存在好友此前没有任何分组, 无法变更 - request: {}", request);
+        // 4. 查询用户是否存在
+        NepUser user = userMapper.queryUserById(appId, groupMemberId);
+        if (Objects.isNull(user)){
+            log.error("NepFriendshipGroupMemberServiceImpl doMoveFriendshipGroupMember: 用户不存在! - request: {}", request);
             return 0;
         }
-        // 6. 变更分组
-        int result = friendshipGroupMemberMapper.moveFriendshipGroupMember(appId, groupId, groupMemberIdList, System.currentTimeMillis());
+        // 5. 如果用户已经在分组中, 那么就更新到其他分组
+        int result = friendshipGroupMemberMapper.moveFriendshipGroupMember(appId, oldGroupId, newGroupId, groupMemberId, System.currentTimeMillis());
         if (result <= 0){
-            log.error("NepFriendshipApplicationService moveFriendshipGroupMember: 好友所在分组变更失败 - request: {}", request);
+            log.error("NepFriendshipApplicationService doMoveFriendshipGroupMember: 将好友移入新的分组失败 - request: {}", request);
             return result;
         }
+
         // TODO 7. 通知用户的其他客户端
+        return result;
+    }
+
+    public int doAddFriendshipGroupMember(NepAddFriendshipGroupMemberRequest request) {
+        // 1. 获取变量
+        Integer appId = request.getHeader().getAppId();
+        Integer groupId = request.getGroupId();
+        Integer groupMemberId = request.getGroupMemberId();
+        // 2. 查询用户是否存在
+        NepUser user = userMapper.queryUserById(appId, groupMemberId);
+        if (Objects.isNull(user)){
+            log.error("NepFriendshipGroupMemberServiceImpl doAddFriendshipGroupMember: 用户不存在! - request: {}", request);
+            return 0;
+        }
+        // 3. 检查分组是否存在
+        NepFriendshipGroup friendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, groupId);
+        if (Objects.isNull(friendshipGroup)){
+            log.error("NepFriendshipGroupMemberServiceImpl doAddFriendshipGroupMember: 用户分组不存在! - request: {}", request);
+            return 0;
+        }
+        // 4. 添加用户到分组中
+        int result = friendshipGroupMemberMapper.addFriendshipGroupMember(appId, groupId, groupMemberId, System.currentTimeMillis(), System.currentTimeMillis());
+        if (result <= 0){
+            log.error("NepFriendshipApplicationService doAddFriendshipGroupMember: 将好友添加到分组中失败 - request: {}", request);
+        }
+        return result;
+    }
+
+    public int doDeleteFriendshipGroupMember(NepDeleteFriendshipGroupMemberRequest request) {
+        // 1. 获取变量
+        Integer appId = request.getHeader().getAppId();
+        Integer groupId = request.getGroupId();
+        Integer groupMemberId = request.getGroupMemberId();
+        // 2. 查询用户是否存在
+        NepUser user = userMapper.queryUserById(appId, groupMemberId);
+        if (Objects.isNull(user)){
+            log.error("NepFriendshipGroupMemberServiceImpl doDeleteFriendshipGroupMember: 用户不存在! - request: {}", request);
+            return 0;
+        }
+        // 3. 检查分组是否存在
+        NepFriendshipGroup friendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, groupId);
+        if (Objects.isNull(friendshipGroup)){
+            log.error("NepFriendshipGroupMemberServiceImpl doDeleteFriendshipGroupMember: 用户分组不存在! - request: {}", request);
+            return 0;
+        }
+        // 4. 添加用户到分组中
+        int result = friendshipGroupMemberMapper.removeFriendshipGroupMember(appId, groupId, groupMemberId);
+        if (result <= 0){
+            log.error("NepFriendshipApplicationService doDeleteFriendshipGroupMember: 从好友分组中移除好友失败 - request: {}", request);
+        }
         return result;
     }
 }

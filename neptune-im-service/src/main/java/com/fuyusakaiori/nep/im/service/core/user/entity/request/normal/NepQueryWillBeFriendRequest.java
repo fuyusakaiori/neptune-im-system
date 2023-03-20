@@ -11,9 +11,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQueryUserRequest {
+public class NepQueryWillBeFriendRequest {
 
     private NepRequestHeader header;
+    /**
+     * <h3>避免将自己也查询出来</h3>
+     */
+    private Integer userId;
 
     private String username;
 

@@ -115,7 +115,7 @@ public class NepFriendshipService implements INepFriendshipService {
             }
             response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.error("NeptuneFriendshipService releaseFriendship: 删除好友关系成功 - request: {}, response: {}", request, response);
+            log.info("NeptuneFriendshipService releaseFriendship: 删除好友关系成功 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
             response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())

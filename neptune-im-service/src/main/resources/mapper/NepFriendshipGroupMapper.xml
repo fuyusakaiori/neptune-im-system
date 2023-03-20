@@ -32,6 +32,14 @@
         where app_id = #{appId} and friendship_group_id = #{groupId} and friendship_group_is_del = 0
     </select>
 
+    <select id="queryFriendshipGroupByMemberIdAndOwnerId" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
+        select g.friendship_group_id, g.friendship_group_owner_id, g.friendship_group_name, g.friendship_group_is_del, g.app_id
+        from `im-system`.im_friendship_group as g
+        inner join `im-system`.im_friendship_group_member as m
+        on g.friendship_group_id = m.friendship_group_id
+        where g.app_id = #{appId} and friendship_group_member_id = #{memberId} and friendship_group_owner_id = #{ownerId}
+    </select>
+
     <!-- 查询所有好友分组 -->
     <select id="queryAllFriendshipGroup" resultMap="friendshipGroupMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup">
         select friendship_group_id, friendship_group_owner_id, friendship_group_name, friendship_group_is_del, app_id

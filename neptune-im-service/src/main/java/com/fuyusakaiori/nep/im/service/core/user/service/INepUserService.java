@@ -2,7 +2,6 @@ package com.fuyusakaiori.nep.im.service.core.user.service;
 
 
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.*;
 
 public interface INepUserService {
@@ -18,5 +17,5 @@ public interface INepUserService {
 
     NepLoginUserResponse loginUserInImSystem(NepLoginUserRequest request);
 
-    NepQueryUserResponse queryUser(NepQueryUserRequest request);
+    NepQueryWillBeFriendResponse queryWillBeFriend(NepQueryWillBeFriendRequest request);
 }

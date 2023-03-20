@@ -1,11 +1,10 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepCreateFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepDeleteFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryAllFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepDeleteFriendshipGroupResponse;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepQueryFriendshipGroupResponse;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.response.group.NepQueryAllFriendshipGroupResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class NepFriendshipGroupServiceTest {
         NepQueryAllFriendshipGroupRequest request = new NepQueryAllFriendshipGroupRequest()
                                                             .setGroupOwnerId(1)
                                                             .setHeader(HEADER);
-        NepQueryFriendshipGroupResponse response = friendshipGroupService.queryAllFriendshipGroup(request);
+        NepQueryAllFriendshipGroupResponse response = friendshipGroupService.queryAllFriendshipGroup(request);
         log.info("response: {}", response);
     }
 

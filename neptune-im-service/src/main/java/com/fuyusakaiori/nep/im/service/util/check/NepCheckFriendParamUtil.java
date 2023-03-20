@@ -46,7 +46,7 @@ public class NepCheckFriendParamUtil {
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (Objects.isNull(userId) || userId < 0){
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         return true;
@@ -60,13 +60,23 @@ public class NepCheckFriendParamUtil {
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (Objects.isNull(userId) || userId < 0){
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         return true;
     }
 
     public static boolean checkNepQueryAllFriendGroupMemberRequestParam(NepQueryAllFriendGroupMemberRequest request) {
+        // 1. 获取变量
+        NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
+        // 2. 校验请求头
+        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(userId) || userId <= 0){
+            return false;
+        }
         return true;
     }
 }

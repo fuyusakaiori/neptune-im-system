@@ -41,9 +41,6 @@ public class NepFriendServiceImpl {
     private INepFriendshipApplicationMapper friendshipApplicationMapper;
 
     @Autowired
-    private INepFriendshipGroupMapper friendshipGroupMapper;
-
-    @Autowired
     private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
 
     public List<NepFriend> doQueryAllFriend(NepQueryAllFriendRequest request) {
@@ -56,15 +53,29 @@ public class NepFriendServiceImpl {
             log.error("NepFriendUserService doQueryAllFriend: 用户没有任何好友或者用户不存在 - request: {}", request);
             return Collections.emptyList();
         }
-        // 3. 根据用户的好友关系查询每个好友的信息
+        // 3. 根据好友关系实体生成 ID 集合
         List<Integer> friendshipIdList = friendshipList.stream()
                                              .map(NepFriendship::getFriendToId)
                                              .collect(Collectors.toList());
+        // 4. 查询好友的详细信息
         List<NepUser> userList = userMapper.queryUserByIdList(appId, friendshipIdList);
-        // 4. 拼装查询结果
-        return transferFriendList(friendshipList, userList);
+        if (CollectionUtil.isEmpty(userList) || userList.size() != friendshipList.size()){
+            log.error("NepFriendUserService doQueryAllFriend: 用户有好友的信息不存在! - request: {}", request);
+            return Collections.emptyList();
+        }
+        // 5. 查询好友所在的分组信息
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryFriendshipGroupMemberList(appId, friendFromId, friendshipIdList);
+        if (CollectionUtil.isEmpty(friendshipGroupMemberList)){
+            log.info("NepFriendUserService doQueryAllFriend: 该用户没有创建任何好友分组 - request: {}", request);
+            return transferFriendList(friendshipList, userList, Collections.emptyList());
+        }
+        // 6. 拼装返回结果
+        return transferFriendList(friendshipList, userList, friendshipGroupMemberList);
     }
 
+    /**
+     * <h3>暂时保留的方法</h3>
+     */
     public List<NepFriend> doQueryFriend(NepQueryFriendRequest request) {
         // 1. 获取变量
         Integer appId = request.getHeader().getAppId();
@@ -109,6 +120,46 @@ public class NepFriendServiceImpl {
         return new ArrayList<>(friendMap.values());
     }
 
+    private List<NepFriend> getFriendByNickName(int appId, int friendFromId, String nickname) {
+        // 1. 根据昵称查询用户
+        List<NepUser> userList = userMapper.queryUserByNickName(appId, nickname);
+        if (CollectionUtil.isEmpty(userList)){
+            return Collections.emptyList();
+        }
+        // 2. 查询好友关系
+        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByIdList(appId, friendFromId,
+                userList.stream().map(NepUser::getUserId).collect(Collectors.toList()));
+        if (CollectionUtil.isEmpty(friendshipList)){
+            return Collections.emptyList();
+        }
+        // 3. 拼装返回结果
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryFriendshipGroupMemberList(appId, friendFromId,
+                friendshipList.stream().map(NepFriendship::getFriendToId).collect(Collectors.toList()));
+        return transferFriendList(friendshipList, userList, friendshipGroupMemberList);
+    }
+
+    private List<NepFriend> getFriendByRemark(int appId, int friendFromId, String friendName) {
+        // 1. 根据备注查询好友关系
+        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByRemark(appId, friendFromId, friendName);
+        if (CollectionUtil.isEmpty(friendshipList)){
+            return Collections.emptyList();
+        }
+        List<Integer> friendshipIdList = friendshipList.stream().map(NepFriendship::getFriendToId).collect(Collectors.toList());
+        // 2. 通过好友关系查询对应的用户
+        List<NepUser> userList = userMapper.queryUserByIdList(appId,
+                friendshipIdList);
+        if (CollectionUtil.isEmpty(userList)){
+            return Collections.emptyList();
+        }
+        // 3. 组合返回结果
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryFriendshipGroupMemberList(appId, friendFromId, friendshipIdList);
+        if (CollectionUtil.isEmpty(friendshipGroupMemberList)){
+            return transferFriendList(friendshipList, userList, Collections.emptyList());
+        }
+        return transferFriendList(friendshipList, userList, friendshipGroupMemberList);
+    }
+
+
     public List<NepFriendApplication> doQueryAllFriendApplication(NepQueryAllFriendApplicationRequest request) {
         // 1. 获取变量
         Integer userId = request.getUserId();
@@ -133,102 +184,29 @@ public class NepFriendServiceImpl {
         return transferFriendApplicationList(userId, userList, applicationList);
     }
 
-    public Map<NepFriendGroup, List<NepFriend>> doQueryAllFriendGroupMember(NepQueryAllFriendGroupMemberRequest request) {
-        // 1. 获取变量
-        Integer userId = request.getUserId();
-        Integer appId = request.getHeader().getAppId();
-        // 2. 查询自己创建的所有好友分组
-        List<NepFriendshipGroup> groupList = friendshipGroupMapper.queryAllFriendshipGroup(appId, userId);
-        // 3. 如果好友分组为空, 那么直接返回空
-        if (CollectionUtil.isEmpty(groupList)){
-            log.info("NepFriendService doQueryAllFriendGroupMember: 该用户没有创建任何好友分组 - request: {}", request);
-            return Collections.emptyMap();
-        }
-        // 4. 查询每个分组下的成员
-        List<NepFriendshipGroupMember> groupMemberList = friendshipGroupMemberMapper.queryAllFriendshipGroupMember(appId,
-                groupList.stream().map(NepFriendshipGroup::getGroupId).collect(Collectors.toList()));
-        // 5. 如果所有分组下的成员为空, 那么返回分组
-        if (CollectionUtil.isEmpty(groupMemberList)){
-            log.info("NepFriendService doQueryAllFriendGroupMember: 用户创建的好友分组下没有任何成员 - request: {}", request);
-            // 5.1 创建空哈希表
-            Map<NepFriendGroup, List<NepFriend>> groupAndGroupMember = new HashMap<>();
-            // 5.2 将每个分组都放入哈希表中
-            groupList.forEach(group -> groupAndGroupMember.put(BeanUtil.copyProperties(group, NepFriendGroup.class), Collections.emptyList()));
-            // 5.3 返回结果
-            return groupAndGroupMember;
-        }
-        List<Integer> groupMemberIdList = groupMemberList.stream().map(NepFriendshipGroupMember::getFriendGroupMemberId).collect(Collectors.toList());
-        // 6. 查询用户信息
-        List<NepUser> userList = userMapper.queryUserByIdList(appId, groupMemberIdList);
-        // 7. 查询好友关系信息
-        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByIdList(appId, userId, groupMemberIdList);
-        // 8. 组合成好友信息
-        Map<Integer, NepFriend> friendMap = transferFriendList(friendshipList, userList).stream()
-                                                    .collect(Collectors.toMap(NepFriend::getUserId, NepFriend -> NepFriend));
-        // 9. 拼装返回结果
-        Map<NepFriendGroup, List<NepFriend>> groupAndGroupMember = new HashMap<>();
-        // 9.1 将分组信息转换成哈希表
-        Map<Integer, NepFriendshipGroup> groupMap = groupList.stream().collect(
-                Collectors.toMap(NepFriendshipGroup::getGroupId, NepFriendshipGroup -> NepFriendshipGroup));
-        // 9.2 遍历分组成员信息
-        for (NepFriendshipGroupMember groupMember : groupMemberList) {
-            // 9.2.1 生成返回的分组信息
-            NepFriendGroup group = BeanUtil.copyProperties(groupMap.get(groupMember.getFriendGroupId()), NepFriendGroup.class);
-            // 9.2.2 查询哈希表中是否有这个对象
-            List<NepFriend> memberList = groupAndGroupMember.getOrDefault(group, new ArrayList<>());
-            // 9.2.3 向集合中添加成员
-            memberList.add(friendMap.get(groupMember.getFriendGroupMemberId()));
-            // 9.2.4 将集合放入哈希表中
-            groupAndGroupMember.put(group, memberList);
-        }
-        return groupAndGroupMember;
-    }
-
-    private List<NepFriend> getFriendByNickName(int appId, int friendFromId, String nickname) {
-        // 1. 根据昵称查询用户
-        List<NepUser> userList = userMapper.queryUserByNickName(appId, nickname);
-        if (CollectionUtil.isEmpty(userList)){
-            return Collections.emptyList();
-        }
-        // 2. 查询好友关系
-        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByIdList(appId, friendFromId,
-                userList.stream().map(NepUser::getUserId).collect(Collectors.toList()));
-        if (CollectionUtil.isEmpty(friendshipList)){
-            return Collections.emptyList();
-        }
-        // 3. 拼装返回结果
-        return transferFriendList(friendshipList, userList);
-    }
-
-    private List<NepFriend> getFriendByRemark(int appId, int friendFromId, String friendName) {
-        // 1. 根据备注查询好友关系
-        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByRemark(appId, friendFromId, friendName);
-        if (CollectionUtil.isEmpty(friendshipList)){
-            return Collections.emptyList();
-        }
-        // 2. 通过好友关系查询对应的用户
-        List<NepUser> userList = userMapper.queryUserByIdList(appId,
-                friendshipList.stream().map(NepFriendship::getFriendToId).collect(Collectors.toList()));
-        if (CollectionUtil.isEmpty(userList)){
-            return Collections.emptyList();
-        }
-        // 3. 组合返回结果
-        return transferFriendList(friendshipList, userList);
-    }
-
-    private List<NepFriend> transferFriendList(List<NepFriendship> friendshipList, List<NepUser> userList){
+    private List<NepFriend> transferFriendList(List<NepFriendship> friendshipList, List<NepUser> userList, List<NepFriendshipGroupMember> friendshipGroupMemberList){
         // 1. 准备哈希表
         Map<Integer, NepFriend> friendMap = new HashMap<>();
         // 2. 根据好友关系填充哈希表
         for (NepFriendship friendship : friendshipList) {
+            // 填充好友 ID、好友备注、好友是否被拉黑
             NepFriend friend = new NepFriend().setFriendRemark(friendship.getFriendRemark())
                                        .setUserId(friendship.getFriendToId()).setBlack(friendship.isBlack());
             friendMap.put(friendship.getFriendToId(), friend);
         }
         // 3. 根据用户信息补充返回实体
         for (NepUser user : userList) {
+            // 填充好友用户名、好友昵称、好友性别、好友现居地址、好友头像、好友个性签名
             friendMap.get(user.getUserId()).setUsername(user.getUsername()).setNickname(user.getNickname())
+                    .setGender(user.getGender()).setLocation(user.getLocation())
                     .setAvatarAddress(user.getAvatarAddress()).setSelfSignature(user.getSelfSignature());
+        }
+        // 4. 根据好友所在分组信息补充返回实体
+        if (CollectionUtil.isNotEmpty(friendshipGroupMemberList)){
+            for (NepFriendshipGroupMember friendshipGroupMember : friendshipGroupMemberList) {
+                friendMap.get(friendshipGroupMember.getFriendGroupMemberId())
+                        .setGroupId(friendshipGroupMember.getFriendGroupId()).setGroupName(friendshipGroupMember.getFriendGroupName());
+            }
         }
         // 4. 转换成集合
         return new ArrayList<>(friendMap.values());

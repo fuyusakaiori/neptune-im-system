@@ -31,7 +31,7 @@
             <if test="friendship.friendshipStatus != null">friendship_status = #{friendship.friendshipStatus},</if>
             <if test="friendship.friendshipSource != null">friendship_source = #{friendship.friendshipSource},</if>
             <if test="friendship.additionalInfo != null">friendship_additional_info = #{friendship.additionalInfo},</if>
-            <if test="updateTime != null">friendship_update_time = #{friendship.updateTime},</if>
+            <if test="friendship.updateTime != null">friendship_update_time = #{friendship.updateTime},</if>
         </set>
         where app_id = #{appId} and friendship_from_id = #{friendship.friendFromId} and friendship_to_id = #{friendship.friendToId};
         update `im-system`.im_friendship
@@ -39,7 +39,7 @@
             friendship_remark = null,
             <if test="friendship.friendshipStatus != null">friendship_status = #{friendship.friendshipStatus},</if>
             <if test="friendship.friendshipSource != null">friendship_source = #{friendship.friendshipSource},</if>
-            <if test="updateTime != null">friendship_update_time = #{friendship.updateTime},</if>
+            <if test="friendship.updateTime != null">friendship_update_time = #{friendship.updateTime},</if>
         </set>
         where app_id = #{appId} and friendship_from_id = #{friendship.friendToId} and friendship_to_id = #{friendship.friendFromId};
     </update>

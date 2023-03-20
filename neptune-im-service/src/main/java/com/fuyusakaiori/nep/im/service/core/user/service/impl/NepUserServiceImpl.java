@@ -5,7 +5,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;
+import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
+import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepWillBeFriend;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.util.callback.INepCallBackService;
@@ -27,6 +30,9 @@ public class NepUserServiceImpl {
 
     @Autowired
     private INepUserMapper userMapper;
+
+    @Autowired
+    private INepFriendshipMapper friendshipMapper;
 
     @Autowired
     private NepApplicationConfig applicationConfig;
@@ -145,18 +151,19 @@ public class NepUserServiceImpl {
         return userMapper.cancelUser(appId, userId, System.currentTimeMillis());
     }
 
-    public List<NepUser> doQueryUser(NepQueryUserRequest request) {
+    public List<NepWillBeFriend> doQueryWillBeFriend(NepQueryWillBeFriendRequest request) {
         // 1. 获取变量
-        NepRequestHeader header = request.getHeader();
+        Integer appId = request.getHeader().getAppId();
+        Integer userId = request.getUserId();
         String username = request.getUsername();
         String nickname = request.getNickname();
         // 2. 根据用户名查询用户
-        NepUser user = userMapper.queryUserByUserName(header.getAppId(), username);
+        NepUser user = userMapper.queryUserByUserName(appId, username);
         // 3. 根据昵称查询用户
-        List<NepUser> userList = userMapper.queryUserByNickName(header.getAppId(), nickname);
+        List<NepUser> userList = userMapper.queryUserByNickName(appId, nickname);
         // 4. 检查结果
         if ((Objects.isNull(user) || user.isDelete()) && CollectionUtil.isEmpty(userList)){
-            log.info("NeptuneUserService doQueryUser: 没有查询到相应的用户 - request: {}", request);
+            log.info("NeptuneUserService doQueryWillBeFriend: 没有查询到相应的用户 - request: {}", request);
             return Collections.emptyList();
         }
         // 5. 合并结果
@@ -168,15 +175,19 @@ public class NepUserServiceImpl {
             currentUserList.addAll(userList);
         }
         // 6. 结果去重
-        Set<Integer> currentUserIdSet = currentUserList.stream().map(NepUser::getUserId).collect(Collectors.toSet());
-        // 7. 得到新的结果
-        List<NepUser> searchUserList = new ArrayList<>();
-        currentUserList.forEach(current -> {
-            if (currentUserIdSet.contains(current.getUserId())){
-                searchUserList.add(current);
-            }
-        });
-        return searchUserList;
+        Map<Integer, NepUser> userMap = currentUserList.stream().collect(Collectors.toMap(NepUser::getUserId, NepUser -> NepUser));
+        // 7. 判断查询得到的用户是否是好友
+        List<NepFriendship> friendshipList = friendshipMapper.queryFriendshipByIdList(appId, userId, new ArrayList<>(userMap.keySet()));
+        // 8. 校验好友关系是否为空, 如果为空的话, 直接把用户信息拷贝到新的实体中
+        if (CollectionUtil.isEmpty(friendshipList)){
+             return BeanUtil.copyToList(userMap.values(), NepWillBeFriend.class);
+        }
+        // 9. 拼装返回结果
+        List<NepWillBeFriend> willBeFriendList = new ArrayList<>();
+        for (NepFriendship friendship : friendshipList) {
+            willBeFriendList.add(BeanUtil.copyProperties(userMap.get(friendship.getFriendToId()), NepWillBeFriend.class).setFriend(true));
+        }
+        return willBeFriendList;
     }
 
     public NepUser doLoginUserInImSystem(NepLoginUserRequest request) {

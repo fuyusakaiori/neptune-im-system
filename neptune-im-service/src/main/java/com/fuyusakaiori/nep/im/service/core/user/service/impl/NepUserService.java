@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepUserResponseCode;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepWillBeFriend;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
-import com.fuyusakaiori.nep.im.service.core.user.entity.response.friend.NepQueryFriendResponse;
 import com.fuyusakaiori.nep.im.service.core.user.entity.response.normal.*;
 import com.fuyusakaiori.nep.im.service.core.user.service.INepUserService;
 import com.fuyusakaiori.nep.im.service.util.check.NepCheckUserParamUtil;
@@ -192,12 +192,12 @@ public class NepUserService implements INepUserService {
     }
 
     @Override
-    public NepQueryUserResponse queryUser(NepQueryUserRequest request) {
+    public NepQueryWillBeFriendResponse queryWillBeFriend(NepQueryWillBeFriendRequest request) {
         // 0. 准备响应结果
-        NepQueryUserResponse response = new NepQueryUserResponse();
+        NepQueryWillBeFriendResponse response = new NepQueryWillBeFriendResponse();
         // 1. 参数校验
         if (!NepCheckUserParamUtil.checkNepQueryUserRequestParam(request)){
-            response.setFriendList(Collections.emptyList())
+            response.setUserList(Collections.emptyList())
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NeptuneUserService queryUserByUserName: 请求头中的参数检查失败 - request: {}, response: {}", request, response);
@@ -205,21 +205,21 @@ public class NepUserService implements INepUserService {
         }
         // 2. 查询用户
         try {
-            List<NepUser> userList = userServiceImpl.doQueryUser(request);
+            List<NepWillBeFriend> userList = userServiceImpl.doQueryWillBeFriend(request);
             if (CollectionUtil.isEmpty(userList)){
-                response.setFriendList(Collections.emptyList())
+                response.setUserList(Collections.emptyList())
                         .setCode(NepBaseResponseCode.SUCCESS.getCode())
                         .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
                 log.error("NeptuneUserService queryUserByUserName: 没有根据用户账号查询到用户 - request: {}, response: {}", request, response);
                 return response;
             }
-            response.setFriendList(userList)
+            response.setUserList(userList)
                     .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
             log.info("NeptuneUserService queryUserByUserName: 成功根据用户账号查询到用户 - request: {}, response: {}", request, response);
             return response;
         } catch (Exception exception) {
-            response.setFriendList(Collections.emptyList())
+            response.setUserList(Collections.emptyList())
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NeptuneUserService queryUserByUserName: 根据用户账号查询用户失败 - request: {}, response: {}", request, response, exception);

@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Data
 @Accessors(chain = true)
 @ToString
@@ -14,8 +12,10 @@ public class NepMoveFriendshipGroupMemberRequest {
 
     private NepRequestHeader header;
 
-    private Integer groupId;
+    private Integer oldGroupId;
 
-    private List<Integer> groupMemberIdList;
+    private Integer newGroupId;
+
+    private Integer groupMemberId;
 
 }

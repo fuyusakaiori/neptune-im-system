@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.List;
-
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepAddFriendshipGroupMemberRequest {
+public class NepDeleteFriendshipGroupMemberRequest {
 
     private NepRequestHeader header;
 
