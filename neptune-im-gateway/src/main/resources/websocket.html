@@ -391,322 +391,225 @@
         };
     }
 
-    function uuid() {
-        var s = [];
-        var hexDigits = "0123456789abcdef";
-        for (var i = 0; i < 36; i++) {
-            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-        }
-        s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
-        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
-        s[8] = s[13] = s[18] = s[23] = "-";
 
-        var uuid = s.join("");
-        return uuid;
-    }
-
-    var socket;
+    let socket;
 
     //如果浏览器支持WebSocket
     if (window.WebSocket) {
-        //参数就是与服务器连接的地址
-        socket = new WebSocket("ws://localhost:4396/nep");
 
-        //客户端收到服务器消息的时候就会执行这个回调方法
+        socket = new WebSocket("ws://127.0.0.1:9001/nep");
+
+        /**
+         * 收到消息时的回调
+         */
         socket.onmessage = function (event) {
-            var ta = document.getElementById("responseText");
-            var userId = document.getElementById("userId").value;
+            let response = document.getElementById("responseText");
+            let userId = document.getElementById("userId").value;
+            // 1. 将接收到的 arraybuffer 转换为自定义的 bytebuffer
+            let byteBuf = new ByteBuffer(event.data);
+            // 2. 读取协议中的数据
+            let buffer = byteBuf.int32().int32().int32().int32().int32().int32().unpack();
+            // 3. 读取协议版本号
+            let version = buffer[0];
+            console.log(version);
+            // 4. 读取协议序列化类型
+            let serializeType = buffer[1];
+            console.log(serializeType);
+            // 5. 读取应用 ID
+            let appId = buffer[2];
+            console.log(appId);
+            // 6. 读取消息类型
+            let messageType = buffer[3];
+            console.log(messageType);
+            // 7. 读取客户端类型
+            let clientType = buffer[4];
+            console.log(clientType);
+            // 8. 读取 imei 号长度
+            let imeiLength = buffer[5];
+            console.log(imeiLength);
+            // 9. 读取 imei 号
+            let imei = byteBuf.vstring(null, imeiLength).unpack()[6];
+            console.log(imei);
+            // 10. 读取消息长度
+            let messageLength = byteBuf.int32().unpack()[7];
+            console.log(messageLength);
+            // 11. 读取实际消息
+            let messageData = byteBuf.vstring(null, messageLength).unpack()[8];
+            console.log("收到的消息", messageData);
 
-            var bytebuf = new ByteBuffer(event.data);
-            let byteBuffer = bytebuf.int32().int32().unpack();
-
-            let command = byteBuffer[0];
-            let bodyLen = byteBuffer[1];
-            let unpack = bytebuf.vstring(null, bodyLen).unpack();
-            let msgBody = unpack[2];
-            var version = 1;
-
-            var clientType = document.getElementById("clientType").value;
-            clientType = parseInt(clientType);
-            var messageType = 0x0;
-            var appId = document.getElementById("appId").value;
-            appId = parseInt(appId)
-
-            var imei = document.getElementById("imei").value;
-            var imeiLen = getLen(imei);
-
-            console.log("收到服务端发来的消息: " + msgBody);
-
-            if(command == 1103){
-                var d = JSON.parse(msgBody)
-                var data = d.data;
-                let userId = document.getElementById('userId').value;
-                if(data.fromId == userId){
-                    ta.value = ta.value + "\n" + "自己：" + data.messageBody;
-                }else if(data.fromId != userId){
-                    ta.value = ta.value + "\n" + data.fromId + "：" + data.messageBody;
+            // 12. 根据消息类型进行处理
+            if(messageType === 1103){
+                // 13. 反序列化消息体
+                let message = JSON.parse(messageData);
+                // 14. 获取消息内容
+                let content = message.messageBody;
+                // 15. 如果消息发送者和当前用户 ID 一致, 那么就是消息同步
+                if(message.fromUserId === userId){
+                    response.value = response.value + "\n" + "自己:  " + content;
+                }else if(message.fromUserId !== userId){
+                    response.value = response.value + "\n" + message.fromUserId + ":  " + content;
                 }
 
-                // data.fromId = data.toId;
-                // data.conversationId = "0_" + data.toId + "_" + data.fromId;
-                // data.conversationType = 0;
+                // 16. 如果接收到的消息不是自己发送来的, 就需要响应给服务器消息
+                if(message.fromUserId !== userId){
+                    // TODO 响应 ACK 消息
+                }
+                // TODO 暂时不知道是干什么的
+                if(clientType === 1 ){
 
-                if(userId != data.fromId){
-                    var rAck = {
-                        "fromId":userId,
-                        "toId":data.fromId,
-                        "messageKey":data.messageKey,
-                        "messageId":data.messageId,
-                        "messageSequence":data.messageSequence,
-                    }
-
-                    let messageReciver = new ByteBuffer();
-                    var jsonData = JSON.stringify(rAck);
-                    let bodyLen = jsonData.length;
-                    messageReciver.int32(1107)
-                        .int32(version).int32(clientType)
-                        .int32(messageType).int32(appId)
-                        .int32(imeiLen).int32(bodyLen).vstring(imei,imeiLen)
-                        .vstring(jsonData, bodyLen);
-                    socket.send(messageReciver.pack());
                 }
 
-                if(clientType == 1 ){
-                    let messageReader = new ByteBuffer();
-                    var toId = data.fromId;
-                    if(data.fromId == userId){
-                        toId = data.toId;
-                    }
-                    var readedData = {
-                        "fromId":userId,
-                        "toId":toId,
-                        "conversationType":0,
-                        "messageSequence":data.messageSequence,
-                    }
-                    var readData = JSON.stringify(readedData);
-                    let readBodyLen = readData.length;
-                    messageReader.int32(1106)
-                        .int32(version).int32(clientType)
-                        .int32(messageType).int32(appId)
-                        .int32(imeiLen).int32(readBodyLen).vstring(imei,imeiLen)
-                        .vstring(readData, readBodyLen);
-                    socket.send(messageReader.pack());
-                }
-
-            }else if(command == 2104){
-                var d = JSON.parse(msgBody)
-                var data = d.data;
-                let userId = document.getElementById('userId').value;
-
-                if(clientType == 1){
-                    let messageReader = new ByteBuffer();
-                    var toId = data.fromId;
-                    if(data.fromId == userId){
-                        toId = data.toId;
-                    }
-                    var readedData = {
-                        "fromId":userId,
-                        "toId":data.fromId,
-                        "groupId":data.groupId,
-                        "conversationType":1,
-                        "messageSequence":data.messageSequence,
-                    }
-                    var readData = JSON.stringify(readedData);
-                    let readBodyLen = readData.length;
-                    messageReader.int32(2106)
-                        .int32(version).int32(clientType)
-                        .int32(messageType).int32(appId)
-                        .int32(imeiLen).int32(readBodyLen).vstring(imei,imeiLen)
-                        .vstring(readData, readBodyLen);
-                    socket.send(messageReader.pack());
-                }
-            }
-
-            else if(command == 9999){
-                var msg = eval("(" + msgBody + ")");
-                console.log(msg)
-                console.log(userId)
-
-                if (msg["userId"] == "system") {
-                    ta.value = ta.value + "\n 系统：" + msg.data;
-                } else if (msg["userId"] == userId) {
-                    let msgInfo = msg.data;
-                    msgInfo = eval("(" + msgInfo + ")");
-                    ta.value = ta.value + "\n" + "自己：" + msgInfo.msgBody;
-                } else {
-                    let msgInfo = msg.data;
-                    msgInfo = eval("(" + msgInfo + ")");
-                    ta.value = ta.value + "\n" + msg.toId + "：" + msgInfo.msgBody;
-                }
+            }else if(messageType === 2104){
+                // TODO 处理群聊消息
+            } else if(messageType === 9999){
+                // TODO 处理心跳检测
             }
         }
 
-        //连接建立的回调函数
-        socket.onopen = function (event) {
+        /**
+         * 建立连接的回调函数
+         */
+        socket.onopen = function () {
+            // 1. 设置接收到的二进制数据类型如何存储
             socket.binaryType = "arraybuffer";
-            var ta = document.getElementById("responseText");
-            ta.value = "连接开启";
+            // 2. 提示连接已经建立
+            document.getElementById("responseText").value = "连接启动";
         }
 
-        //连接断掉的回调函数
-        socket.onclose = function (event) {
-            var ta = document.getElementById("responseText");
+        /**
+         * 连接断开时的回调
+         */
+        socket.onclose = function () {
+            // 1. 获取输入框
+            let ta = document.getElementById("responseText");
+            // 2. 将连接关闭追加到文本框中
             ta.value = ta.value + "\n" + "连接关闭";
         }
     } else {
         alert("浏览器不支持WebSocket！");
     }
 
-    //登录
-    function login(userId, toUser,clientType,imei,appId) {
+    /**
+     * 登陆
+     */
+    function login(userIdValue, clientTypeValue, imeiValue, appIdValue) {
+        // 1. 校验 websocket 对象是否存在
         if (!window.WebSocket) {
             return;
         }
-        console.log(userId + " " + toUser);
-        //当websocket状态打开
-        if (socket.readyState == WebSocket.OPEN) {
-
-            var command = 9000;
-            var version = 1;
-            if(clientType == null){
-                clientType = 1;
-            }
-            clientType = parseInt(clientType);
-
-            var messageType = 0x0;
-
-            if(imei == null){
-                imei = "web";
-            }
-
-            if(appId == null){
-                appId = '10000'
-            }
-            appId = parseInt(appId);
-
-            var userId = userId;
-
-            var data = {"userId": userId, "appId": 10000, "clientType": clientType, "imei": imei,"customStatus":null,"customClientName":""};
-            var jsonData = JSON.stringify(data);
-            console.log(jsonData);
-
-            var bodyLen = jsonData.length;
-            var imeiLen = getLen(imei);
-            let loginMsg = new ByteBuffer();
-            loginMsg.int32(command).int32(version)
-                .int32(clientType).int32(messageType)
-                .int32(appId).int32(imeiLen)
-                .int32(bodyLen).vstring(imei,imeiLen)
-                .vstring(jsonData, bodyLen);
-            socket.send(loginMsg.pack());
+        console.log("用户: " + userIdValue + " 正在登陆");
+        // 2. 校验 websocket 状态是否打开
+        if (socket.readyState === WebSocket.OPEN) {
+            // 3. 确定协议版本号
+            let version = 1;
+            // 4. 确定序列化方式
+            let serializeType = 1;
+            // 5. 确定用户 ID
+            let userId = parseInt(userIdValue);
+            // 6. 确定应用 ID
+            let appId = isNotNull(appIdValue) ? parseInt(appIdValue) : 1;
+            // 7. 确定客户端 ID
+            let clientType = isNotNull(clientTypeValue) ? parseInt(clientTypeValue) : 1;
+            // 8. 确定消息类型
+            let messageType = 9000;
+            // 9. 确定设备号
+            let imei = isNotNull(imeiValue) ? imeiValue : "web";
+            // 10. 确定设备号长度
+            let imeiLength = getLength(imei);
+            // 11. 封装消息实体
+            let messageData = {
+                "userId": userId
+            };
+            // 12. 序列化消息
+            let messageDataJson = JSON.stringify(messageData);
+            // 13. 计算消息体的字节数据长度
+            let messageDataJsonLength = getLength(messageDataJson);
+            // 14. 将字符串转换为字节
+            let buffer = new ByteBuffer();
+            buffer.int32(version).int32(serializeType).int32(appId)
+                .int32(messageType).int32(clientType).int32(imeiLength)
+                .vstring(imei, imeiLength).int32(messageDataJsonLength)
+                .vstring(messageDataJson, messageDataJsonLength);
+            socket.send(buffer.pack());
         } else {
             alert("连接没有开启");
         }
     }
 
-    // *               私有协议规则，
-    // *               4位表示Command表示消息的开始，
-    // *               4位表示version
-    // *               4位表示clientType
-    // *               4位表示messageType
-    // *               4位表示appId(待定)
-    // *               4位表示数据长度
-    // *               后续将解码方式加到数据头根据不同的解码方式解码，如pb，json，现在用json字符串
-    //发消息
-    function sendMsg(userId, toId, command,msg,clientType,imei,appId) {
+
+    /**
+     * 发送消息
+     */
+    function sendMessage(userIdValue, targetId, messageTypeValue, message, clientTypeValue, imeiValue, appIdValue) {
+        // 1. 检查 websocket 对象是否存在
         if (!window.WebSocket) {
             return;
         }
-        console.log(msg)
-        //当websocket状态打开
-        if (socket.readyState == WebSocket.OPEN) {
-            // debugger;
-            //var command = 1103;
+        console.log("用户: " + userIdValue + " 将要发送的内容: " + message)
+        // 2. 检查 websocket 状态是否打开
+        if (socket.readyState === WebSocket.OPEN) {
+            let userId = parseInt(userIdValue);
+            // 3. 确定协议版本号
+            let version = 1;
+            // 4. 确定序列化方式
+            let serializeType = 1;
+            // 5. 确定应用 ID
+            let appId = parseInt(appIdValue);
+            // 6. 确定客户端类型
+            let clientType = isNotNull(clientTypeValue) ? parseInt(clientTypeValue) : 1;
+            // 5. 确定设备号
+            let imei = isNotNull(imeiValue) ? imeiValue : "web";
+            // 6. 确定设备号长度
+            let imeiLength = getLength(imei);
+            // 7. 确定消息类型
+            let messageType = isNotNull(messageTypeValue) ? parseInt(messageTypeValue) : 1103;
+            // 8. 准备消息 ID
+            let messageId = Math.floor(Math.random() * 100);
+            // 9. 封装消息
+            let messageData = {};
 
-
-            // var command = 9000;
-            var version = 1;
-            if(clientType == null ){
-                clientType = 1;
-            }
-
-            clientType = parseInt(clientType);
-
-            var messageType = 0x0;
-
-            var userId = userId;
-
-            if(command == null || command == ''){
-                command = 1103;
-            }
-
-            if(imei == null){
-                imei = "web"
-            }
-            if(appId == null){
-                appId = '10000'
-            }
-            appId = parseInt(appId);
-            var data = {
-                "userId": userId,
-                "groupId": toId,
-                "appId": appId,
-                "clientType": 1,
-                "imei": imei,
-                "command": command
-            }
-
-            var messageId = uuid();
-            if(msg === 'lld'){
-                messageId = msg;
-            }
-            var messageData = {};
-            if(command == 1103){
+            if(messageType === 1103){
                 messageData = {
-                    "messageId": messageId,
-                    "fromId": userId,
-                    "toId": toId,
                     "appId": appId,
                     "clientType": clientType,
+                    "messageType": 1103,
                     "imei": imei,
-                    "messageBody": msg
+                    "messageId": messageId,
+                    "fromUserId": userId,
+                    "toUserId": targetId,
+                    "messageBody": message
                 }
-            }else if (command == 2104){
+            }else if (messageType === 2104){
                 messageData = {
-                    "messageId": messageId,
-                    "fromId": userId,
-                    "groupId": toId,
-                    "appId": appId,
-                    "clientType": clientType,
-                    "imei": imei,
-                    "messageBody": msg
+                    // TODO 群聊消息
                 }
             }else{
-                messageData = JSON.parse(msg)
+                // TODO 其他消息
+                messageData = JSON.parse(message)
             }
-            // data.data = messageData;
-
-            var jsonData = JSON.stringify(messageData);
-            console.log(jsonData)
-            var bodyLen = getLen(jsonData);
-            var imeiLen = getLen(imei);
-            let sendMsg = new ByteBuffer();
-            sendMsg.int32(command).int32(version)
-                .int32(clientType).int32(messageType)
-                .int32(appId).int32(imeiLen)
-                .int32(bodyLen).vstring(imei,imeiLen)
-                .vstring(jsonData, bodyLen);
-            console.log(sendMsg.pack());
-            socket.send(sendMsg.pack());
+            // 10. 消息实体序列化
+            let messageJson = JSON.stringify(messageData)
+            // 11. 计算消息实体的字节数据长度
+            let messageJsonLength = getLength(messageJson);
+            // 11. 将封装后的消息转换成字节数据
+            let buffer = new ByteBuffer();
+            buffer.int32(version).int32(serializeType).int32(appId)
+                .int32(messageType).int32(clientType).int32(imeiLength)
+                .vstring(imei, imeiLength).int32(messageJsonLength)
+                .vstring(messageJson, messageJsonLength);
+            socket.send(buffer.pack());
         } else {
             alert("连接没有开启");
         }
     }
 
-    function getLen(str) {
-        var len = 0;
-        for (var i = 0; i < str.length; i++) {
-            var c = str.charCodeAt(i);
+    /**
+     * 计算字符串的字节数据长度
+     */
+    function getLength(str) {
+        let len = 0;
+        for (let i = 0; i < str.length; i++) {
+            let c = str.charCodeAt(i);
             //单字节加1
             if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
                 len++;
@@ -717,25 +620,47 @@
         return len;
     }
 
+    /**
+     * 判断字符串是否为空
+     */
+    function isNotNull(str){
+        return str !== null && str !== "" && str !== undefined;
+
+    }
+
+    /**
+     * 生成 UUID
+     */
+    function uuid() {
+        let s = [];
+        let hexDigits = "0123456789abcdef";
+        for (let i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+
+        return s.join("");
+    }
 
 </script>
 <form onsubmit="return false">
 
     <textarea placeholder="输入登录id" id="userId" name="userId" style="width: 100px;height: 20px"></textarea>
-    <textarea placeholder="你要发消息给谁" name="toUser" style="width: 100px;height: 20px"></textarea>
+    <textarea placeholder="你要发消息给谁" name="targetId" style="width: 100px;height: 20px"></textarea>
     <textarea placeholder="appId" id="appId" name="appId" style="width: 100px;height: 20px"></textarea>
     <textarea placeholder="clientType" id="clientType" name="clientType" style="width: 100px;height: 20px"></textarea>
     <textarea placeholder="imei" id="imei" name="imei" style="width: 100px;height: 20px"></textarea>
-    <input type="button" value="login" onclick="login(this.form.userId.value,this.form.toUser.value,this.form.clientType.value
-    ,this.form.imei.value,this.form.appId.value);">
+    <input type="button" value="login" onclick="login(this.form.userId.value, this.form.clientType.value, this.form.imei.value, this.form.appId.value);">
 
     <textarea placeholder="输入command" name="command" style="width: 200px;height: 20px"></textarea>
 
     <textarea placeholder="输入要发送的内容" name="message" style="width: 200px;height: 20px"></textarea>
 
     <input type="button" value="发送数据"
-           onclick="sendMsg(this.form.userId.value,this.form.toUser.value,this.form.command.value,this.form.message.value
-           ,this.form.clientType.value,this.form.imei.value,this.form.appId.value);">
+           onclick="sendMessage(this.form.userId.value, this.form.targetId.value, this.form.command.value, this.form.message.value
+           ,this.form.clientType.value, this.form.imei.value, this.form.appId.value);">
 
     <h3>服务器输出：</h3>
 

@@ -13,20 +13,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
-public class NepServiceMessageProducer {
+public class NepGateWayToServiceMessageProducer {
 
+    /**
+     * 网关层向逻辑层投递消息: 直接使用 NepProtocol
+     */
     public static void sendMessage(NepMessageBody messageBody){
         try {
             // 1. 确定要发送的管道名称
             String channelName = NepRabbitMQConstant.MESSAGE_GATEWAY_TO_SERVICE;
             // 2. 获取管道对象
             Channel channel = NepRabbitMQFactory.getChannel(channelName);
-            // TODO 3. 序列化消息对象: 聊天消息采用 ChatP2PMessage 消息体
+            // 3. 序列化消息对象: 暂时采用 JSON 序列化对象, 后续可能改成其他的
             byte[] dataSource = JSONUtil.toJsonStr(messageBody).getBytes(StandardCharsets.UTF_8);
             // 4. 发送消息
             channel.basicPublish(channelName, StrUtil.EMPTY, null, dataSource);
         } catch (IOException | TimeoutException exception) {
-            log.error("NepMessageProducer sendMessage: 发送消息出现异常", exception);
+            log.error("NepGateWayToServiceMessageProducer sendMessage: 发送消息出现异常", exception);
         }
 
     }

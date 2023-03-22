@@ -1,8 +1,8 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
 import com.example.nep.im.common.constant.NepHeartBeatConstant;
-import com.fuyusakaiori.nep.im.gateway.codec.NepMessageDecoder;
-import com.fuyusakaiori.nep.im.gateway.codec.NepMessageEncoder;
+import com.fuyusakaiori.nep.im.gateway.codec.NepTcpMessageDecoder;
+import com.fuyusakaiori.nep.im.gateway.codec.NepTcpMessageEncoder;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.handler.NepHeartBeatHandler;
 import com.fuyusakaiori.nep.im.gateway.handler.NepServerHandler;
@@ -52,8 +52,8 @@ public class NepTcpServer {
                         // 1. 默认添加日志处理器
                         channel.pipeline().addLast("tcp-server-log", new LoggingHandler(LogLevel.INFO));
                         // 2. 添加编解码器
-                        channel.pipeline().addLast("tcp-server-decode", new NepMessageDecoder());
-                        channel.pipeline().addLast("tcp-server-encode", new NepMessageEncoder());
+                        channel.pipeline().addLast("tcp-server-decode", new NepTcpMessageDecoder());
+                        channel.pipeline().addLast("tcp-server-encode", new NepTcpMessageEncoder());
                         // 3. 添加发送心跳检测的处理器: 每隔 10 秒检测客户端是否存活
                         channel.pipeline().addLast("send-heart-beat-handler", new IdleStateHandler(NepHeartBeatConstant.READER_IDLE_TIME_SECONDS
                                 , NepHeartBeatConstant.WRITER_IDLE_TIME_SECONDS, NepHeartBeatConstant.ALL_IDLE_TIME_SECONDS));

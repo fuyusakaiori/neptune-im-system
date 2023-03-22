@@ -33,8 +33,8 @@
     <select id="checkBiFriendInBlackList" resultType="_int">
         select (
         case
-        when a.status = 1 and b.status = 1 then 0
-        when a.status = 0 and b.status = 0 then 1
+        when a.status = 0 and b.status = 0 then 0
+        when a.status = 1 and b.status = 1 then 1
         when a.status = 1 and b.status = 0 then 2
         when a.status = 0 and b.status = 1 then 3
         end ) as status

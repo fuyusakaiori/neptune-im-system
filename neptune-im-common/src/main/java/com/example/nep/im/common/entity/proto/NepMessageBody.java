@@ -21,10 +21,6 @@ public abstract class NepMessageBody implements Serializable {
 
     private static final Map<Integer, Class<? extends NepMessageBody>> messageClass = new HashMap<>();
 
-    public static Class<? extends NepMessageBody> getMessageClass(int messageType){
-        return messageClass.get(messageType);
-    }
-
     private int appId;
 
     private int clientType;
@@ -32,6 +28,10 @@ public abstract class NepMessageBody implements Serializable {
     private int messageType;
 
     private String imei;
+
+    public static Class<? extends NepMessageBody> getMessageClass(int messageType){
+        return messageClass.get(messageType);
+    }
 
     static {
         messageClass.put(NepSystemMessageType.LOGIN.getMessageType(), NepLoginMessage.class);

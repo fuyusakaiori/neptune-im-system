@@ -10,8 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class NepLoginMessage extends NepMessageBody
-{
+public class NepLoginMessage extends NepMessageBody {
 
     /**
      * <h3>用户 ID</h3>

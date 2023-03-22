@@ -1,5 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway.server;
 
+import com.fuyusakaiori.nep.im.gateway.codec.NepWebSocketMessageDecoder;
+import com.fuyusakaiori.nep.im.gateway.codec.NepWebsocketMessageEncoder;
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
 import com.fuyusakaiori.nep.im.gateway.handler.NepServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -53,7 +55,10 @@ public class NepWebSocketServer {
                         channel.pipeline().addLast("http-aggregator", new HttpObjectAggregator(1024 * 64));
                         // 5. 添加路由处理器: WebSocket协议指定客户端访问服务端的路由
                         channel.pipeline().addLast("websocket-protocol", new WebSocketServerProtocolHandler("/nep"));
-                        // 6. 添加业务逻辑处理器
+                        // 6. 添加编解码器: Websocket 的编解码器和 Tcp 服务器的编解码器是不一样的
+                        channel.pipeline().addLast("websocket-server-decode", new NepWebSocketMessageDecoder());
+                        channel.pipeline().addLast("websocket-server-encode", new NepWebsocketMessageEncoder());
+                        // 7. 添加业务逻辑处理器
                         channel.pipeline().addLast("server-handler", new NepServerHandler(serverConfig.getBrokerId()));
                     }
                 });

@@ -1,6 +1,6 @@
 server:
-  tcpServerPort: 10000 # TCP 服务端端口号
-  webSocketServerPort: 10001 # WebSocket 服务端端口号
+  tcpServerPort: 9000 # TCP 服务端端口号
+  webSocketServerPort: 9001 # WebSocket 服务端端口号
   bossThreadPoolSize: 2 # 主线程池的线程数量
   workerThreadPoolSize: 10 # 子线程池的线程数量
   heartBeatTimeout: 3000 # 心跳检测超时时间

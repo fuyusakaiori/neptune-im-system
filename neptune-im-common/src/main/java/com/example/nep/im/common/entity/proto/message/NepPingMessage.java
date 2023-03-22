@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class NepPingMessage extends NepMessageBody
-{
+public class NepPingMessage extends NepMessageBody {
+
 }

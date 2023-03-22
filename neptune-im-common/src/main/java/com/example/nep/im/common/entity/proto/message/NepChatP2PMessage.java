@@ -6,11 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class NepChatP2PMessage extends NepMessageBody {
+public class NepChatP2PMessage extends NepMessageBody{
 
     private int messageId;
 
@@ -18,6 +20,6 @@ public class NepChatP2PMessage extends NepMessageBody {
 
     private int toUserId;
 
-    private String messageContent;
+    private String messageBody;
 
 }

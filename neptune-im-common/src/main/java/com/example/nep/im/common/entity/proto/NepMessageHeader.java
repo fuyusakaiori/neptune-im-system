@@ -37,10 +37,13 @@ public class NepMessageHeader implements Serializable {
     private int clientType;
 
     /**
-     * <h3>区分同一平台不同设备的编号</h3>
+     * <h3>设备号长度</h3>
      */
     private int imeiLength;
 
+    /**
+     * <h3>设备号</h3>
+     */
     private String imeiBody;
 
     /**

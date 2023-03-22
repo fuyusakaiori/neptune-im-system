@@ -13,7 +13,7 @@ import com.example.nep.im.common.entity.proto.NepMessageBody;
 import com.example.nep.im.common.entity.proto.NepMessageHeader;
 import com.example.nep.im.common.entity.proto.NepProtocol;
 import com.example.nep.im.common.entity.proto.message.NepLoginMessage;
-import com.fuyusakaiori.nep.im.gateway.rabbitmq.publish.NepServiceMessageProducer;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.publish.NepGateWayToServiceMessageProducer;
 import com.fuyusakaiori.nep.im.gateway.redis.NepRedisClient;
 import com.fuyusakaiori.nep.im.gateway.util.NepUserSocketHolder;
 import io.netty.channel.ChannelHandlerContext;
@@ -58,7 +58,9 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
             context.channel().attr(AttributeKey.valueOf(NepHeartBeatConstant.LAST_READ_TIME)).set(System.currentTimeMillis());
         }else{
             // 4. 处理器处理消息事件
-            NepServiceMessageProducer.sendMessage(messageBody);
+            log.info("服务器端接收到消息: {}", messageBody);
+            // 注: 这里直接投递协议对象
+            NepGateWayToServiceMessageProducer.sendMessage(messageBody);
         }
     }
 
@@ -132,21 +134,14 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
     }
 
     private NepUserSessionInfo transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody) throws UnknownHostException {
-        return new NepUserSessionInfo()
-                       .setUserId(messageBody.getUserId())
-                       .setAppId(messageHeader.getAppId())
-                       .setClientType(messageHeader.getClientType())
-                       .setImei(messageHeader.getImeiBody())
-                       .setConnectStatus(NepConnectStatus.ONLINE.getStatus())
-                       .setBrokerId(brokerId)
-                       .setBrokerHost(InetAddress.getLocalHost().getHostAddress());
+        return new NepUserSessionInfo().setUserId(messageBody.getUserId()).setAppId(messageHeader.getAppId())
+                       .setClientType(messageHeader.getClientType()).setImei(messageHeader.getImeiBody())
+                       .setBrokerId(brokerId).setBrokerHost(InetAddress.getLocalHost().getHostAddress())
+                       .setConnectStatus(NepConnectStatus.ONLINE.getStatus());
     }
 
     private NepUserClientInfo transferUserClientInfo(int userId, int appId, int clientType, String imei){
-        return new NepUserClientInfo()
-                       .setUserId(userId)
-                       .setAppId(appId)
-                       .setAppId(appId)
-                       .setImei(imei);
+        return new NepUserClientInfo().setUserId(userId).setAppId(appId)
+                       .setClientType(clientType).setImei(imei);
     }
 }

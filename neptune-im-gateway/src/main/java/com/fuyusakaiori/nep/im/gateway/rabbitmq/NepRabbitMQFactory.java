@@ -1,7 +1,7 @@
 package com.fuyusakaiori.nep.im.gateway.rabbitmq;
 
 import com.fuyusakaiori.nep.im.gateway.config.NepServerBootStrapConfig;
-import com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver.NepServiceMessageReceiver;
+import com.fuyusakaiori.nep.im.gateway.rabbitmq.receiver.NepServiceToGateWayMessageReceiver;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -29,7 +29,7 @@ public class NepRabbitMQFactory {
             connectionFactory.setPassword(rabbitmqConfig.getPassword());
         }
         // 2. 启动监听器
-        NepServiceMessageReceiver.start(serverConfig.getBrokerId());
+        NepServiceToGateWayMessageReceiver.start(serverConfig.getBrokerId());
     }
 
     public static Channel getChannel(String channelName) throws IOException, TimeoutException {

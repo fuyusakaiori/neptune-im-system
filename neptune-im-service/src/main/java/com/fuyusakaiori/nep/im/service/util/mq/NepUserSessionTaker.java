@@ -7,6 +7,7 @@ import com.example.nep.im.common.entity.session.NepUserSessionInfo;
 import com.example.nep.im.common.enums.status.NepConnectStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class NepUserSessionTaker {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
     /**
      * <h3>获取用户在服务器上的所有会话</h3>
