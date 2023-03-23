@@ -10,7 +10,9 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepTransferGroupOwnerRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
+
+    private Integer userId;
 
     private Integer groupId;
 

@@ -1,5 +1,6 @@
-package com.fuyusakaiori.nep.im.service.core.group.entity.dto;
+package com.fuyusakaiori.nep.im.service.core.group.entity.request;
 
+import com.example.nep.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -7,7 +8,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepEditGroupMember {
+public class NepChangeGroupMemberTypeRequest {
+
+    private NepRequestHeader header;
 
     private Integer groupId;
 
@@ -15,6 +18,5 @@ public class NepEditGroupMember {
 
     private Integer groupMemberType;
 
-    private String groupMemberNickName;
 
 }

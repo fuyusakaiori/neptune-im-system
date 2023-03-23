@@ -17,15 +17,14 @@ public class NepGroupMember {
 
     private String groupMemberNickName;
 
-    private Long groupMemberMuteEndTime;
-
-    private Long groupMemberEnterTime;
-
-    private Long groupMemberExitTime;
-
     private Integer groupMemberEnterType;
 
     private Integer groupMemberExitType;
 
-    private String extra;
+    private long groupMemberMuteEndTime;
+
+    private long groupMemberEnterTime;
+
+    private long groupMemberExitTime;
+
 }

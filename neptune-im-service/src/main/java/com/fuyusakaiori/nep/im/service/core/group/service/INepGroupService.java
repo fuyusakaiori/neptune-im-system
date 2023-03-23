@@ -1,25 +1,24 @@
 package com.fuyusakaiori.nep.im.service.core.group.service;
 
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
-import com.fuyusakaiori.nep.im.service.core.group.entity.response.NepModifyGroupResponse;
-import com.fuyusakaiori.nep.im.service.core.group.entity.response.NepQueryGroupResponse;
+import com.fuyusakaiori.nep.im.service.core.group.entity.response.*;
 
 public interface INepGroupService {
 
-    NepModifyGroupResponse createGroup(NepCreateGroupRequest request);
+    NepCreateGroupResponse createGroup(NepCreateGroupRequest request);
 
-    NepModifyGroupResponse editGroup(NepEditGroupRequest request);
+    NepEditGroupResponse editGroupInfo(NepEditGroupRequest request);
 
-    NepModifyGroupResponse deleteGroup(NepDeleteGroupRequest request);
+    NepUploadGroupAvatarResponse updateGroupAvatar(NepUploadGroupAvatarRequest request);
 
-    NepModifyGroupResponse muteGroup(NepMuteGroupRequest request);
+    NepDissolveGroupResponse dissolveGroup(NepDissolveGroupRequest request);
 
-    NepModifyGroupResponse transferGroupOwner(NepTransferGroupOwnerRequest request);
+    NepMuteGroupResponse muteGroupChat(NepMuteGroupRequest request);
 
-    NepQueryGroupResponse querySimpleGroup(NepQuerySimpleGroupRequest request);
+    NepTransferGroupOwnerResponse transferGroupOwner(NepTransferGroupOwnerRequest request);
 
-    NepQueryGroupResponse queryDetailedGroup(NepQueryDetailedGroupRequest request);
+    NepQueryGroupResponse queryGroup(NepQueryGroupRequest request);
 
-    NepQueryGroupResponse queryAllJoinedGroup(NepQueryAllJoinedGroupRequest request);
+    NepQueryAllJoinedGroupResponse queryAllJoinedGroup(NepQueryAllJoinedGroupRequest request);
 
 }

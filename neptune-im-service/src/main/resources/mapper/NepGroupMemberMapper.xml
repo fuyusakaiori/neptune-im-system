@@ -2,5 +2,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMemberMapper">
 
+    <insert id="addGroupMember">
+        insert into `im-system`.im_group_member
+        (group_id, group_member_id, app_id, group_member_enter_type, group_member_enter_time)
+        values
+        <foreach collection="groupMemberList" item="groupMember" separator=",">
+            (#{groupMember.groupId}, #{groupMember.groupMemberId}, #{appId},
+             #{groupMember.groupMemberEnterType}, #{groupMember.groupMemberEnterTime})
+        </foreach>
+    </insert>
+
+    <update id="updateGroupMemberInfo">
+        update `im-system`.im_group_member
+        <set>
+            <if test="nickname != null">group_member_nick_name = #{nickname},</if>
+        </set>
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+            and group_member_enter_type is null and group_member_exit_time is null
+    </update>
+
+    <update id="changeGroupMemberType">
+        update `im-system`.im_group_member
+        set group_member_type = #{type}
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+          and group_member_enter_type is null and group_member_exit_time is null
+    </update>
+
+    <update id="muteGroupMemberChat">
+        update `im-system`.im_group_member
+        set group_member_mute_end_time = #{muteEndTime}
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+          and group_member_enter_type is null and group_member_exit_time is null
+    </update>
+
+    <update id="revokeGroupMemberChat">
+        update `im-system`.im_group_member
+        set group_member_mute_end_time = null
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+          and group_member_enter_type is null and group_member_exit_time is null
+    </update>
+
+    <update id="exitGroupMember">
+        update `im-system`.im_group_member
+        set group_member_exit_time = #{exitTime}, group_member_exit_type = #{exitType}
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+          and group_member_enter_type is null and group_member_exit_time is null
+    </update>
+
+    <update id="clearGroupMember">
+        update `im-system`.im_group_member
+        set group_member_exit_time = #{exitTime}, group_member_exit_type = #{exitType}
+        where app_id = #{appId} and group_id = #{groupId}
+    </update>
+
+    <select id="queryGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type,
+               group_member_exit_type, group_member_exit_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+    </select>
+
+    <select id="queryAllGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_id = #{groupId}
+          and  group_member_exit_type is null and group_member_exit_time is null
+    </select>
+
+    <select id="queryAllExitGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type,
+               group_member_exit_type, group_member_exit_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_id = #{groupId}
+          and  group_member_exit_type is not null and group_member_exit_time is not null
+    </select>
 
 </mapper>

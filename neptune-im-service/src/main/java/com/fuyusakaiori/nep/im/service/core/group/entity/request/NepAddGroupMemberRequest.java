@@ -1,5 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.request;
 
+
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
 import lombok.ToString;
@@ -8,16 +9,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepCreateGroupRequest {
+public class NepAddGroupMemberRequest {
 
     private NepRequestHeader header;
 
-    private Integer groupOwnerId;
+    private Integer groupId;
 
-    private String groupNumber;
+    private Integer groupMemberId;
 
-    private String groupName;
-
-    private Integer groupType;
+    private Integer groupMemberEnterType;
 
 }

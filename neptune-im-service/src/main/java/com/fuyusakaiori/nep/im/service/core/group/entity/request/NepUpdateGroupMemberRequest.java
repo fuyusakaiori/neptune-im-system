@@ -8,10 +8,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepDeleteGroupRequest {
+public class NepUpdateGroupMemberRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer groupId;
+
+    private Integer groupMemberId;
+
+    private String nickname;
 
 }

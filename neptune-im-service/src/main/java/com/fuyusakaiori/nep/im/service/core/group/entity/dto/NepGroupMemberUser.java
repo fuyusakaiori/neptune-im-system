@@ -5,13 +5,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
+@Accessors
 @ToString
-public class NepAddGroupMember {
-
-    private Integer groupId;
-
-    private Integer groupMemberId;
-
-    private Integer groupEnterType;
+public class NepGroupMemberUser
+{
 }

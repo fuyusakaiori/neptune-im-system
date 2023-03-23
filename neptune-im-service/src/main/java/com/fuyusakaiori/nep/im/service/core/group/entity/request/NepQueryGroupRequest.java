@@ -9,15 +9,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepQuerySimpleGroupRequest {
+public class NepQueryGroupRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
-    /**
-     * <h3>可以按照群号或者群名称查询</h3>
-     */
-    private Integer queryType;
+    private String groupNumber;
 
-    private String condition;
+    private String groupName;
 
 }

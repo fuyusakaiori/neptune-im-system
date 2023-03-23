@@ -11,7 +11,9 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepMuteGroupRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
+
+    private Integer userId;
 
     private Integer groupId;
 

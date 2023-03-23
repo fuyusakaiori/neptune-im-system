@@ -57,17 +57,15 @@ public class NepGroup {
     /**
      * <h3>群组是否开启全局禁言: 0 表示没有, 1 表示开启</h3>
      */
-    private Boolean isMute;
+    private boolean mute;
 
     /**
      * <h3>群组是否解散: 0 表示没有, 1 表示解散</h3>
      */
-    private Boolean isDelete;
+    private boolean delete;
 
-    private Long createTime;
+    private long createTime;
 
-    private Long updateTime;
-
-    private String extra;
+    private long updateTime;
 
 }

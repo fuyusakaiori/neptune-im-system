@@ -8,16 +8,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepCreateGroupRequest {
+public class NepMuteGroupMemberRequest {
 
     private NepRequestHeader header;
 
-    private Integer groupOwnerId;
+    private Integer groupId;
 
-    private String groupNumber;
+    private Integer groupMemberId;
 
-    private String groupName;
-
-    private Integer groupType;
+    private Long muteEndTime;
 
 }

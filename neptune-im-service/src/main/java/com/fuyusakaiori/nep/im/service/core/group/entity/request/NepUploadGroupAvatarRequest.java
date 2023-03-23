@@ -8,16 +8,12 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepCreateGroupRequest {
+public class NepUploadGroupAvatarRequest {
 
     private NepRequestHeader header;
 
-    private Integer groupOwnerId;
+    private Integer groupId;
 
-    private String groupNumber;
-
-    private String groupName;
-
-    private Integer groupType;
+    private String groupAvatarAddress;
 
 }

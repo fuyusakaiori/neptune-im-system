@@ -3,47 +3,83 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMapper">
 
     <resultMap id="groupMap" type="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
-        <result property="isMute" column="group_is_all_mute"/>
-        <result property="isDelete" column="group_is_del"/>
+        <result property="mute" column="group_is_all_mute"/>
+        <result property="delete" column="group_is_del"/>
         <result property="createTime" column="group_create_time"/>
         <result property="updateTime" column="group_update_time"/>
-        <result property="extra" column="group_extra"/>
     </resultMap>
 
     <insert id="createGroup">
-
+        insert into `im-system`.im_group
+        (group_owner_id, group_number, group_name, group_type, group_max_count, app_id, group_create_time, group_update_time)
+        value
+        (#{group.groupOwnerId}, #{group.groupNumber}, #{group.groupName}, #{group.groupType},
+         #{group.groupMaxCount}, #{appId}, #{group.createTime}, #{group.updateTime})
     </insert>
 
-    <update id="editGroup">
-
+    <update id="updateGroupInfo">
+        update `im-system`.im_group
+        <set>
+            group_update_time = #{group.updateTime},
+            <if test="group.groupName != null"> group_name = #{group.groupName},</if>
+            <if test="group.groupBriefInfo != null"> group_brief_info = #{group.groupBriefInfo},</if>
+        </set>
+        where app_id = #{appId} and group_id = #{group.groupId} and group_is_del = 0
     </update>
 
-    <update id="deleteGroup">
-
+    <update id="updateGroupAvatar">
+        update `im-system`.im_group
+        set group_avatar_address = #{avatar}, group_update_time = #{updateTime}
+        where app_id = #{appId} and group_id = #{groupId} and group_is_del = 0
     </update>
 
-    <update id="muteGroup">
+    <update id="dissolveGroup">
+        update `im-system`.im_group
+        set group_is_del = 1, group_update_time = #{updateTime}
+        where app_id = #{appId} and group_id = #{groupId}
+    </update>
 
+    <update id="muteGroupChat">
+        update `im-system`.im_group
+        set group_is_all_mute = 1, group_update_time = #{updateTime}
+        where app_id = #{appId} and group_id = #{groupId} and group_is_del = 0
     </update>
 
     <update id="transferGroupOwner">
-
+        update `im-system`.im_group
+        set group_owner_id = #{ownerId}, group_update_time = #{updateTime}
+        where app_id = #{appId} and group_id = #{groupId} and group_is_del = 0
     </update>
 
-    <select id="querySimpleGroupByNumber">
-
+    <select id="queryGroupById" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+        from `im-system`.im_group
+        where app_id = #{appId} and group_id = #{groupId}
     </select>
 
-    <select id="queryDetailedGroupById">
-
+    <select id="queryGroupByNumber" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+        from `im-system`.im_group
+        where app_id = #{appId} and group_number = #{groupNumber}
     </select>
 
-    <select id="querySimpleGroupByName">
-
+    <select id="queryGroupByName" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+        from `im-system`.im_group
+        where app_id = #{appId} and group_name like concat('%', #{groupName}, '%')
     </select>
 
-    <select id="queryAllJoinedGroup">
-
+    <select id="queryAllJoinedGroup" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        select g.group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+        from `im-system`.im_group as g
+        inner join `im-system`.im_group_member as m
+        on g.group_id = m.group_id
+        where g.app_id = #{appId} and m.group_member_id = #{userId}
+          and m.group_member_exit_type is not null and m.group_member_exit_time is not null
     </select>
 
 </mapper>
