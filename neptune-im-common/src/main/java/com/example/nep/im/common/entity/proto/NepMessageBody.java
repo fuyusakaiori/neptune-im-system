@@ -1,11 +1,9 @@
 package com.example.nep.im.common.entity.proto;
 
-import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
-import com.example.nep.im.common.entity.proto.message.NepLogoutMessage;
+import com.example.nep.im.common.entity.proto.message.*;
+import com.example.nep.im.common.enums.message.NepChatGroupMessageType;
 import com.example.nep.im.common.enums.message.NepChatMessageType;
 import com.example.nep.im.common.enums.message.NepSystemMessageType;
-import com.example.nep.im.common.entity.proto.message.NepLoginMessage;
-import com.example.nep.im.common.entity.proto.message.NepPingMessage;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -37,6 +35,9 @@ public abstract class NepMessageBody implements Serializable {
         messageClass.put(NepSystemMessageType.LOGIN.getMessageType(), NepLoginMessage.class);
         messageClass.put(NepSystemMessageType.PING.getMessageType(), NepPingMessage.class);
         messageClass.put(NepSystemMessageType.LOGOUT.getMessageType(), NepLogoutMessage.class);
-        messageClass.put(NepChatMessageType.MESSAGE_P2P.getMessageType(), NepChatP2PMessage.class);
+        messageClass.put(NepChatMessageType.SINGLE_MESSAGE.getMessageType(), NepChatP2PMessage.class);
+        messageClass.put(NepChatMessageType.SINGLE_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
+        messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE.getMessageType(), NepChatGroupMessage.class);
+        messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
     }
 }

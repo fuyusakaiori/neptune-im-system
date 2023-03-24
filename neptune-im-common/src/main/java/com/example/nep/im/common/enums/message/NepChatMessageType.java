@@ -4,11 +4,15 @@ import com.example.nep.im.common.enums.INepBaseMessageType;
 
 public enum NepChatMessageType implements INepBaseMessageType {
 
-    //单聊消息 1103
-    MESSAGE_P2P(0x44F),
+    /**
+     * <h3>单聊消息: 1103</h3>
+     */
+    SINGLE_MESSAGE(0x44F),
 
-    //单聊消息ACK 1046
-    MESSAGE_ACK(0x416),
+    /**
+     * <h3>单聊消息 ack: 1046</h3>
+     */
+    SINGLE_MESSAGE_ACK(0x416),
 
     //消息收到ack 1107
     MESSAGE_RECEIVE_ACK(1107),

@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util.mq;
+package com.fuyusakaiori.nep.im.service.util;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;

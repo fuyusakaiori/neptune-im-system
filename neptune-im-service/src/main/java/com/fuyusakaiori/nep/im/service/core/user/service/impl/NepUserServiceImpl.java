@@ -15,7 +15,7 @@ import com.fuyusakaiori.nep.im.service.util.callback.INepCallBackService;
 import com.fuyusakaiori.nep.im.service.util.fdfs.NepFastDFSClient;
 import com.fuyusakaiori.nep.im.service.util.file.NepFileUtils;
 import com.fuyusakaiori.nep.im.service.util.file.NepPathUtil;
-import com.fuyusakaiori.nep.im.service.util.mq.publish.NepServiceToGateWayMessageProducer;
+import com.fuyusakaiori.nep.im.service.core.message.mq.NepServiceToGateWayMessageProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

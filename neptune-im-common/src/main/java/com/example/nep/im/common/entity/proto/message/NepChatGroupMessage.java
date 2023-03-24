@@ -7,16 +7,16 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 @ToString
-public class NepChatP2PMessage extends NepMessageBody{
+public class NepChatGroupMessage extends NepMessageBody {
 
     private int messageId;
 
     private int senderId;
 
-    private int receiverId;
+    private int groupId;
 
     private String messageBody;
 

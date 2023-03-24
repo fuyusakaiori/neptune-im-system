@@ -21,7 +21,7 @@ public class NepGateWayToServiceMessageProducer {
     public static void sendMessage(NepMessageBody messageBody){
         try {
             // 1. 确定要发送的管道名称
-            String channelName = NepRabbitMQConstant.MESSAGE_GATEWAY_TO_SERVICE;
+            String channelName = NepRabbitMQConstant.GATEWAY_TO_SERVICE_CHAT_MESSAGE;
             // 2. 获取管道对象
             Channel channel = NepRabbitMQFactory.getChannel(channelName);
             // 3. 序列化消息对象: 暂时采用 JSON 序列化对象, 后续可能改成其他的

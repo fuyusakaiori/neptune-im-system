@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.util.mq.publish;
+package com.fuyusakaiori.nep.im.service.core.message.mq;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -6,9 +6,8 @@ import com.example.nep.im.common.constant.NepRabbitMQConstant;
 import com.example.nep.im.common.entity.message.NepServiceMessage;
 import com.example.nep.im.common.entity.proto.NepMessageBody;
 import com.example.nep.im.common.entity.session.NepUserSessionInfo;
-import com.fuyusakaiori.nep.im.service.util.mq.NepUserSessionTaker;
+import com.fuyusakaiori.nep.im.service.util.NepUserSessionTaker;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,7 +45,7 @@ public class NepServiceToGateWayMessageProducer {
      * <h3>给用户的所有在线客户端都发送消息</h3>
      * <h4>执行逻辑: 逻辑层向网关层投递消息, 网关层负责将消息转发给客户端</h4>
      */
-    public void sendMessage(int appId, int messageType, int targetId, NepMessageBody message){
+    public void sendMessage(int appId, int targetId, int messageType, NepMessageBody message){
         // 1. 查询目标用户的所有  session
         List<NepUserSessionInfo> userSessionList = sessionTaker.getUserSessionList(appId, targetId);
         // 2. 给每个用户都发送消息
@@ -72,7 +71,6 @@ public class NepServiceToGateWayMessageProducer {
                 // 2.3 拼接客户端标识
                 String currentClient = clientType + StrUtil.COLON + imei;
                 String targetClient = session.getClientType() + StrUtil.COLON + session.getImei();
-                // TODO 如果存在多个网关, 那么逻辑层就会投递消息到多个网关？消息会被重复处理吗？
                 if (!currentClient.equals(targetClient)){
                     // 2.4 发送消息
                     sendMessage(session, messageType, message);

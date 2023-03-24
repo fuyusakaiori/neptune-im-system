@@ -21,10 +21,10 @@ public class NepGroupMember {
 
     private Integer groupMemberExitType;
 
-    private long groupMemberMuteEndTime;
+    private Long groupMemberMuteEndTime;
 
-    private long groupMemberEnterTime;
+    private Long groupMemberEnterTime;
 
-    private long groupMemberExitTime;
+    private Long groupMemberExitTime;
 
 }

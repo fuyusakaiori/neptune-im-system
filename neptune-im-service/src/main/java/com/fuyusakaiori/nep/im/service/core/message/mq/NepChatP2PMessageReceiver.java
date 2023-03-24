@@ -1,12 +1,9 @@
 package com.fuyusakaiori.nep.im.service.core.message.mq;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.nep.im.common.constant.NepRabbitMQConstant;
-import com.example.nep.im.common.entity.proto.NepMessageBody;
-import com.example.nep.im.common.entity.proto.NepProtocol;
 import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
 import com.example.nep.im.common.enums.message.NepChatMessageType;
 import com.fuyusakaiori.nep.im.service.core.message.service.NepChatP2PMessageService;
@@ -28,7 +25,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class NepChatMessageReceiver {
+public class NepChatP2PMessageReceiver {
 
     public static final String MESSAGE_TYPE = "messageType";
 
@@ -42,9 +39,9 @@ public class NepChatMessageReceiver {
             // 1. 绑定队列
             bindings = @QueueBinding(
                     // 1.1 指定队列名称
-                    value = @Queue(value = NepRabbitMQConstant.MESSAGE_GATEWAY_TO_SERVICE, durable = "true"),
+                    value = @Queue(value = NepRabbitMQConstant.GATEWAY_TO_SERVICE_CHAT_MESSAGE, durable = "true"),
                     // 1.2 指定交换机名称
-                    exchange = @Exchange(value = NepRabbitMQConstant.MESSAGE_GATEWAY_TO_SERVICE, durable = "true", type = ExchangeTypes.DIRECT),
+                    exchange = @Exchange(value = NepRabbitMQConstant.GATEWAY_TO_SERVICE_CHAT_MESSAGE, durable = "true", type = ExchangeTypes.DIRECT),
                     // 1.3 指定路由 key
                     key = StrUtil.EMPTY
             ),
@@ -59,7 +56,7 @@ public class NepChatMessageReceiver {
         // 3. 获取聊天消息的类型
         int messageType = messageJsonObj.getInt(MESSAGE_TYPE);
         // 4. 根据聊天消息类型反序列化
-        if (messageType == NepChatMessageType.MESSAGE_P2P.getMessageType()){
+        if (messageType == NepChatMessageType.SINGLE_MESSAGE.getMessageType()){
             // 4.1 处理单聊消息
             chatP2PMessageService.handleMessage(JSONUtil.toBean(messageJson, NepChatP2PMessage.class));
         }else if (messageType == NepChatMessageType.MESSAGE_RECEIVE_ACK.getMessageType()){
