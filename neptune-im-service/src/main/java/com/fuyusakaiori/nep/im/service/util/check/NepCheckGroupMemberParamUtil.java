@@ -49,10 +49,14 @@ public class NepCheckGroupMemberParamUtil {
 
     public static boolean checkNepChangeGroupMemberTypeRequestParam(NepChangeGroupMemberTypeRequest request) {
         NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         Integer groupMemberType = request.getGroupMemberType();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
@@ -66,10 +70,14 @@ public class NepCheckGroupMemberParamUtil {
 
     public static boolean checkNepMuteGroupMemberRequestParam(NepMuteGroupMemberRequest request) {
         NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         Long muteEndTime = request.getMuteEndTime();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
@@ -83,9 +91,13 @@ public class NepCheckGroupMemberParamUtil {
 
     public static boolean checkNepRevokeGroupMemberRequestParam(NepRevokeGroupMemberRequest request) {
         NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
@@ -96,10 +108,14 @@ public class NepCheckGroupMemberParamUtil {
 
     public static boolean checkNepExitGroupMemberRequestParam(NepExitGroupMemberRequest request) {
         NepRequestHeader header = request.getHeader();
+        Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         Integer groupMemberExitType = request.getGroupMemberExitType();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
+            return false;
+        }
+        if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
         if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){

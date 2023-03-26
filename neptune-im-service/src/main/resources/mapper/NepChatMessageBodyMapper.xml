@@ -3,11 +3,19 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.message.mapper.INepChatMessageBodyMapper">
 
     <insert id="storeChatMessageBody">
-
+        insert into `im-system`.im_message_body
+        (message_key, app_id, message_body, message_send_time, message_create_time)
+        value
+        (#{messageBody.messageKey}, #{appId}, #{messageBody.messageBody}, #{messageBody.messageSendTime}, #{messageBody.messageCreateTime})
     </insert>
 
     <select id="loadChatMessageBody" resultType="com.fuyusakaiori.nep.im.service.core.message.entity.NepChatMessageBody">
-
+        select message_key, message_body, message_send_time, message_create_time
+        from `im-system`.im_message_body
+        where app_id = #{appId} and message_is_del = 0 and message_key in
+        <foreach collection="messageKeyList" item="messageKey" open="(" close=")" separator=",">
+            #{messageKey}
+        </foreach>
     </select>
 
 </mapper>

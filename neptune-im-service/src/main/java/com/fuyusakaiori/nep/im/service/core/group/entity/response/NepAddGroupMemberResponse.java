@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepAddGroupMemberResponse {
 
+    private int status;
+
     private int code;
 
     private String message;

@@ -12,6 +12,8 @@ public class NepMuteGroupMemberRequest {
 
     private NepRequestHeader header;
 
+    private Integer userId;
+
     private Integer groupId;
 
     private Integer groupMemberId;

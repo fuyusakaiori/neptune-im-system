@@ -3,15 +3,17 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.message.mapper.INepChatGroupMessageHeaderMapper">
 
     <insert id="storeChatGroupMessageHeader">
-
+        insert into `im-system`.im_message_group_header
+        (message_receiver_group_id, message_sender_id, message_key, app_id, message_sequence, message_send_time, message_create_time)
+        value
+        (#{messageHeader.messageReceiverGroupId}, #{messageHeader.messageSenderId}, #{messageHeader.messageKey},
+         #{appId}, #{messageHeader.messageSequence}, #{messageHeader.messageSendTime}, #{messageHeader.messageCreateTime})
     </insert>
 
     <select id="loadChatGroupMessageHeader" resultType="com.fuyusakaiori.nep.im.service.core.message.entity.NepChatGroupMessageHeader">
-
-    </select>
-
-    <select id="loadChatGroupMemberMessageHeader" resultType="com.fuyusakaiori.nep.im.service.core.message.entity.NepChatGroupMessageHeader">
-
+        select message_receiver_group_id, message_sender_id, message_key, message_sequence, message_send_time, message_create_time
+        from `im-system`.im_message_group_header
+        where app_id = #{appId} and message_receiver_group_id = #{groupId}
     </select>
 
 </mapper>

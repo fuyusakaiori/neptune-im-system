@@ -4,11 +4,11 @@
 
     <insert id="addGroupMember">
         insert into `im-system`.im_group_member
-        (group_id, group_member_id, app_id, group_member_enter_type, group_member_enter_time)
+        (group_id, group_member_id, app_id, group_member_type, group_member_enter_type, group_member_enter_time)
         values
         <foreach collection="groupMemberList" item="groupMember" separator=",">
             (#{groupMember.groupId}, #{groupMember.groupMemberId}, #{appId},
-             #{groupMember.groupMemberEnterType}, #{groupMember.groupMemberEnterTime})
+             #{groupMember.groupMemberType}, #{groupMember.groupMemberEnterType}, #{groupMember.groupMemberEnterTime})
         </foreach>
     </insert>
 

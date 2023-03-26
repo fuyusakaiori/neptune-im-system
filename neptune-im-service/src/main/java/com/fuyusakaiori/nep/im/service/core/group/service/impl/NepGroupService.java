@@ -7,7 +7,7 @@ import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.entity.response.*;
 import com.fuyusakaiori.nep.im.service.core.group.service.INepGroupService;
-import com.fuyusakaiori.nep.im.service.core.group.service.NepUploadGroupAvatarResponse;
+import com.fuyusakaiori.nep.im.service.core.group.entity.response.NepUploadGroupAvatarResponse;
 import com.fuyusakaiori.nep.im.service.util.check.NepCheckGroupParamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

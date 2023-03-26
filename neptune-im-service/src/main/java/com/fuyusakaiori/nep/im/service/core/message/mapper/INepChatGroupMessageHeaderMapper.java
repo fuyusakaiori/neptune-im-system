@@ -19,9 +19,4 @@ public interface INepChatGroupMessageHeaderMapper {
      */
     List<NepChatGroupMessageHeader> loadChatGroupMessageHeader(@Param("appId") int appId, @Param("groupId") int groupId);
 
-    /**
-     * <h3>查询某个群成员的所有发言记录</h3>
-     */
-    List<NepChatGroupMessageHeader> loadChatGroupMemberMessageHeader(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId);
-
 }

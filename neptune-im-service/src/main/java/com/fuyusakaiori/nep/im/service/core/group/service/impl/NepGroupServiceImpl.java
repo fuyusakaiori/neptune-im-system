@@ -3,6 +3,7 @@ package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.status.NepGroupEnterType;
 import com.example.nep.im.common.enums.status.NepGroupExitType;
 import com.example.nep.im.common.enums.status.NepGroupMemberType;
 import com.example.nep.im.common.enums.status.NepGroupType;
@@ -34,6 +35,7 @@ public class NepGroupServiceImpl {
     @Autowired
     private INepGroupMemberMapper groupMemberMapper;
 
+
     @Transactional
     public int doCreateGroup(NepCreateGroupRequest request) {
         // 0. 获取变量
@@ -55,11 +57,26 @@ public class NepGroupServiceImpl {
             return 0;
         }
         // 5. 创建分组
-        int result = groupMapper.createGroup(appId, BeanUtil.copyProperties(request, NepGroup.class, "header"));
-        if (result <= 0){
+        int isCreateGroup = groupMapper.createGroup(appId, BeanUtil.copyProperties(request, NepGroup.class, "header"));
+        if (isCreateGroup <= 0){
             log.error("NepGroupServiceImpl doCreateGroup: 创建群组的过程中发生异常");
+            return isCreateGroup;
         }
-        return result;
+        // 6. 将创建群聊的用户设置为群主
+        int isAddLeader = groupMemberMapper.addGroupMember(appId,
+                Collections.singletonList(getNepGroupMember(appId, groupNumber)));
+        if(isAddLeader <= 0){
+            log.error("NepGroupServiceImpl doCreateGroup: 向群组中添加群主失败");
+        }
+        return isAddLeader;
+    }
+
+    private NepGroupMember getNepGroupMember(Integer appId, String groupNumber) {
+        NepGroup newGroup = groupMapper.queryGroupByNumber(appId, groupNumber);
+        return new NepGroupMember()
+                       .setGroupMemberEnterTime(System.currentTimeMillis())
+                       .setGroupId(newGroup.getGroupId()).setGroupMemberId(newGroup.getGroupOwnerId())
+                       .setGroupMemberType(NepGroupMemberType.LEADER.getType()).setGroupMemberEnterType(NepGroupEnterType.APPLY.getType());
     }
 
     @Transactional

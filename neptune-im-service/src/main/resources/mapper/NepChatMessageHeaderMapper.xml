@@ -3,11 +3,22 @@
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.message.mapper.INepChatMessageHeaderMapper">
 
     <insert id="storeChatMessageHeader">
-
+        insert into `im-system`.im_message_header
+        (message_owner_id, message_key, message_sender_id, message_receiver_id, message_sequence, message_send_time, message_create_time, app_id)
+        values
+        <foreach collection="messageHeaderList" item="header" separator=",">
+            (#{header.messageOwnerId}, #{header.messageKey}, #{header.messageSenderId}, #{header.messageReceiverId},
+             #{header.messageSequence}, #{header.messageSendTime}, #{header.messageCreateTime}, #{appId})
+        </foreach>
     </insert>
 
     <select id="loadChatMessageHeader" resultType="com.fuyusakaiori.nep.im.service.core.message.entity.NepChatP2PMessageHeader">
-
+        select message_owner_id, message_key, message_sender_id, message_receiver_id,
+               message_sequence, message_send_time, message_create_time
+        from `im-system`.im_message_header
+        where app_id = #{appId}
+          and message_owner_id = #{senderId}
+          and (message_sender_id = #{receiverId} or message_receiver_id = #{receiverId})
     </select>
 
 </mapper>

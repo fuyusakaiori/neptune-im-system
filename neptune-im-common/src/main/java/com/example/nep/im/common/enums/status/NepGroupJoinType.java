@@ -2,11 +2,11 @@ package com.example.nep.im.common.enums.status;
 
 public enum NepGroupJoinType {
 
-    ANY(0),
+    ANY(1),
 
-    VALIDATION(1),
+    VALIDATION(2),
 
-    BAN(2);
+    BAN(3);
 
 
     private final int type;
