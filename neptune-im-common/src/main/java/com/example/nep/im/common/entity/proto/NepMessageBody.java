@@ -35,8 +35,9 @@ public abstract class NepMessageBody implements Serializable {
         messageClass.put(NepSystemMessageType.LOGIN.getMessageType(), NepLoginMessage.class);
         messageClass.put(NepSystemMessageType.PING.getMessageType(), NepPingMessage.class);
         messageClass.put(NepSystemMessageType.LOGOUT.getMessageType(), NepLogoutMessage.class);
-        messageClass.put(NepChatMessageType.SINGLE_MESSAGE.getMessageType(), NepChatP2PMessage.class);
-        messageClass.put(NepChatMessageType.SINGLE_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
+        messageClass.put(NepChatMessageType.P2P_MESSAGE.getMessageType(), NepChatP2PMessage.class);
+        messageClass.put(NepChatMessageType.P2P_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
+        messageClass.put(NepChatMessageType.P2P_MESSAGE_RECEIVE_ACK.getMessageType(), NepChatConfirmAckMessage.class);
         messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE.getMessageType(), NepChatGroupMessage.class);
         messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
     }

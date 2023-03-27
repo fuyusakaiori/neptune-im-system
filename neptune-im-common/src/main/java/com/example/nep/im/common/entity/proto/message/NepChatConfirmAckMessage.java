@@ -10,20 +10,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class NepChatAckMessage extends NepMessageBody {
-    /**
-     * <h3>响应码</h3>
-     */
-    private int code;
+public class NepChatConfirmAckMessage extends NepMessageBody {
 
-    /**
-     * <h3>响应信息</h3>
-     */
-    private String message;
-
-    /**
-     * <h3>消息 ID</h3>
-     */
     private int messageId;
+
+    private int senderId;
+
+    private int receiverId;
+
+    private boolean serverSend;
 
 }

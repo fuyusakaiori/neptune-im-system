@@ -10,11 +10,6 @@ public enum NepChatGroupMessageType implements INepBaseMessageType {
     GROUP_MESSAGE(0x838),
 
     /**
-     * <h3>群聊消息已读: 2106</h3>
-     */
-    GROUP_MESSAGE_READ(0x83a),
-
-    /**
      * <h3>群聊消息 ack: 2047</h3>
      */
     GROUP_MESSAGE_ACK(0x7ff);

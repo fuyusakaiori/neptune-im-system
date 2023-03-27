@@ -46,8 +46,7 @@ public class NepChatGroupMessageReceiver {
             ),
             concurrency = "1"
     )
-    public void onChatMessage(@Headers Map<String, Object> headers, @Payload Message message, Channel channel) throws IOException
-    {
+    public void onChatMessage(@Headers Map<String, Object> headers, @Payload Message message, Channel channel) throws IOException {
         // 1. 获取发送的群聊消息
         String messageJson = new String(message.getBody(), StandardCharsets.UTF_8);
         // 2. 校验接收到的消息是否为空
@@ -73,8 +72,6 @@ public class NepChatGroupMessageReceiver {
             if (messageType == NepChatGroupMessageType.GROUP_MESSAGE.getMessageType()){
                 // 8.1 处理群聊消息
                 chatGroupMessageService.handleMessage(JSONUtil.toBean(messageJson, NepChatGroupMessage.class));
-            }else if (messageType == NepChatGroupMessageType.GROUP_MESSAGE_READ.getMessageType()){
-                // 8.2 处理群聊消息已读
             }else{
                 log.error("NepChatGroupMessageReceiver onChatMessage: 暂时还不支持其他群聊消息类型的处理 - message: {}", messageJson);
                 return;

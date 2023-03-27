@@ -50,11 +50,8 @@ public class NepUserSocketHolder {
     }
 
     private static NepUserClientInfo transferUserClient(int userId, int appId, int clientType, String imei){
-        return new NepUserClientInfo()
-                       .setUserId(userId)
-                       .setAppId(appId)
-                       .setClientType(clientType)
-                       .setImei(imei);
+        return new NepUserClientInfo().setUserId(userId).setAppId(appId)
+                       .setClientType(clientType).setImei(imei);
     }
 
 }
