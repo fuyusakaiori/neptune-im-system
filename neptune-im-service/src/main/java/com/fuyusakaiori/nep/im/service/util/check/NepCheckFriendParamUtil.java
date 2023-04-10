@@ -41,7 +41,7 @@ public class NepCheckFriendParamUtil {
     public static boolean checkNepQueryAllFriendRequestParam(NepQueryAllFriendRequest request) {
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();
-        Integer userId = request.getFriendFromId();
+        Integer userId = request.getUserId();
         // 2. 校验请求头
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;

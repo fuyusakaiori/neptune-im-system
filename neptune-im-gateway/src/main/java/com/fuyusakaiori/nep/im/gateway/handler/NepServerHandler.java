@@ -121,6 +121,8 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
         String key = clientType + StrUtil.COLON + imei;
         // 3.4 移除 session
         sessionMap.remove(key);
+        // 4. 关闭 channel
+        context.channel().close();
     }
 
 
@@ -130,38 +132,6 @@ public class NepServerHandler extends SimpleChannelInboundHandler<NepProtocol> {
     @Override
     public void userEventTriggered(ChannelHandlerContext context, Object event) throws Exception {
         super.userEventTriggered(context, event);
-    }
-
-    /**
-     * <h3>处理离线事件</h3>
-     */
-    @Override
-    public void channelInactive(ChannelHandlerContext context) throws Exception {
-        offlineMessageHandle(context);
-    }
-
-    private void offlineMessageHandle(ChannelHandlerContext context){
-        // 1. 直接从 channel 中获取用户的相关信息
-        Integer userId = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.USER_ID)).get();
-        Integer appId = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.APP_ID)).get();
-        Integer clientType = (Integer) context.channel().attr(AttributeKey.valueOf(NepUserConstant.CLIENT_TYPE)).get();
-        String imei = (String) context.channel().attr(AttributeKey.valueOf(NepUserConstant.IMEI)).get();
-        // 2. 移除用户对应的 channel
-        NepUserSocketHolder.remove(userId, appId, clientType, imei);
-        // 3. 修改用户保存在 redis 中的信息
-        RedissonClient redissonClient = NepRedisClient.getRedissonClient();
-        // 3.1 拼接 filed
-        String field = appId + NepRedisConstant.USER_SESSION + userId;
-        // 3.2 获取 map
-        RMap<String, String> sessionMap = redissonClient.getMap(field);
-        // 3.3 拼接 key
-        String key = clientType + StrUtil.COLON + imei;
-        // 3.4 获取 value
-        NepUserSessionInfo userSession = JSONUtil.toBean(sessionMap.get(key), NepUserSessionInfo.class);
-        // 3.5 更新状态
-        userSession.setConnectStatus(NepConnectStatus.OFFLINE.getStatus());
-        // 3.6 重写写入 redis
-        sessionMap.put(key, JSONUtil.toJsonStr(userSession));
     }
 
     private NepUserSessionInfo transferUserSession(NepMessageHeader messageHeader, NepLoginMessage messageBody) throws UnknownHostException {

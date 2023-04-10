@@ -185,7 +185,7 @@ public class NepUserServiceImpl {
         // 9. 拼装返回结果
         List<NepWillBeFriend> willBeFriendList = new ArrayList<>();
         for (NepFriendship friendship : friendshipList) {
-            willBeFriendList.add(BeanUtil.copyProperties(userMap.get(friendship.getFriendToId()), NepWillBeFriend.class).setFriend(true));
+            willBeFriendList.add(BeanUtil.copyProperties(userMap.get(friendship.getFriendToId()), NepWillBeFriend.class));
         }
         return willBeFriendList;
     }

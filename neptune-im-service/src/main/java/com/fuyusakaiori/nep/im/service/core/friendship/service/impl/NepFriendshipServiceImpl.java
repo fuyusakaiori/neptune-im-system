@@ -16,6 +16,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGrou
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
+import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriend;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import com.fuyusakaiori.nep.im.service.core.message.mq.NepServiceToGateWayMessageProducer;
 import lombok.extern.slf4j.Slf4j;
@@ -44,57 +45,34 @@ public class NepFriendshipServiceImpl {
 
     @Autowired
     private NepFriendshipDealService friendshipDealService;
-    @Autowired
-    private NepFriendshipApplicationServiceImpl friendshipApplicationServiceImpl;
+
 
     @Autowired
     private NepServiceToGateWayMessageProducer messageProducer;
 
     @Transactional(rollbackFor = Exception.class)
-    public int doAddFriendship(NepAddFriendshipRequest request){
+    public NepFriend doAddFriendship(NepAddFriendshipRequest request){
         // 1. 获取变量
         Integer appId = request.getHeader().getAppId();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-        // TODO 2. 添加好友前执行回调
-
-        // 3. 查询用户是否存在: 没有直接查关系表是因为需要判断用户是否可以添加好友
+        // 2. 查询用户是否存在
         NepUser fromUser = userMapper.queryUserById(appId, friendFromId);
         NepUser toUser = userMapper.queryUserById(appId, friendToId);
-        if (Objects.isNull(fromUser) || fromUser.isDelete() || Objects.isNull(toUser) || toUser.isDelete()){
-            log.error("NeptuneFriendshipService doAddFriendship: 新增的好友关系中有一方用户是不存在的 - fromUser: {}, toUser: {}", fromUser, toUser);
-            return 0;
+        if (Objects.isNull(fromUser) || fromUser.isDelete()
+                    || Objects.isNull(toUser) || toUser.isDelete()){
+            log.error("NeptuneFriendshipService doAddFriendship: 新增的好友关系中有一方用户是不存在的 - fromUser: {}, toUser: {}, request: {}", fromUser, toUser, request);
+            return null;
         }
-        // 4. 检查用户是否可以添加好友
-        Integer type = toUser.getFriendshipAllowType();
-        if (Objects.isNull(type)){
-            log.error("NeptuneFriendshipService doAddFriendship: 用户添加好友类型为空 - fromUser: {},  toUser: {}", fromUser, toUser);
-            return 0;
+        // 3. 添加好友
+        NepFriend newFriend = friendshipDealService.doAddFriendshipDirectly(appId,
+                BeanUtil.copyProperties(request, NepFriendship.class));
+        // 4. 判断好友是否添加成功
+        if (Objects.isNull(newFriend)){
+            log.error("NeptuneFriendshipService doAddFriendship - 好友添加失败 - request: {}", request);
+            return null;
         }
-        // 4.1 如果对方不允许添加好友, 那么直接返回
-        if (type == NepFriendshipAllowType.BAN.getType()){
-            log.info("NeptuneFriendshipService doAddFriendship: 对方不允许添加好友 - fromUser: {}, toUser: {}", fromUser, toUser);
-            return NepFriendshipAllowType.BAN.getType();
-        }
-        // 4.2 如果对方不需要验证就能添加好友, 那么直接添加
-        if (type == NepFriendshipAllowType.ANY.getType()){
-            int result = friendshipDealService.doAddFriendshipDirectly(appId, BeanUtil.copyProperties(request, NepFriendship.class, "header"));
-            if (result <= 0){
-                log.error("NeptuneFriendshipService doAddFriendship - ANY: 好友添加失败 - fromUser: {},  toUser: {}", fromUser, toUser);
-                return 0;
-            }
-            return NepFriendshipAllowType.ANY.getType();
-        }
-        // 4.3 如果对方需要验证才能添加, 那么走验证后添加的逻辑: 1. 发送好友申请后就结束 2. 对方审批好友申请后执行添加方法
-        if (type == NepFriendshipAllowType.VALIDATION.getType()){
-            int result = friendshipApplicationServiceImpl.doSendFriendshipApplication(request);
-            if (result <= 0){
-                log.error("NeptuneFriendshipService doAddFriendship - VALIDATION: 好友添加失败 - fromUser: {},  toUser: {}", fromUser, toUser);
-                return 0;
-            }
-            return NepFriendshipAllowType.VALIDATION.getType();
-        }
-        return 0;
+        return newFriend;
     }
 
     @Transactional(rollbackFor = Exception.class)

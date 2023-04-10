@@ -10,4 +10,6 @@ public interface INepFriendshipApplicationService {
 
     NepApproveFriendshipApplicationResponse approveFriendshipApplication(NepApproveFriendshipApplicationRequest request);
 
+    NepSendFriendshipApplicationResponse sendFriendshipApplication(NepSendFriendshipApplicationRequest request);
+
 }

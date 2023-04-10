@@ -12,10 +12,10 @@ import java.util.List;
 @ToString
 public class NepQueryAllFriendshipGroupResponse {
 
-    private List<NepFriendshipGroup> groupList;
-
     private int code;
 
     private String message;
+
+    private List<NepFriendshipGroup> friendshipGroupList;
 
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class NepCheckFriendshipBlackParamUtil {
     public static boolean checkAddFriendInBlackListRequestParam(NepAddFriendshipBlackRequest request) {
-        NepRequestHeader header = request.getRequestHeader();
+        NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
@@ -25,7 +25,7 @@ public class NepCheckFriendshipBlackParamUtil {
     }
 
     public static boolean checkRemoveFriendInBlackListRequestParam(NepRemoveFriendshipBlackRequest request) {
-        NepRequestHeader header = request.getRequestHeader();
+        NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){

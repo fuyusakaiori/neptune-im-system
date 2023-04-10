@@ -40,9 +40,9 @@ public class NepFriendController {
     }
 
     @GetMapping(value = "/query-all-friend")
-    public NepQueryFriendResponse queryAllFriend(@RequestParam("appId") Integer appId, @RequestParam("friendFromId") Integer friendFromId){
+    public NepQueryFriendResponse queryAllFriend(@RequestParam("appId") Integer appId, @RequestParam("userId") Integer userId){
         NepQueryAllFriendRequest request = new NepQueryAllFriendRequest()
-                                                   .setHeader(new NepRequestHeader().setAppId(appId)).setFriendFromId(friendFromId);
+                                                   .setHeader(new NepRequestHeader().setAppId(appId)).setUserId(userId);
         log.info("NepUserController queryAllFriend: 开始查询所有好友 - request: {}", request);
         NepQueryFriendResponse response = friendService.queryAllFriend(request);
         log.info("NepUserController queryAllFriend: 查询所有好友结束 - request: {}, response: {}", request, response);

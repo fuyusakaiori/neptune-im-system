@@ -11,6 +11,7 @@ import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQ
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.request.group.NepQueryFriendshipGroupRequest;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipGroupMemberMapper;
+import com.fuyusakaiori.nep.im.service.core.message.mq.NepServiceToGateWayMessageProducer;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -36,27 +37,34 @@ public class NepFriendshipGroupServiceImpl {
     @Autowired
     private INepFriendshipGroupMemberMapper friendshipGroupMemberMapper;
 
+    @Autowired
+    private NepServiceToGateWayMessageProducer messageSender;
+
     @Transactional(rollbackFor = Exception.class)
-    public int doCreateFriendshipGroup(NepCreateFriendshipGroupRequest request) {
+    public List<NepFriendshipGroup> doCreateFriendshipGroup(NepCreateFriendshipGroupRequest request) {
         // 1. 获取变量
-        NepRequestHeader header = request.getHeader();
+        Integer appId = request.getHeader().getAppId();
         Integer groupOwnerId = request.getGroupOwnerId();
         // 2. 查询用户
-        NepUser user = userMapper.queryUserById(header.getAppId(), groupOwnerId);
+        NepUser user = userMapper.queryUserById(appId, groupOwnerId);
         // 3. 校验用户是否存在
-        if (Objects.isNull(user)){
-            log.error("NepFriendshipGroupService doCreateFriendshipGroup: 创建分组的用户不存在 - request: {}", request);
-            return 0;
+        if (Objects.isNull(user) || user.isDelete()){
+            log.error("NepFriendshipGroupService doCreateFriendshipGroup: 创建好友分组的用户不存在 - request: {}", request);
+            return Collections.emptyList();
         }
         // 4. 直接创建分组
-        int result = friendshipGroupMapper.createFriendshipGroup(header.getAppId(),
-                BeanUtil.copyProperties(request, NepFriendshipGroup.class, "header"));
+        int result = friendshipGroupMapper.createFriendshipGroup(appId, BeanUtil.copyProperties(request, NepFriendshipGroup.class));
         if (result <= 0){
-            log.error("NepFriendshipGroupService doCreateFriendshipGroup: 分组创建失败 - request: {}", request);
-            return result;
+            log.error("NepFriendshipGroupService doCreateFriendshipGroup: 好友分组创建失败 - request: {}", request);
+            return Collections.emptyList();
         }
-        // TODO 5. 通知用户的其他客户端
-        return result;
+        // 5. 全部查询出来: 因为好友分组主键是自增的, 而好友分组的名称是可以重复的, 所以导致新增的时候没有办法直接获取到刚才新增的, 后面考虑下有没有什么更好的解决方法
+        List<NepFriendshipGroup> friendshipGroupList = friendshipGroupMapper.queryAllFriendshipGroup(appId, groupOwnerId);
+        // 6. 检查集合是否为空
+        if (CollectionUtil.isEmpty(friendshipGroupList)){
+            return Collections.emptyList();
+        }
+        return friendshipGroupList;
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -173,8 +173,8 @@ public class NepUserService implements INepUserService {
             NepUser user = userServiceImpl.doLoginUserInImSystem(request);
             if (Objects.isNull(user)){
                 response.setLoginUser(null)
-                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
-                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+                        .setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
+                        .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
                 log.error("NeptuneUserService loginUserInImSystem: 用户登录失败 - request: {}, response: {}", request, response);
                 return response;
             }

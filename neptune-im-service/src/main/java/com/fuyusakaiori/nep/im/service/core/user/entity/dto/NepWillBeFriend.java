@@ -43,13 +43,8 @@ public class NepWillBeFriend {
     private String avatarAddress;
 
     /**
-     * <h3>好友备注</h3>
+     * <h3>添加好友的方式</h3>
      */
-    private String friendRemark;
-
-    /**
-     * <h3>是否已经是好友: false 表示不是好友, true 表示是好友</h3>
-     */
-    private boolean friend;
+    private Integer friendshipAllowType;
 
 }

@@ -1,21 +1,15 @@
 package com.fuyusakaiori.nep.im.service.core.user.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import com.example.nep.im.common.entity.request.NepRequestHeader;
-import com.example.nep.im.common.enums.code.*;
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication;
-import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroup;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipGroupMember;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.*;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriend;
 import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendApplication;
-import com.fuyusakaiori.nep.im.service.core.user.entity.dto.NepFriendGroup;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendApplicationRequest;
-import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendGroupMemberRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryAllFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.friend.NepQueryFriendRequest;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
@@ -24,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,9 +39,9 @@ public class NepFriendServiceImpl {
     public List<NepFriend> doQueryAllFriend(NepQueryAllFriendRequest request) {
         // 1. 获取变量
         Integer appId = request.getHeader().getAppId();
-        Integer friendFromId = request.getFriendFromId();
+        Integer userId = request.getUserId();
         // 2. 查询用户的好友
-        List<NepFriendship> friendshipList = friendshipMapper.queryAllFriendship(appId, friendFromId);
+        List<NepFriendship> friendshipList = friendshipMapper.queryAllFriendship(appId, userId);
         if (CollectionUtil.isEmpty(friendshipList)){
             log.error("NepFriendUserService doQueryAllFriend: 用户没有任何好友或者用户不存在 - request: {}", request);
             return Collections.emptyList();
@@ -64,7 +57,7 @@ public class NepFriendServiceImpl {
             return Collections.emptyList();
         }
         // 5. 查询好友所在的分组信息
-        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryFriendshipGroupMemberList(appId, friendFromId, friendshipIdList);
+        List<NepFriendshipGroupMember> friendshipGroupMemberList = friendshipGroupMemberMapper.queryFriendshipGroupMemberList(appId, userId, friendshipIdList);
         if (CollectionUtil.isEmpty(friendshipGroupMemberList)){
             log.info("NepFriendUserService doQueryAllFriend: 该用户没有创建任何好友分组 - request: {}", request);
             return transferFriendList(friendshipList, userList, Collections.emptyList());

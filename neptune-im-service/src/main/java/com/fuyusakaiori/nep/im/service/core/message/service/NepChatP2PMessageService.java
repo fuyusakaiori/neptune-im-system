@@ -130,7 +130,7 @@ public class NepChatP2PMessageService {
      * <h3>持久化消息</h3>
      */
     private void storeMessage(NepChatP2PMessage message) {
-        storeMessageService.storeMessage(IdUtil.getSnowflakeNextId(), message);
+        storeMessageService.storeMessage(message);
     }
 
     /**

@@ -52,7 +52,7 @@ public class NepFriendshipBlackService implements INepFriendshipBlackService {
             // TODO 3. 执行回调
             response.setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.info("NepFriendshipBlackService addFriendInBlackList: 好友拉黑失败 - request: {}, response: {}", request, response);
+            log.info("NepFriendshipBlackService addFriendInBlackList: 好友拉黑成功 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
             response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())

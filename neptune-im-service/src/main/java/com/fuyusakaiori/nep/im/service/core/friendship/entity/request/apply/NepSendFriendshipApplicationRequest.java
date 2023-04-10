@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepSendFriendshipApplicationRequest {
 
-    private NepRequestHeader requestHeader;
+    private NepRequestHeader header;
 
     private Integer friendFromId;
 
@@ -18,8 +18,8 @@ public class NepSendFriendshipApplicationRequest {
 
     private String additionalInfo;
 
-    private String remark;
+    private String friendRemark;
 
-    private String source;
+    private String friendshipSource;
 
 }

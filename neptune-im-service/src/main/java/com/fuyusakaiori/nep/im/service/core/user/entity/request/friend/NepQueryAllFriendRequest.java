@@ -12,6 +12,6 @@ public class NepQueryAllFriendRequest {
 
     private NepRequestHeader header;
 
-    private Integer friendFromId;
+    private Integer userId;
 
 }

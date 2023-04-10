@@ -26,9 +26,6 @@ public class NepUserController {
     }
 
 
-    /**
-     * TODO 登陆到底是利用 HTTP 短连接还是 TCP 长连接
-     */
     @PostMapping(value = "/login")
     public NepLoginUserResponse loginUser(@RequestBody NepLoginUserRequest request){
         log.info("NepUserController loginUser: 准备开始登陆用户 - request: {}", request);

@@ -27,7 +27,7 @@ public class NepFriendshipBlackServiceImpl {
 
     public int doAddFriendInBlackList(NepAddFriendshipBlackRequest request){
         // 0. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
+        NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         // 1. 查询好友关系
@@ -49,7 +49,7 @@ public class NepFriendshipBlackServiceImpl {
 
     public int doRemoveFriendInBlackList(NepRemoveFriendshipBlackRequest request){
         // 0. 获取变量
-        NepRequestHeader header = request.getRequestHeader();
+        NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
         // 1. 查询好友关系
