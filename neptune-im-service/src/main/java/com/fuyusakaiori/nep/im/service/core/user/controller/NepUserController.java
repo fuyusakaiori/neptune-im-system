@@ -52,9 +52,7 @@ public class NepUserController {
         return response;
     }
 
-    /**
-     * TODO 查询的结果需要包含是否是好友
-     */
+
     @GetMapping(value = "/search-user")
     public NepQueryWillBeFriendResponse queryUser(@RequestParam("appId") Integer appId, @RequestParam("userId") Integer userId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
         NepQueryWillBeFriendRequest request = new NepQueryWillBeFriendRequest()

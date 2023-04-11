@@ -1,7 +1,6 @@
 package com.example.nep.im.common.enums.status;
 
-public enum NepFriendshipAllowType
-{
+public enum NepFriendshipAllowType {
 
     /**
      * <h3>任何人都可以添加</h3>
@@ -25,5 +24,14 @@ public enum NepFriendshipAllowType
 
     public int getType() {
         return type;
+    }
+
+    public static boolean isIllegalFriendshipAllowType(int type){
+        for (NepFriendshipAllowType friendshipAllowType : NepFriendshipAllowType.values()) {
+            if(friendshipAllowType.type == type){
+                return true;
+            }
+        }
+        return false;
     }
 }
