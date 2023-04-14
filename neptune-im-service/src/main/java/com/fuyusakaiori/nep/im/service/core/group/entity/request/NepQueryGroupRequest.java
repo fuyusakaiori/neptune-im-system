@@ -1,6 +1,5 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.request;
 
-
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
 import lombok.ToString;
@@ -13,8 +12,6 @@ public class NepQueryGroupRequest {
 
     private NepRequestHeader header;
 
-    private String groupNumber;
-
-    private String groupName;
+    private Integer groupId;
 
 }

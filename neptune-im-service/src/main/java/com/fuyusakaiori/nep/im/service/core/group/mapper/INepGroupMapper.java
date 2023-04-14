@@ -32,7 +32,7 @@ public interface INepGroupMapper {
     /**
      * <h3>禁言群组: 权限验证 - 对外调用</h3>
      */
-    int muteGroupChat(@Param("appId") int appId, @Param("groupId") int groupId, @Param("updateTime") long updateTime);
+    int muteGroupChat(@Param("appId") int appId, @Param("groupId") int groupId, @Param("mute") boolean mute, @Param("updateTime") long updateTime);
 
     /**
      * <h3>转让群组的群主: 权限验证 - 对外调用</h3>
@@ -43,6 +43,11 @@ public interface INepGroupMapper {
      * <h3>查询群组: 通过群组 ID 查询 - 内部调用</h3>
      */
     NepGroup queryGroupById(@Param("appId") int appId, @Param("groupId") int groupId);
+
+    /**
+     * <h3>查询群组: 通过群聊 ID 集合</h3>
+     */
+    List<NepGroup> queryGroupByIdList(@Param("appId") int appId, @Param("groupIdList") List<Integer> groupIdList);
 
     /**
      * <h3>查询群组: 通过群号查询 - 对外调用</h3>

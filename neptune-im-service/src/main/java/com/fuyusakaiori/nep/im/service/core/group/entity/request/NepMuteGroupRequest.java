@@ -17,4 +17,8 @@ public class NepMuteGroupRequest {
 
     private Integer groupId;
 
+    private Boolean mute;
+
+    private Integer groupMemberType;
+
 }

@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.group.entity.request;
+package com.fuyusakaiori.nep.im.service.core.user.entity.request.normal;
 
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import lombok.Data;
@@ -8,19 +8,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepChangeGroupMemberTypeRequest {
+public class NepQueryWillBeFriendByIdRequest {
 
     private NepRequestHeader header;
 
     private Integer userId;
-
-    private Integer groupOperatorType;
-
-    private Integer groupId;
-
-    private Integer groupMemberId;
-
-    private Integer groupMemberType;
-
 
 }

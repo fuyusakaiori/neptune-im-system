@@ -1,6 +1,5 @@
 package com.fuyusakaiori.nep.im.service.util.check;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
@@ -10,7 +9,6 @@ import com.example.nep.im.common.util.NepCheckBaseParamUtil;
 import com.fuyusakaiori.nep.im.service.core.user.entity.request.normal.*;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.Objects;
 
 public class NepCheckUserParamUtil {
@@ -145,9 +143,28 @@ public class NepCheckUserParamUtil {
     }
 
     /**
-     * <h3>校验通过账号查询用户的请求</h3>
+     * <h3>校验通过用户 ID 查询用户的请求</h3>
      */
-    public static boolean checkNepQueryUserRequestParam(NepQueryWillBeFriendRequest request){
+    public static boolean checkNepQueryUserRequestParam(NepQueryWillBeFriendByIdRequest request) {
+        // 1. 获取变量
+        NepRequestHeader requestHeader = request.getHeader();
+        Integer userId = request.getUserId();
+        // 2. 校验请求头
+        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(requestHeader)){
+            return false;
+        }
+        // 3. 校验用户 ID
+        if(Objects.isNull(userId) || userId <= 0){
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * <h3>校验通过账号和昵称查询用户的请求</h3>
+     */
+    public static boolean checkNepQueryWillBeFriendRequestParam(NepQueryWillBeFriendRequest request){
         // 1. 获取变量
         NepRequestHeader header = request.getHeader();
         Integer userId = request.getUserId();

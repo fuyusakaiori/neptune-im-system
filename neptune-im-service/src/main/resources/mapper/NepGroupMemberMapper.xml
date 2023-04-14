@@ -18,35 +18,35 @@
             <if test="nickname != null">group_member_nick_name = #{nickname},</if>
         </set>
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
-            and group_member_enter_type is null and group_member_exit_time is null
+            and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
     <update id="changeGroupMemberType">
         update `im-system`.im_group_member
         set group_member_type = #{type}
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
-          and group_member_enter_type is null and group_member_exit_time is null
+          and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
     <update id="muteGroupMemberChat">
         update `im-system`.im_group_member
         set group_member_mute_end_time = #{muteEndTime}
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
-          and group_member_enter_type is null and group_member_exit_time is null
+          and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
     <update id="revokeGroupMemberChat">
         update `im-system`.im_group_member
         set group_member_mute_end_time = null
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
-          and group_member_enter_type is null and group_member_exit_time is null
+          and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
     <update id="exitGroupMember">
         update `im-system`.im_group_member
         set group_member_exit_time = #{exitTime}, group_member_exit_type = #{exitType}
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
-          and group_member_enter_type is null and group_member_exit_time is null
+          and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
     <update id="clearGroupMember">
@@ -54,6 +54,11 @@
         set group_member_exit_time = #{exitTime}, group_member_exit_type = #{exitType}
         where app_id = #{appId} and group_id = #{groupId}
     </update>
+
+    <select id="queryGroupMemberCount" resultType="_int">
+        select count(1) from `im-system`.im_group_member
+        where app_id = #{appId} and group_id = #{groupId}
+    </select>
 
     <select id="queryGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
         select group_id, group_member_id, group_member_type, group_member_nick_name,
@@ -63,11 +68,27 @@
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
     </select>
 
+    <select id="queryAllGroupAdmin" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_id = #{groupId}
+          and group_member_type != 0 and group_member_exit_type is null and group_member_exit_time is null
+    </select>
+
     <select id="queryAllGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
         select group_id, group_member_id, group_member_type, group_member_nick_name,
                group_member_mute_end_time, group_member_enter_time, group_member_enter_type
         from `im-system`.im_group_member
         where app_id = #{appId} and group_id = #{groupId}
+          and  group_member_exit_type is null and group_member_exit_time is null
+    </select>
+
+    <select id="queryGroupMemberListByMemberId" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_member_id = #{memberId}
           and  group_member_exit_type is null and group_member_exit_time is null
     </select>
 

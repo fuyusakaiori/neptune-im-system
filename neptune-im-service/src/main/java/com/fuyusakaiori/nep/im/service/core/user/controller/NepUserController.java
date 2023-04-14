@@ -52,17 +52,30 @@ public class NepUserController {
         return response;
     }
 
+    @GetMapping(value = "/query")
+    public NepQueryWillBeFriendByIdResponse queryWillBeFriendById(@RequestParam("appId") int appId, @RequestParam("clientType") int clientType, @RequestParam("imei") String imei,
+                                                                  @RequestParam("userId") int userId){
+        NepRequestHeader header = new NepRequestHeader().setAppId(appId)
+                                          .setClientType(clientType).setImei(imei);
+        NepQueryWillBeFriendByIdRequest request = new NepQueryWillBeFriendByIdRequest()
+                                                          .setHeader(header).setUserId(userId);
+        log.info("NepUserController queryWillBeFriendById: 开始根据用户 ID 查询用户 - request: {}", request);
+        NepQueryWillBeFriendByIdResponse response = userService.queryWillBeFriendById(request);
+        log.info("NepUserController queryWillBeFriendById: 根据用户 ID 查询用户结束 - request: {}, response: {}", request, response);
+        return response;
+    }
+
 
     @GetMapping(value = "/search-user")
-    public NepQueryWillBeFriendResponse queryUser(@RequestParam("appId") Integer appId, @RequestParam("userId") Integer userId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
+    public NepQueryWillBeFriendResponse queryWillBeFriend(@RequestParam("appId") Integer appId, @RequestParam("userId") Integer userId, @RequestParam("username") String username, @RequestParam("nickname") String nickname){
         NepQueryWillBeFriendRequest request = new NepQueryWillBeFriendRequest()
                                               .setUserId(userId)
                                               .setUsername(username)
                                               .setNickname(nickname)
                                               .setHeader(new NepRequestHeader().setAppId(appId));
-        log.info("NepUserController queryUserByUserName: 开始查询用户 - request: {}", request);
+        log.info("NepUserController queryWillBeFriend: 开始根据用户昵称和账号查询用户 - request: {}", request);
         NepQueryWillBeFriendResponse response = userService.queryWillBeFriend(request);
-        log.info("NepUserController queryUserByUserName: 查询用户结束 - request: {}, response: {}", request, response);
+        log.info("NepUserController queryWillBeFriend: 根据用户昵称和账号查询用户结束 - request: {}, response: {}", request, response);
         return response;
     }
 

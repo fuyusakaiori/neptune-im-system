@@ -2,11 +2,11 @@ package com.example.nep.im.common.enums.status;
 
 public enum NepGroupMemberType {
 
-    LEADER(0, "群主"),
+    LEADER(2, "群主"),
 
     ADMIN(1, "管理员"),
 
-    MEMBER(2, "成员");
+    MEMBER(0, "成员");
 
 
     private final int type;

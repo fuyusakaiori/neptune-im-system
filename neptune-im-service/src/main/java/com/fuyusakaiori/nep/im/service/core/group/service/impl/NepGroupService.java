@@ -4,6 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepGroupResponseCode;
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepCombineGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepJoinedGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepSimpleGroup;
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.entity.response.*;
 import com.fuyusakaiori.nep.im.service.core.group.service.INepGroupService;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -30,25 +34,29 @@ public class NepGroupService implements INepGroupService {
     public NepCreateGroupResponse createGroup(NepCreateGroupRequest request) {
         NepCreateGroupResponse response = new NepCreateGroupResponse();
         if (!NepCheckGroupParamUtil.checkNepCreateGroupRequestParam(request)){
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+            response.setNewGroup(null)
+                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupService createGroup: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            int result = groupServiceImpl.doCreateGroup(request);
-            if (result <= 0){
-                response.setCode(NepGroupResponseCode.CREATE_GROUP_FAIL.getCode())
+            NepGroup group = groupServiceImpl.doCreateGroup(request);
+            if (Objects.isNull(group)){
+                response.setNewGroup(null)
+                        .setCode(NepGroupResponseCode.CREATE_GROUP_FAIL.getCode())
                         .setMessage(NepGroupResponseCode.CREATE_GROUP_FAIL.getMessage());
                 log.error("NepGroupService createGroup: 创建群组失败 - request: {}, response: {}", request, response);
                 return response;
             }
-            response.setCode(NepBaseResponseCode.SUCCESS.getCode())
+            response.setNewGroup(group)
+                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
             log.info("NepGroupService createGroup: 创建群组成功 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
-            response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+            response.setNewGroup(null)
+                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NepGroupService createGroup: 创建群组时发生异常 - request: {}, response: {}", request, response, exception);
             return response;
@@ -208,31 +216,64 @@ public class NepGroupService implements INepGroupService {
     public NepQueryGroupResponse queryGroup(NepQueryGroupRequest request) {
         NepQueryGroupResponse response = new NepQueryGroupResponse();
         if (!NepCheckGroupParamUtil.checkNepQueryGroupRequestParam(request)){
-            response.setGroupList(Collections.emptyList())
+            response.setGroup(null)
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupService queryGroup: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            List<NepGroup> groupList = groupServiceImpl.doQueryGroup(request);
+            NepCombineGroup group = groupServiceImpl.doQueryGroup(request);
+            if (Objects.isNull(group)){
+                response.setGroup(null)
+                        .setCode(NepGroupResponseCode.GROUP_NOT_EXIST.getCode())
+                        .setMessage(NepGroupResponseCode.GROUP_NOT_EXIST.getMessage());
+                log.error("NepGroupService queryGroup: 没有查询到群聊的详细信息 - request: {}, response: {}", request, response);
+                return response;
+            }
+            response.setGroup(group)
+                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+            log.info("NepGroupService queryGroup: 成功查询到群聊的详细信息 - request: {}, response: {}", request, response);
+            return response;
+        }catch (Exception exception){
+            response.setGroup(null)
+                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+                    .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
+            log.error("NepGroupService queryGroup: 查询群聊详细信息时出现异常 - request: {}, response: {}", request, response, exception);
+            return response;
+        }
+    }
+
+    @Override
+    public NepQueryGroupListResponse queryGroupList(NepQueryGroupListRequest request) {
+        NepQueryGroupListResponse response = new NepQueryGroupListResponse();
+        if (!NepCheckGroupParamUtil.checkNepQueryGroupListRequestParam(request)){
+            response.setGroupList(Collections.emptyList())
+                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
+            log.error("NepGroupService queryGroupList: 参数校验失败 - request: {}, response: {}", request, response);
+            return response;
+        }
+        try {
+            List<NepSimpleGroup> groupList = groupServiceImpl.doQueryGroupList(request);
             if (CollectionUtil.isEmpty(groupList)){
                 response.setGroupList(Collections.emptyList())
                         .setCode(NepGroupResponseCode.GROUP_NOT_EXIST.getCode())
                         .setMessage(NepGroupResponseCode.GROUP_NOT_EXIST.getMessage());
-                log.info("NepGroupService queryGroup: 没有查询到群组 - request: {}, response: {}", request, response);
+                log.info("NepGroupService queryGroupList: 没有查询到群组 - request: {}, response: {}", request, response);
                 return response;
             }
             response.setGroupList(groupList)
                     .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.info("NepGroupService queryGroup: 成功查询到群组 - request: {}, response: {}", request, response);
+            log.info("NepGroupService queryGroupList: 成功查询到群组 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
             response.setGroupList(Collections.emptyList())
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
-            log.error("NepGroupService queryGroup: 查询群组时出现异常 - request: {}, response: {}", request, response, exception);
+            log.error("NepGroupService queryGroupList: 查询群组时出现异常 - request: {}, response: {}", request, response, exception);
             return response;
         }
     }
@@ -241,13 +282,14 @@ public class NepGroupService implements INepGroupService {
     public NepQueryAllJoinedGroupResponse queryAllJoinedGroup(NepQueryAllJoinedGroupRequest request) {
         NepQueryAllJoinedGroupResponse response = new NepQueryAllJoinedGroupResponse();
         if (!NepCheckGroupParamUtil.checkNepQueryAllJoinedGroupRequestParam(request)){
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+            response.setGroupList(Collections.emptyList())
+                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupService queryAllJoinedGroup: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            List<NepGroup> groupList = groupServiceImpl.doQueryAllJoinedGroup(request);
+            List<NepJoinedGroup> groupList = groupServiceImpl.doQueryAllJoinedGroup(request);
             if (CollectionUtil.isEmpty(groupList)){
                 response.setGroupList(Collections.emptyList())
                         .setCode(NepGroupResponseCode.GROUP_NOT_EXIST.getCode())

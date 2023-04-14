@@ -34,7 +34,7 @@ public class NepCheckGroupMemberParamUtil {
         NepRequestHeader header = request.getHeader();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
-        String nickname = request.getNickname();
+        String nickname = request.getGroupMemberNickName();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
@@ -53,16 +53,21 @@ public class NepCheckGroupMemberParamUtil {
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         Integer groupMemberType = request.getGroupMemberType();
+        Integer groupOperatorType = request.getGroupOperatorType();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
         if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
-        if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
+        if (Objects.isNull(groupId) || groupId <= 0 ||
+                    Objects.isNull(groupMemberId) || groupMemberId <= 0){
             return false;
         }
-        if (Objects.isNull(groupMemberType) || NepGroupMemberType.isIllegalGroupMemberType(groupMemberType)){
+        if (Objects.isNull(groupMemberType) || !NepGroupMemberType.isIllegalGroupMemberType(groupMemberType)){
+            return false;
+        }
+        if (Objects.isNull(groupOperatorType) || !NepGroupMemberType.isIllegalGroupMemberType(groupOperatorType)){
             return false;
         }
         return true;
@@ -73,17 +78,27 @@ public class NepCheckGroupMemberParamUtil {
         Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
+        Integer groupMemberType = request.getGroupMemberType();
         Long muteEndTime = request.getMuteEndTime();
+        Boolean mute = request.getMute();
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
         if (Objects.isNull(userId) || userId <= 0){
             return false;
         }
-        if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
+        if (Objects.isNull(groupId) || groupId <= 0 ||
+                    Objects.isNull(groupMemberId) || groupMemberId <= 0){
             return false;
         }
-        if (Objects.isNull(muteEndTime) || muteEndTime < System.currentTimeMillis()){
+        if (Objects.isNull(groupMemberType) ||
+                    !NepGroupMemberType.isIllegalGroupMemberType(groupMemberType)){
+            return false;
+        }
+        if (Objects.isNull(mute)){
+            return false;
+        }
+        if (mute && (Objects.isNull(muteEndTime) || muteEndTime < System.currentTimeMillis())){
             return false;
         }
         return true;
@@ -115,13 +130,13 @@ public class NepCheckGroupMemberParamUtil {
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (Objects.isNull(userId) || userId <= 0){
+        if (Objects.isNull(groupMemberExitType) || !NepGroupExitType.isIllegalGroupExitType(groupMemberExitType)){
+            return false;
+        }
+        if (NepGroupExitType.KICK_OUT.getType() == groupMemberExitType && (Objects.isNull(userId) || userId <= 0)){
             return false;
         }
         if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(groupMemberId) || groupMemberId <= 0){
-            return false;
-        }
-        if (Objects.isNull(groupMemberExitType) || NepGroupExitType.isIllegalGroupExitType(groupMemberExitType)){
             return false;
         }
         return true;
@@ -134,7 +149,8 @@ public class NepCheckGroupMemberParamUtil {
         if(!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
-        if (Objects.isNull(groupId) || groupId <= 0 || Objects.isNull(queryType) || NepGroupMemberQueryType.isIllegalGroupMemberQueryType(queryType)){
+        if (Objects.isNull(groupId) || groupId <= 0
+                    || Objects.isNull(queryType) || !NepGroupMemberQueryType.isIllegalGroupMemberQueryType(queryType)){
             return false;
         }
         return true;

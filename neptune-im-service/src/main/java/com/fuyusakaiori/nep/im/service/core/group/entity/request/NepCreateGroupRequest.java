@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
 @ToString
@@ -14,10 +16,15 @@ public class NepCreateGroupRequest {
 
     private Integer groupOwnerId;
 
-    private String groupNumber;
-
     private String groupName;
 
+    private String groupBriefInfo;
+
     private Integer groupType;
+
+    /**
+     * <h3>创建群组时可以选择邀请好友直接加入</h3>
+     */
+    private List<Integer> groupMemberIdList;
 
 }

@@ -18,6 +18,13 @@ public class NepMuteGroupMemberRequest {
 
     private Integer groupMemberId;
 
+    private Integer groupMemberType;
+
     private Long muteEndTime;
+
+    /**
+     * <h3>禁言成员还是撤销禁言</h3>
+     */
+    private Boolean mute;
 
 }

@@ -3,7 +3,8 @@ package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepGroupMemberResponseCode;
-import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepGroupMemberUser;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepJoinedGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepSimpleGroupMember;
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.entity.response.*;
 import com.fuyusakaiori.nep.im.service.core.group.service.INepGroupMemberService;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -30,25 +33,29 @@ public class NepGroupMemberService implements INepGroupMemberService {
     public NepAddGroupMemberResponse addGroupMember(NepAddGroupMemberRequest request) {
         NepAddGroupMemberResponse response = new NepAddGroupMemberResponse();
         if (!NepCheckGroupMemberParamUtil.checkNepAddGroupMemberRequestParam(request)){
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+            response.setGroup(null)
+                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupMemberService addGroupMember: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            int result = groupMemberServiceImpl.doAddGroupMember(request);
-            if (result <= 0){
-                response.setCode(NepGroupMemberResponseCode.ADD_GROUP_MEMBER_FAIL.getCode())
+            NepJoinedGroup joinedGroup = groupMemberServiceImpl.doAddGroupMember(request);
+            if (Objects.isNull(joinedGroup)){
+                response.setGroup(null)
+                        .setCode(NepGroupMemberResponseCode.ADD_GROUP_MEMBER_FAIL.getCode())
                         .setMessage(NepGroupMemberResponseCode.ADD_GROUP_MEMBER_FAIL.getMessage());
                 log.error("NepGroupMemberService addGroupMember: 用户加入群组失败 - request: {}, response: {}", request, response);
                 return response;
             }
-            response.setCode(NepBaseResponseCode.SUCCESS.getCode())
+            response.setGroup(joinedGroup)
+                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
             log.info("NepGroupMemberService addGroupMember: 用户成功加入群组 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
-            response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+            response.setGroup(null)
+                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NepGroupMemberService addGroupMember: 用户加入群组出现异常 - request: {}, response: {}", request, response, exception);
             return response;
@@ -147,36 +154,6 @@ public class NepGroupMemberService implements INepGroupMemberService {
 
     @Override
     @Transactional
-    public NepRevokeGroupMemberResponse revokeGroupMemberChat(NepRevokeGroupMemberRequest request) {
-        NepRevokeGroupMemberResponse response = new NepRevokeGroupMemberResponse();
-        if (!NepCheckGroupMemberParamUtil.checkNepRevokeGroupMemberRequestParam(request)){
-            response.setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
-                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
-            log.error("NepGroupMemberService revokeGroupMemberChat: 参数校验失败 - request: {}, response: {}", request, response);
-            return response;
-        }
-        try {
-            int result = groupMemberServiceImpl.doRevokeGroupMemberChat(request);
-            if (result <= 0){
-                response.setCode(NepGroupMemberResponseCode.REVOKE_GROUP_MEMBER_MUTE_FAIL.getCode())
-                        .setMessage(NepGroupMemberResponseCode.REVOKE_GROUP_MEMBER_MUTE_FAIL.getMessage());
-                log.error("NepGroupMemberService revokeGroupMemberChat: 撤销用户禁言失败 - request: {}, response: {}", request, response);
-                return response;
-            }
-            response.setCode(NepBaseResponseCode.SUCCESS.getCode())
-                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.info("NepGroupMemberService revokeGroupMemberChat: 成功撤销用户禁言 - request: {}, response: {}", request, response);
-            return response;
-        }catch (Exception exception){
-            response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
-                    .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
-            log.error("NepGroupMemberService revokeGroupMemberChat: 撤销用户禁言出现异常 - request: {}, response: {}", request, response, exception);
-            return response;
-        }
-    }
-
-    @Override
-    @Transactional
     public NepExitGroupMemberResponse exitGroupMember(NepExitGroupMemberRequest request) {
         NepExitGroupMemberResponse response = new NepExitGroupMemberResponse();
         if (!NepCheckGroupMemberParamUtil.checkNepExitGroupMemberRequestParam(request)){
@@ -209,28 +186,29 @@ public class NepGroupMemberService implements INepGroupMemberService {
     public NepQueryAllGroupMemberResponse queryAllGroupMember(NepQueryAllGroupMemberRequest request) {
         NepQueryAllGroupMemberResponse response = new NepQueryAllGroupMemberResponse();
         if (!NepCheckGroupMemberParamUtil.checkNepQueryAllGroupMemberRequestParam(request)){
-            response.setUserList(Collections.emptyList())
+            response.setGroupMemberMap(Collections.emptyMap())
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupMemberService queryAllGroupMember: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            List<NepGroupMemberUser> userList = groupMemberServiceImpl.doQueryAllGroupMember(request);
-            if (CollectionUtil.isEmpty(userList)){
-                response.setUserList(Collections.emptyList())
+            Map<Integer, List<NepSimpleGroupMember>> groupMemberMap = groupMemberServiceImpl.doQueryAllGroupMember(request);
+            if (CollectionUtil.isEmpty(groupMemberMap)){
+                response.setGroupMemberMap(Collections.emptyMap())
                         .setCode(NepGroupMemberResponseCode.GROUP_MEMBER_NOT_EXIST.getCode())
                         .setMessage(NepGroupMemberResponseCode.GROUP_MEMBER_NOT_EXIST.getMessage());
                 log.info("NepGroupMemberService queryAllGroupMember: 没有查询到用户群成员 - request: {}, response: {}", request, response);
                 return response;
             }
-            response.setUserList(userList)
+            response.setGroupMemberMap(groupMemberMap)
                     .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
             log.info("NepGroupMemberService queryAllGroupMember: 用户成功退出群组 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
-            response.setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+            response.setGroupMemberMap(Collections.emptyMap())
+                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NepGroupMemberService queryAllGroupMember: 用户退出群组出现异常 - request: {}, response: {}", request, response, exception);
             return response;

@@ -23,6 +23,7 @@
             group_update_time = #{group.updateTime},
             <if test="group.groupName != null"> group_name = #{group.groupName},</if>
             <if test="group.groupBriefInfo != null"> group_brief_info = #{group.groupBriefInfo},</if>
+            <if test="group.groupApplyType != null">group_apply_type = #{group.groupApplyType},</if>
         </set>
         where app_id = #{appId} and group_id = #{group.groupId} and group_is_del = 0
     </update>
@@ -41,7 +42,7 @@
 
     <update id="muteGroupChat">
         update `im-system`.im_group
-        set group_is_all_mute = 1, group_update_time = #{updateTime}
+        set group_is_all_mute = #{mute}, group_update_time = #{updateTime}
         where app_id = #{appId} and group_id = #{groupId} and group_is_del = 0
     </update>
 
@@ -51,35 +52,35 @@
         where app_id = #{appId} and group_id = #{groupId} and group_is_del = 0
     </update>
 
-    <select id="queryGroupById" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+    <select id="queryGroupById" resultMap="groupMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
         select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
-               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count, group_create_time
         from `im-system`.im_group
-        where app_id = #{appId} and group_id = #{groupId}
+        where app_id = #{appId} and group_is_del = 0 and group_id = #{groupId}
     </select>
 
-    <select id="queryGroupByNumber" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+    <select id="queryGroupByIdList" resultMap="groupMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
         select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
-               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count, group_create_time
         from `im-system`.im_group
-        where app_id = #{appId} and group_number = #{groupNumber}
+        where app_id = #{appId} and group_is_del = 0 and group_id in
+        <foreach collection="groupIdList" item="groupId" separator="," open="(" close=")">
+            #{groupId}
+        </foreach>
     </select>
 
-    <select id="queryGroupByName" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+    <select id="queryGroupByNumber" resultMap="groupMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
         select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
-               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count, group_create_time
         from `im-system`.im_group
-        where app_id = #{appId} and group_name like concat('%', #{groupName}, '%')
+        where app_id = #{appId} and group_number = #{groupNumber} and group_is_del = 0;
     </select>
 
-    <select id="queryAllJoinedGroup" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
-        select g.group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
-               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count
-        from `im-system`.im_group as g
-        inner join `im-system`.im_group_member as m
-        on g.group_id = m.group_id
-        where g.app_id = #{appId} and m.group_member_id = #{userId}
-          and m.group_member_exit_type is not null and m.group_member_exit_time is not null
+    <select id="queryGroupByName" resultMap="groupMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup">
+        select group_id, group_owner_id, group_number, group_name, group_type, group_brief_info,
+               group_avatar_address, group_is_all_mute, group_is_del, group_apply_type, group_max_count, group_create_time
+        from `im-system`.im_group
+        where app_id = #{appId} and group_name like concat('%', #{groupName}, '%') and group_is_del = 0;
     </select>
 
 </mapper>

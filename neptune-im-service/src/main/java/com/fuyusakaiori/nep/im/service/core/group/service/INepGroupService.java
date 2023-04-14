@@ -19,6 +19,8 @@ public interface INepGroupService {
 
     NepQueryGroupResponse queryGroup(NepQueryGroupRequest request);
 
+    NepQueryGroupListResponse queryGroupList(NepQueryGroupListRequest request);
+
     NepQueryAllJoinedGroupResponse queryAllJoinedGroup(NepQueryAllJoinedGroupRequest request);
 
 }

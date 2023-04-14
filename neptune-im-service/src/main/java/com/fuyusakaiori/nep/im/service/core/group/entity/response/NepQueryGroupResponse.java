@@ -1,11 +1,9 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.response;
 
-import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepCombineGroup;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -16,6 +14,6 @@ public class NepQueryGroupResponse {
 
     private String message;
 
-    private List<NepGroup> groupList;
+    private NepCombineGroup group;
 
 }

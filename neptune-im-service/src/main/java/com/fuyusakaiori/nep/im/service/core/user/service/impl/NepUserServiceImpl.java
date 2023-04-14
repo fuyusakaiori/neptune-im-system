@@ -176,6 +176,21 @@ public class NepUserServiceImpl {
         return userMapper.cancelUser(appId, userId, System.currentTimeMillis());
     }
 
+    public NepWillBeFriend doQueryWillBeFriendById(NepQueryWillBeFriendByIdRequest request) {
+        // 0. 获取变量
+        Integer appId = request.getHeader().getAppId();
+        Integer userId = request.getUserId();
+        // 1. 根据用户 ID 查询用
+        NepUser user = userMapper.queryUserById(appId, userId);
+        // 2. 校验是否成功查询到用户
+        if (Objects.isNull(user) || user.isDelete()){
+            log.error("NepUserServiceImpl doQueryWillBeFriendById: 没有查询到相应的用户 - request: {}", request);
+            return null;
+        }
+        // 3. 拼装返回信息
+        return BeanUtil.copyProperties(user, NepWillBeFriend.class);
+    }
+
     public List<NepWillBeFriend> doQueryWillBeFriend(NepQueryWillBeFriendRequest request) {
         // 1. 获取变量
         Integer appId = request.getHeader().getAppId();
@@ -201,7 +216,9 @@ public class NepUserServiceImpl {
         }
         // 6. 结果去重
         Map<Integer, NepUser> userMap = currentUserList.stream().collect(Collectors.toMap(NepUser::getUserId, NepUser -> NepUser));
-        // 7. 拼装返回结果
+        // 7. 避免查询出自己
+        userMap.remove(userId);
+        // 8. 拼装返回结果
         return BeanUtil.copyToList(userMap.values(), NepWillBeFriend.class);
     }
 }

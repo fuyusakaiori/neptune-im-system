@@ -13,8 +13,6 @@ public interface INepGroupMemberService {
 
     NepMuteGroupMemberResponse muteGroupMemberChat(NepMuteGroupMemberRequest request);
 
-    NepRevokeGroupMemberResponse revokeGroupMemberChat(NepRevokeGroupMemberRequest request);
-
     NepExitGroupMemberResponse exitGroupMember(NepExitGroupMemberRequest request);
 
     NepQueryAllGroupMemberResponse queryAllGroupMember(NepQueryAllGroupMemberRequest request);

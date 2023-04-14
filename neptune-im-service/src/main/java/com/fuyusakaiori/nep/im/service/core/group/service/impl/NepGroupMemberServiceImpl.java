@@ -1,11 +1,15 @@
 package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.BooleanUtil;
 import com.example.nep.im.common.enums.status.NepGroupExitType;
 import com.example.nep.im.common.enums.status.NepGroupJoinType;
 import com.example.nep.im.common.enums.status.NepGroupMemberType;
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember;
-import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepGroupMemberUser;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepJoinedGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepSimpleGroupMember;
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMemberMapper;
@@ -15,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -35,7 +39,7 @@ public class NepGroupMemberServiceImpl {
     private NepGroupMemberDealService groupMemberDealService;
 
 
-    public int doAddGroupMember(NepAddGroupMemberRequest request) {
+    public NepJoinedGroup doAddGroupMember(NepAddGroupMemberRequest request) {
         // 0. 获取变量
         Integer appId = request.getHeader().getAppId();
         Integer groupId = request.getGroupId();
@@ -45,20 +49,19 @@ public class NepGroupMemberServiceImpl {
         NepGroup group = groupMapper.queryGroupById(appId, groupId);
         if (Objects.isNull(group) || group.isDelete()){
             log.error("NepGroupMemberServiceImpl doAddGroupMember: 群聊不存在 - request: {}", request);
-            return 0;
+            return null;
         }
-        // 2. 判断群聊入群类型
-        if(group.getGroupApplyType() == NepGroupJoinType.BAN.getType()){
-            log.info("NepGroupMemberServiceImpl doAddGroupMember: 群聊禁止加入新的群成员 - request: {}", request);
-            return NepGroupJoinType.BAN.getType();
-        }else if (group.getGroupApplyType() == NepGroupJoinType.ANY.getType()){
-            int isAdd = groupMemberDealService.addGroupMember(appId, groupId, groupMemberId, groupMemberEnterType);
-            return isAdd <= 0 ? isAdd : NepGroupJoinType.ANY.getType();
-        }else if (group.getGroupApplyType() == NepGroupJoinType.VALIDATION.getType()){
-            // TODO
-            return NepGroupJoinType.VALIDATION.getType();
+        // 2. 加入群聊
+        NepJoinedGroup joinedGroup = groupMemberDealService.addGroupMember(appId, groupId, groupMemberId, groupMemberEnterType);
+        // 3. 判断返回结果
+        if (Objects.isNull(joinedGroup)){
+            log.error("NepGroupMemberServiceImpl doAddGroupMember: 加入群聊失败 - request: {}", request);
+            return null;
         }
-        return 0;
+        // 4. 拼装返回信息
+        BeanUtil.copyProperties(group,
+                joinedGroup.setGroupMemberType(NepGroupMemberType.MEMBER.getType()));
+        return joinedGroup;
     }
 
     public int doUpdateGroupMember(NepUpdateGroupMemberRequest request) {
@@ -66,7 +69,7 @@ public class NepGroupMemberServiceImpl {
         Integer appId = request.getHeader().getAppId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
-        String nickname = request.getNickname();
+        String nickname = request.getGroupMemberNickName();
         // 1. 查询群聊是否存在
         NepGroup group = groupMapper.queryGroupById(appId, groupId);
         if (Objects.isNull(group) || group.isDelete()){
@@ -102,6 +105,7 @@ public class NepGroupMemberServiceImpl {
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
         Integer groupMemberType = request.getGroupMemberType();
+        Integer groupOperatorType = request.getGroupOperatorType();
         // 1. 查询群聊是否存在
         NepGroup group = groupMapper.queryGroupById(appId, groupId);
         if (Objects.isNull(group) || group.isDelete()){
@@ -118,24 +122,28 @@ public class NepGroupMemberServiceImpl {
         NepGroupMember groupMember = groupMemberMapper.queryGroupMember(appId, groupId, groupMemberId);
         if(Objects.isNull(groupMember) ||
                    groupMember.getGroupMemberExitType() != null || groupMember.getGroupMemberExitTime() != null){
-            log.error("NepGroupMemberServiceImpl doUpdateGroupMember: 授予权限的群成员不在群聊中或者已经退出群聊 - request: {}", request);
+            log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 授予权限的群成员不在群聊中或者已经退出群聊 - request: {}", request);
             return 0;
         }
         // 4. 校验用户是否可以授予权限
         NepGroupMember leaderOrAdmin = groupMemberMapper.queryGroupMember(appId, groupId, userId);
         if (Objects.isNull(leaderOrAdmin) ||
                     leaderOrAdmin.getGroupMemberExitType() != null || leaderOrAdmin.getGroupMemberExitTime() != null){
-            log.error("NepGroupMemberServiceImpl doUpdateGroupMember: 踢出群成员的用户不存在 - request: {}", request);
+            log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 设置管理员的用户不存在或者已经退出群聊 - request: {}", request);
+            return 0;
+        }
+        if (!leaderOrAdmin.getGroupMemberType().equals(groupOperatorType)){
+            log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 设置管理员的用户的权限和查询得到的用户权限不一致 - request: {}", request);
             return 0;
         }
         if (leaderOrAdmin.getGroupMemberType() == NepGroupMemberType.MEMBER.getType()){
-            log.error("NepGroupMemberServiceImpl doUpdateGroupMember: 普通成员不可以给其他成员授予权限 - request: {}", request);
+            log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 普通成员不可以给其他成员授予权限 - request: {}", request);
             return 0;
         }
         // 5. 给群成员授予权限
         int isChange = groupMemberMapper.changeGroupMemberType(appId, groupId, groupMemberId, groupMemberType);
         if (isChange <= 0){
-            log.error("NepGroupMemberServiceImpl doUpdateGroupMember: 给群成员授予权限失败 - request: {}", request);
+            log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 给群成员授予权限失败 - request: {}", request);
             return isChange;
         }
         return isChange;
@@ -147,7 +155,9 @@ public class NepGroupMemberServiceImpl {
         Integer userId = request.getUserId();
         Integer groupId = request.getGroupId();
         Integer groupMemberId = request.getGroupMemberId();
+        Integer groupMemberType = request.getGroupMemberType();
         Long muteEndTime = request.getMuteEndTime();
+        boolean isMute = BooleanUtil.isTrue(request.getMute());
         // 1. 查询群聊是否存在
         NepGroup group = groupMapper.queryGroupById(appId, groupId);
         if (Objects.isNull(group) || group.isDelete()){
@@ -174,60 +184,28 @@ public class NepGroupMemberServiceImpl {
             log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 发起禁言的成员不存在 - request: {}", request);
             return 0;
         }
+        if (!leaderOrAdmin.getGroupMemberType().equals(groupMemberType)){
+            log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 发起禁言的成员的权限和查询得到的权限不一致 - request: {}", request);
+            return 0;
+        }
         if (leaderOrAdmin.getGroupMemberType() == NepGroupMemberType.MEMBER.getType()){
             log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 普通成员不可以禁言其他群成员 - request: {}", request);
             return 0;
         }
-        // 5. 禁言群成员
-        int isMute = groupMemberMapper.muteGroupMemberChat(appId, groupId, groupMemberId, muteEndTime);
-        if (isMute <= 0){
-            log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 禁言群成员失败 - request: {}", request);
+        // 5. 禁言或者撤销禁言
+        if (isMute){
+            int isMuteChat = groupMemberMapper.muteGroupMemberChat(appId, groupId, groupMemberId, muteEndTime);
+            if (isMuteChat <= 0){
+                log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 禁言群成员失败 - request: {}", request);
+            }
+            return isMuteChat;
+        }else{
+            int isRevokeChat = groupMemberMapper.revokeGroupMemberChat(appId, groupId, groupMemberId);
+            if (isRevokeChat <= 0){
+                log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 撤销群成员的禁言失败 - request: {}", request);
+            }
+            return isRevokeChat;
         }
-        return isMute;
-    }
-
-    public int doRevokeGroupMemberChat(NepRevokeGroupMemberRequest request) {
-        // 0. 获取变量
-        Integer appId = request.getHeader().getAppId();
-        Integer userId = request.getUserId();
-        Integer groupId = request.getGroupId();
-        Integer groupMemberId = request.getGroupMemberId();
-        // 1. 查询群聊是否存在
-        NepGroup group = groupMapper.queryGroupById(appId, groupId);
-        if (Objects.isNull(group) || group.isDelete()){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 群聊不存在 - request: {}", request);
-            return 0;
-        }
-        // 2. 查询群成员是否存在
-        NepUser user = userMapper.queryUserById(appId, groupMemberId);
-        if (Objects.isNull(user) || user.isDelete()){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 撤销禁言的成员不存在 - request: {}", request);
-            return 0;
-        }
-        // 3. 检查群成员是否在群中
-        NepGroupMember groupMember = groupMemberMapper.queryGroupMember(appId, groupId, groupMemberId);
-        if(Objects.isNull(groupMember) ||
-                   groupMember.getGroupMemberExitType() != null || groupMember.getGroupMemberExitTime() != null){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 撤销禁言的群成员不在群聊中或者已经退出群聊 - request: {}", request);
-            return 0;
-        }
-        // 4. 校验用户是否可以授予权限
-        NepGroupMember leaderOrAdmin = groupMemberMapper.queryGroupMember(appId, groupId, userId);
-        if (Objects.isNull(leaderOrAdmin) ||
-                    leaderOrAdmin.getGroupMemberExitType() != null || leaderOrAdmin.getGroupMemberExitTime() != null){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 发起撤销禁言的成员不存在 - request: {}", request);
-            return 0;
-        }
-        if (leaderOrAdmin.getGroupMemberType() == NepGroupMemberType.MEMBER.getType()){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 普通成员不可以撤销其他群成员的禁言 - request: {}", request);
-            return 0;
-        }
-        // 5. 禁言群成员
-        int isRevoke = groupMemberMapper.revokeGroupMemberChat(appId, groupId, groupMemberId);
-        if (isRevoke <= 0){
-            log.error("NepGroupMemberServiceImpl doRevokeGroupMemberChat: 撤销群成员的禁言失败 - request: {}", request);
-        }
-        return isRevoke;
     }
 
     public int doExitGroupMember(NepExitGroupMemberRequest request) {
@@ -276,10 +254,57 @@ public class NepGroupMemberServiceImpl {
             log.error("NepGroupMemberServiceImpl doExitGroupMember: 退出群聊失败 - request: {}", request);
             return 0;
         }
-        return 0;
+        return isExit;
     }
 
-    public List<NepGroupMemberUser> doQueryAllGroupMember(NepQueryAllGroupMemberRequest request) {
-        return null;
+    public Map<Integer, List<NepSimpleGroupMember>> doQueryAllGroupMember(NepQueryAllGroupMemberRequest request) {
+        // 0. 获取变量
+        Integer appId = request.getHeader().getAppId();
+        Integer groupId = request.getGroupId();
+        // 1. 查询群聊是否存在
+        NepGroup group = groupMapper.queryGroupById(appId, groupId);
+        // 2. 校验群聊是否存在
+        if (Objects.isNull(group) || group.isDelete()){
+            log.error("NepGroupMemberServiceImpl doQueryAllGroupMember: 需要查询所有群聊成员的群聊是不存在的 - request: {}", request);
+            return Collections.emptyMap();
+        }
+        // 3. 查询群聊中的所有成员
+        List<NepGroupMember> groupMemberList = groupMemberMapper.queryAllGroupMember(appId, groupId);
+        // 4. 校验群聊成员是否为空
+        if (CollectionUtil.isEmpty(groupMemberList)){
+            log.error("NepGroupMemberServiceImpl doQueryAllGroupMember: 群聊中不存在任何成员 - request: {}", request);
+            return Collections.emptyMap();
+        }
+        // 5. 查询群聊成员的详细信息
+        List<NepUser> userList = userMapper.queryUserByIdList(appId,
+                groupMemberList.stream().map(NepGroupMember::getGroupMemberId).collect(Collectors.toList()));
+        // 6. 校验用户信息是否为空
+        if (CollectionUtil.isEmpty(userList) || userList.size() != groupMemberList.size()){
+            log.error("NepGroupMemberServiceImpl doQueryAllGroupMember: 没有查询到群聊成员的用户信息 - request: {}", request);
+            return Collections.emptyMap();
+        }
+        Map<Integer, NepUser> userMap = userList.stream().collect(Collectors.toMap(NepUser::getUserId, NepUser -> NepUser));
+        // 7. 拼装为返回信息: 2 - 表示群主, 1 - 表示管理员, 0 - 表示普通群成员
+        Map<Integer, List<NepSimpleGroupMember>> groupMemberMap = new HashMap<>();
+        for (NepGroupMember groupMember : groupMemberList) {
+            // 7.1 获取每种成员类型的链表
+            List<NepSimpleGroupMember> groupSimpleMemberList = groupMemberMap.getOrDefault(groupMember.getGroupMemberType(), new ArrayList<>());
+            // 7.2 添加成员
+            groupSimpleMemberList.add(getNepSimpleGroupMember(groupMember, userMap.get(groupMember.getGroupMemberId())));
+            // 7.3 重新更新哈希表
+            groupMemberMap.put(groupMember.getGroupMemberType(), groupSimpleMemberList);
+        }
+        return groupMemberMap;
+    }
+
+    private  NepSimpleGroupMember getNepSimpleGroupMember(NepGroupMember groupMember, NepUser user) {
+        return new NepSimpleGroupMember()
+                       .setGroupMemberUserName(user.getUsername())
+                       .setGroupMemberNickName(user.getNickname())
+                       .setGroupMemberAvatarAddress(user.getAvatarAddress())
+                       .setGroupMemberId(groupMember.getGroupMemberId())
+                       .setGroupMemberRemark(groupMember.getGroupMemberNickName())
+                       .setGroupMemberType(groupMember.getGroupMemberType())
+                       .setGroupMemberMuteEndTime(groupMember.getGroupMemberMuteEndTime());
     }
 }

@@ -1,6 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.response;
 
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepJoinedGroup;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -16,6 +17,6 @@ public class NepQueryAllJoinedGroupResponse {
 
     private String message;
 
-    private List<NepGroup> groupList;
+    private List<NepJoinedGroup> groupList;
 
 }

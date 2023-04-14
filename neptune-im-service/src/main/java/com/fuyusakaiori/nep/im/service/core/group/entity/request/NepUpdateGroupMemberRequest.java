@@ -16,6 +16,6 @@ public class NepUpdateGroupMemberRequest {
 
     private Integer groupMemberId;
 
-    private String nickname;
+    private String groupMemberNickName;
 
 }

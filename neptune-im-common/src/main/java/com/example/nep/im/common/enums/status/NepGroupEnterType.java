@@ -2,15 +2,17 @@ package com.example.nep.im.common.enums.status;
 
 public enum NepGroupEnterType {
 
+    DEFAULT(0),
+
     /**
      * 申请加入
      */
-    APPLY(0),
+    APPLY(1),
 
     /**
      * 邀请加入
      */
-    INVITE(1);
+    INVITE(2);
 
     private final int type;
 

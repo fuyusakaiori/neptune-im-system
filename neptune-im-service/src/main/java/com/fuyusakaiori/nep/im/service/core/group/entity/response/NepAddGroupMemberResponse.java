@@ -1,5 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.group.entity.response;
 
+import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepJoinedGroup;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -9,10 +10,10 @@ import lombok.experimental.Accessors;
 @ToString
 public class NepAddGroupMemberResponse {
 
-    private int status;
-
     private int code;
 
     private String message;
+
+    private NepJoinedGroup group;
 
 }

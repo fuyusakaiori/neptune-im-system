@@ -231,7 +231,45 @@ public class NepUserService implements INepUserService {
     }
 
     /**
-     * <h3>用户查询：完成</h3>
+     * <h3>用户查询: 完成 - 用户 ID 查询</h3>
+     * @param request 请求
+     * @return 响应
+     */
+    @Override
+    public NepQueryWillBeFriendByIdResponse queryWillBeFriendById(NepQueryWillBeFriendByIdRequest request) {
+        NepQueryWillBeFriendByIdResponse response = new NepQueryWillBeFriendByIdResponse();
+        if (!NepCheckUserParamUtil.checkNepQueryUserRequestParam(request)){
+            response.setUser(null)
+                    .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
+                    .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
+            log.error("NeptuneUserService queryWillBeFriendById: 请求头中的参数检查失败 - request: {}, response: {}", request, response);
+            return response;
+        }
+        try {
+            NepWillBeFriend willBeFriend = userServiceImpl.doQueryWillBeFriendById(request);
+            if (Objects.isNull(willBeFriend)){
+                response.setUser(null)
+                        .setCode(NepUserResponseCode.USER_NOT_EXIST.getCode())
+                        .setMessage(NepUserResponseCode.USER_NOT_EXIST.getMessage());
+                log.error("NeptuneUserService queryWillBeFriendById: 根据用户 ID 查询用户失败 - request: {}, response: {}", request, response);
+                return response;
+            }
+            response.setUser(willBeFriend)
+                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+            log.info("NeptuneUserService queryWillBeFriendById: 成功根据用户 ID 查询到用户详情 - request: {}, response: {}", request, response);
+            return response;
+        }catch (Exception exception){
+            response.setUser(null)
+                    .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
+                    .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
+            log.error("NeptuneUserService queryWillBeFriendById: 根据用户 ID 查询用户出现异常 - request: {}, response: {}", request, response, exception);
+            return response;
+        }
+    }
+
+    /**
+     * <h3>用户查询：完成 - 用户账号和昵称查询</h3>
      * @param request 请求
      * @return 响应
      */
@@ -240,11 +278,11 @@ public class NepUserService implements INepUserService {
         // 0. 准备响应结果
         NepQueryWillBeFriendResponse response = new NepQueryWillBeFriendResponse();
         // 1. 参数校验
-        if (!NepCheckUserParamUtil.checkNepQueryUserRequestParam(request)){
+        if (!NepCheckUserParamUtil.checkNepQueryWillBeFriendRequestParam(request)){
             response.setUserList(Collections.emptyList())
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
-            log.error("NeptuneUserService queryUserByUserName: 请求头中的参数检查失败 - request: {}, response: {}", request, response);
+            log.error("NeptuneUserService queryWillBeFriend: 请求头中的参数检查失败 - request: {}, response: {}", request, response);
             return response;
         }
         // 2. 查询用户
@@ -254,19 +292,19 @@ public class NepUserService implements INepUserService {
                 response.setUserList(Collections.emptyList())
                         .setCode(NepBaseResponseCode.SUCCESS.getCode())
                         .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-                log.error("NeptuneUserService queryUserByUserName: 没有根据用户账号查询到用户 - request: {}, response: {}", request, response);
+                log.error("NeptuneUserService queryWillBeFriend: 没有根据用户账号查询到用户 - request: {}, response: {}", request, response);
                 return response;
             }
             response.setUserList(userList)
                     .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-            log.info("NeptuneUserService queryUserByUserName: 成功根据用户账号查询到用户 - request: {}, response: {}", request, response);
+            log.info("NeptuneUserService queryWillBeFriend: 成功根据用户账号查询到用户 - request: {}, response: {}", request, response);
             return response;
         } catch (Exception exception) {
             response.setUserList(Collections.emptyList())
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
-            log.error("NeptuneUserService queryUserByUserName: 根据用户账号查询用户失败 - request: {}, response: {}", request, response, exception);
+            log.error("NeptuneUserService queryWillBeFriend: 根据用户账号查询用户失败 - request: {}, response: {}", request, response, exception);
             return response;
         }
     }

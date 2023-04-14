@@ -16,4 +16,6 @@ public class NepDissolveGroupRequest {
 
     private Integer groupId;
 
+    private Integer groupMemberType;
+
 }

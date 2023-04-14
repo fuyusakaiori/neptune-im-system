@@ -17,4 +17,6 @@ public class NepTransferGroupOwnerRequest {
     private Integer groupId;
 
     private Integer targetOwnerId;
+
+    private Integer groupMemberType;
 }

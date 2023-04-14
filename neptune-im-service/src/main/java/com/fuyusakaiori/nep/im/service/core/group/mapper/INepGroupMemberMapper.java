@@ -45,15 +45,29 @@ public interface INepGroupMemberMapper {
     int clearGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("exitType") int exitType, @Param("exitTime") long exitTime);
 
     /**
+     * <h3>查询群聊中的成员数量</h3>
+     */
+    int queryGroupMemberCount(@Param("appId") int appId, @Param("groupId") int groupId);
+
+    /**
      * <h3>查询群组成员信息</h3>
      */
     NepGroupMember queryGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId);
 
+    /**
+     * <h3>查询群聊中的所有管理员</h3>
+     */
+    List<NepGroupMember> queryAllGroupAdmin(@Param("appId") int appId, @Param("groupId") int groupId);
 
     /**
      * <h3>查询群组中的所有成员</h3>
      */
     List<NepGroupMember> queryAllGroupMember(@Param("appId") int appId, @Param("groupId") int groupId);
+
+    /**
+     * <h3>查询用户加入的所有群聊</h3>
+     */
+    List<NepGroupMember> queryGroupMemberListByMemberId(@Param("appId") int appId, @Param("memberId") int memberId);
 
     /**
      * <h3>查询所有已经退出群组的成员</h3>
