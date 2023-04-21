@@ -35,11 +35,11 @@ public class NepStoreSendMessageService {
      * <h3>存储单聊消息</h3>
      */
     @Transactional
-    public void storeMessage(NepChatP2PMessage message){
+    public void storeMessage(Long messageKey, NepChatP2PMessage message){
         // 1. 根据消息生成消息头
-        List<NepChatP2PMessageHeader> messageHeaderList = generateMessageHeader(message);
+        List<NepChatP2PMessageHeader> messageHeaderList = generateMessageHeader(messageKey, message);
         // 2. 根据内容生成消息体
-        NepChatMessageBody messageBody = generateMessageBody(message);
+        NepChatMessageBody messageBody = generateMessageBody(messageKey, message);
         // 3. 持久化保存消息头
         int isStoreMessageHeader = chatMessageHeaderMapper.storeChatMessageHeader(message.getAppId(), messageHeaderList);
         if (isStoreMessageHeader <= 0){
@@ -58,15 +58,15 @@ public class NepStoreSendMessageService {
     /**
      * <h3>根据消息生成消息头</h3>
      */
-    private List<NepChatP2PMessageHeader> generateMessageHeader(NepChatP2PMessage message){
+    private List<NepChatP2PMessageHeader> generateMessageHeader(Long messageKey, NepChatP2PMessage message){
         // 1. 生成发送者的消息头
         NepChatP2PMessageHeader sender = new NepChatP2PMessageHeader()
-                                                 .setMessageKey(IdUtil.getSnowflakeNextId()).setMessageOwnerId(message.getSenderId())
+                                                 .setMessageKey(messageKey).setMessageOwnerId(message.getSenderId())
                                                  .setMessageSenderId(message.getSenderId()).setMessageReceiverId(message.getReceiverId())
                                                  .setMessageSendTime(message.getMessageSendTime()).setMessageCreateTime(System.currentTimeMillis());
         // 2. 生成接收者的消息头
         NepChatP2PMessageHeader receiver = new NepChatP2PMessageHeader()
-                                                 .setMessageKey(IdUtil.getSnowflakeNextId()).setMessageOwnerId(message.getReceiverId())
+                                                 .setMessageKey(messageKey).setMessageOwnerId(message.getReceiverId())
                                                  .setMessageSenderId(message.getSenderId()).setMessageReceiverId(message.getReceiverId())
                                                  .setMessageSendTime(message.getMessageSendTime()).setMessageCreateTime(System.currentTimeMillis());
 
@@ -76,9 +76,9 @@ public class NepStoreSendMessageService {
     /**
      * <h3>根据消息生成消息体</h3>
      */
-    private NepChatMessageBody generateMessageBody(NepChatP2PMessage message){
+    private NepChatMessageBody generateMessageBody(Long messageKey, NepChatP2PMessage message){
         return new NepChatMessageBody().setDelete(false)
-                .setMessageKey(IdUtil.getSnowflakeNextId()).setMessageBody(message.getMessageBody())
+                .setMessageKey(messageKey).setMessageBody(message.getMessageBody())
                 .setMessageSendTime(message.getMessageSendTime()).setMessageCreateTime(System.currentTimeMillis());
     }
 

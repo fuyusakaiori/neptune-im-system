@@ -69,7 +69,7 @@ public class NepChatGroupMessageReceiver {
                 return;
             }
             // 8. 根据消息类型继续处理
-            if (messageType == NepChatGroupMessageType.GROUP_MESSAGE.getMessageType()){
+            if (messageType == NepChatGroupMessageType.GROUP_MESSAGE.getMessageType()) {
                 // 8.1 处理群聊消息
                 chatGroupMessageService.handleMessage(JSONUtil.toBean(messageJson, NepChatGroupMessage.class));
             }else{

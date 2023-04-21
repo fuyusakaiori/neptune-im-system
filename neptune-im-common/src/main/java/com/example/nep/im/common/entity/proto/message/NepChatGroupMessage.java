@@ -18,6 +18,8 @@ public class NepChatGroupMessage extends NepMessageBody {
 
     private int groupId;
 
+    private String avatarAddress;
+
     private String messageBody;
 
     private Long messageSendTime;
