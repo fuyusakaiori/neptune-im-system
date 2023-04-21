@@ -2,6 +2,7 @@ package com.fuyusakaiori.nep.im.service.core.message.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.proto.message.NepChatAckMessage;
 import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
 import com.example.nep.im.common.entity.proto.message.NepChatConfirmAckMessage;
@@ -83,7 +84,7 @@ public class NepChatP2PMessageService {
     }
 
     /**
-     * <h3>处理单聊消息</h3>
+     * <h3>处理发送方发送的单聊消息</h3>
      */
     public void handleMessage(NepChatP2PMessage message){
         // 1. 获取消息中的变量
@@ -119,10 +120,20 @@ public class NepChatP2PMessageService {
     }
 
     /**
-     * <h3>处理消息接收者返回的 ACK 消息</h3>
+     * <h3>处理接收方返回的确认消息</h3>
      */
     public void handleMessage(NepChatConfirmAckMessage message){
-        // TODO 参数校验之类的没有做
+        // 1. 检测消息头是否合法
+        if(message.getAppId() <= 0 || message.getClientType() <= 0 || StrUtil.isEmpty(message.getImei())){
+            log.error("NepChatP2PMessageService handleMessage: 接收到的 ACK 没有通过参数校验 - message: {}", message);
+            return;
+        }
+        // 2. 检测内容是否合法
+        if (message.getSenderId() <= 0 || message.getReceiverId() <= 0){
+            log.error("NepChatP2PMessageService handleMessage: 接收到的 ACK 没有通过参数校验 - message: {}", message);
+            return;
+        }
+        // 3. 发送 ACK 给接收方
         sendConfirmAckMessage(message);
     }
 
@@ -134,14 +145,11 @@ public class NepChatP2PMessageService {
     }
 
     /**
-     * <h3>发送 ACK 消息给发送方</h3>
+     * <h3>发送确认 ACK 消息给发送方</h3>
      */
     private void sendAckMessage(NepChatP2PMessage message, INepBaseResponseCode response){
         // 1. 封装生成响应消息
-        NepChatAckMessage chatAckMessage = (NepChatAckMessage) new NepChatAckMessage()
-                                             .setCode(response.getCode()).setMessage(response.getMessage()).setMessageId(message.getMessageId())
-                                             .setAppId(message.getAppId()).setClientType(message.getClientType()).setImei(message.getImei())
-                                             .setMessageType(NepChatMessageType.P2P_MESSAGE_ACK.getMessageType());
+        NepChatAckMessage chatAckMessage = generateChatAckMessage(message, response);
         // 2. 发送消息
         messageSender.sendMessage(message.getAppId(), message.getSenderId(), message.getClientType(), message.getImei(),
                 chatAckMessage.getMessageType(), chatAckMessage, false);
@@ -165,6 +173,7 @@ public class NepChatP2PMessageService {
 
     /**
      * <h3>发送单聊消息给对方</h3>
+     * <h4>如果对方在线, 那么直接把消息推送给对方; 如果对方不在线, 那么服务端直接返回确认 ACK</h4>
      */
     private void sendP2PMessage(NepChatP2PMessage message){
         // 1. 查询对方客户端是否在线
@@ -173,11 +182,20 @@ public class NepChatP2PMessageService {
         if (CollectionUtil.isEmpty(userSessionList)){
             // 2. 如果对方没有客户端在线, 那么服务端返回相应的 ACK
             sendConfirmAckMessage(generateChatConfirmAckMessage(message));
+            return;
         }
         // 3. 把消息发送给客户端
         messageSender.sendMessage(message.getAppId(), message.getReceiverId(),
                 message.getMessageType(), message);
     }
+
+    private static NepChatAckMessage generateChatAckMessage(NepChatP2PMessage message, INepBaseResponseCode response) {
+        return (NepChatAckMessage) new NepChatAckMessage()
+                                           .setCode(response.getCode()).setMessage(response.getMessage()).setMessageId(message.getMessageId())
+                                           .setAppId(message.getAppId()).setClientType(message.getClientType()).setImei(message.getImei())
+                                           .setMessageType(NepChatMessageType.P2P_MESSAGE_ACK.getMessageType());
+    }
+
 
     private static NepChatConfirmAckMessage generateChatConfirmAckMessage(NepChatP2PMessage message) {
         return (NepChatConfirmAckMessage) new NepChatConfirmAckMessage()
