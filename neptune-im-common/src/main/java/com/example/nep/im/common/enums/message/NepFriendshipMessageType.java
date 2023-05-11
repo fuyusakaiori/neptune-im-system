@@ -13,7 +13,7 @@ public enum NepFriendshipMessageType implements INepBaseMessageType {
     FRIEND_REMOVE(3002),
 
     //好友申请
-    FRIEND_REQUEST(3003),
+    FRIEND_APPLICATION_SEND(3003),
 
     //好友申请已读
     FRIEND_APPLICATION_READ(3004),
