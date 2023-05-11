@@ -14,6 +14,8 @@ public class NepAddFriendshipResponse {
 
     private String message;
 
+    private Integer friendshipAllowType;
+
     private NepFriend newFriend;
 
 }

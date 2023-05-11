@@ -39,11 +39,7 @@ public class NepFriendshipApplicationService implements INepFriendshipApplicatio
         }
         // 2. 审批请求
         try {
-            if (NepFriendshipApplicationApproveStatus.REJECT.getStatus() == request.getApproveStatus()){
-                return response.setNewFriend(null)
-                               .setCode(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_REJECT.getCode())
-                               .setMessage(NepFriendshipApplicationResponseCode.FRIEND_APPLICATION_REJECT.getMessage());
-            }
+
             NepFriend newFriend = friendshipApplicationServiceImpl.doApproveFriendshipApplication(request);
             if (Objects.isNull(newFriend)){
                 response.setNewFriend(null)

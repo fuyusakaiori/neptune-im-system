@@ -1,6 +1,7 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.nep.im.common.enums.code.NepFriendshipApplicationResponseCode;
 import com.example.nep.im.common.enums.status.NepFriendshipApplicationApproveStatus;
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
@@ -76,15 +77,23 @@ public class NepFriendshipApplicationServiceImpl {
             log.error("NepFriendshipApplicationService doApproveFriendshipApplication: 好友请求审批失败 - request: {}", request);
             return null;
         }
-        // 4. 如果同意好友申请, 那么执行好友添加
-        NepFriend newFriend = friendshipDealService.doAddFriendshipDirectly(appId,
-                BeanUtil.copyProperties(application, NepFriendship.class));
-        // 5 检验好友添加是否成功
-        if (Objects.isNull(newFriend)){
-            log.error("NepFriendshipApplicationService doApproveFriendshipApplication: 好友添加失败 - request: {}", request);
-            return null;
+        // 4. 如果拒绝好友申请, 返回空的对象
+        if (NepFriendshipApplicationApproveStatus.REJECT.getStatus() == approveStatus){
+            return new NepFriend();
         }
-        return newFriend;
+        // 5. 如果同意好友申请, 执行好友添加
+        if (NepFriendshipApplicationApproveStatus.AGREE.getStatus() == approveStatus){
+            NepFriend newFriend = friendshipDealService.doAddFriendshipDirectly(request.getHeader(),
+                    BeanUtil.copyProperties(application, NepFriendship.class)
+                            .setFriendFromId(application.getFriendToId()).setFriendToId(application.getFriendFromId()));
+            // 6. 检验好友添加是否成功
+            if (Objects.isNull(newFriend)){
+                log.error("NepFriendshipApplicationService doApproveFriendshipApplication: 好友添加失败 - request: {}", request);
+                return null;
+            }
+            return newFriend;
+        }
+        return null;
     }
 
 }

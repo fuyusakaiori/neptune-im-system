@@ -1,6 +1,10 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.example.nep.im.common.entity.proto.NepMessageBody;
+import com.example.nep.im.common.entity.proto.message.friendship.NepAddFriendMessage;
+import com.example.nep.im.common.entity.request.NepRequestHeader;
+import com.example.nep.im.common.enums.message.NepFriendshipMessageType;
 import com.example.nep.im.common.enums.status.NepFriendshipStatus;
 import com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendship;
 import com.fuyusakaiori.nep.im.service.core.friendship.mapper.INepFriendshipMapper;
@@ -29,39 +33,54 @@ public class NepFriendshipDealService {
     private NepServiceToGateWayMessageProducer messageSender;
 
     @Transactional(rollbackFor = Exception.class)
-    public NepFriend doAddFriendshipDirectly(int appId, NepFriendship friendship){
+    public NepFriend doAddFriendshipDirectly(NepRequestHeader header, NepFriendship friendship){
         // 0. 获取变量
-        Integer friendFromId = friendship.getFriendFromId();
-        Integer friendToId = friendship.getFriendToId();
+        Integer appId = header.getAppId();
+        Integer friendshipSenderId = friendship.getFriendFromId();
+        Integer friendshipReceiverId = friendship.getFriendToId();
         // 1. 查询两个用户之间的关系
-        NepFriendship friendshipFrom = friendshipMapper.queryFriendshipById(appId, friendFromId, friendToId);
-        // 2. 判断两个用户此前是否添加过好友: 理论上两个关系只能同时存在或者同时不存在, 不可能出现只有一条关系的情况
-        if (Objects.isNull(friendshipFrom)){
-            int isAddFriendship = friendshipMapper.addFriendship(appId,
-                    friendship.setCreateTime(System.currentTimeMillis()).setUpdateTime(System.currentTimeMillis()));
+        NepFriendship friendshipSender = friendshipMapper.queryFriendshipById(appId, friendshipSenderId, friendshipReceiverId);
+        NepFriendship friendshipReceiver = friendshipMapper.queryFriendshipById(appId, friendshipReceiverId, friendshipSenderId);
+        // 2. 判断两个用户此前是否添加过好友
+        if (Objects.isNull(friendshipSender) && Objects.isNull(friendshipReceiver)){
+            // 2.1 直接添加好友关系
+            int isAddFriendship = friendshipMapper.addFriendship(appId, friendship.setCreateTime(System.currentTimeMillis())
+                                                                                .setUpdateTime(System.currentTimeMillis()));
             if (isAddFriendship <= 0){
-                log.error("NepFriendshipDealService doAddFriendshipDirectly: 添加好友关系失败 - fromId: {}, toId: {}", friendFromId, friendToId);
+                log.error("NepFriendshipDealService doAddFriendshipDirectly: 添加好友关系失败 - fromId: {}, toId: {}", friendshipSenderId, friendshipReceiverId);
                 return null;
             }
-        }else{
-            if (friendshipFrom.getFriendshipStatus() == NepFriendshipStatus.FRIENDSHIP_NORMAL.getStatus()){
-                log.error("NepFriendshipDealService doAddFriendshipDirectly: 用户双方已经是好友了 - friendFromId: {}, friendToId: {}", friendFromId, friendToId);
-                return null;
-            }
+        }else if (Objects.nonNull(friendshipSender) && Objects.nonNull(friendshipReceiver)
+                    && friendshipSender.getFriendshipStatus() == NepFriendshipStatus.FRIENDSHIP_RELEASE.getStatus()
+                    && friendshipReceiver.getFriendshipStatus() == NepFriendshipStatus.FRIENDSHIP_RELEASE.getStatus()){
+            // 2.2 更新好友关系
             int isEditFriendship = friendshipMapper.editFriendship(appId,
                     friendship.setFriendshipStatus(NepFriendshipStatus.FRIENDSHIP_NORMAL.getStatus())
                             .setUpdateTime(System.currentTimeMillis()));
             if (isEditFriendship <= 0){
-                log.error("NepFriendshipDealService addFriendship: 更新好友关系失败 - fromId: {}, toId: {}", friendFromId, friendToId);
+                log.error("NepFriendshipDealService addFriendship: 更新好友关系失败 - fromId: {}, toId: {}", friendshipSenderId, friendshipReceiverId);
                 return null;
             }
+        }else{
+            log.error("NepFriendshipDealService doAddFriendshipDirectly: 用户双方已经是好友或者为单边好友关系 - friendshipSenderId: {}, friendshipReceiverId: {}", friendshipSenderId, friendshipReceiverId);
+            return null;
         }
-        // 3. 查询新增的好友
-        NepUser user = userMapper.queryUserById(appId, friendToId);
+        // 3. 查询被添加好友的用户
+        NepUser receiver = userMapper.queryUserById(appId, friendshipReceiverId);
         // 4. 拼装返回结果
-        NepFriend newFriend = BeanUtil.copyProperties(user, NepFriend.class)
-                                   .setFriendRemark(friendship.getFriendRemark());
-        // 5. TODO 推送给好友申请发起者
+        NepFriend newFriend = BeanUtil.copyProperties(receiver, NepFriend.class).setFriendRemark(friendship.getFriendRemark());
+        // 5. 查询发起添加好友的用户
+        NepUser sender = userMapper.queryUserById(appId, friendshipSenderId);
+        // 5. 拼装需要发送的消息
+        NepFriend synFriend = BeanUtil.copyProperties(sender, NepFriend.class);
+        // 5. 给对方用户的所有客户端发送新增的好友
+        int messageType = NepFriendshipMessageType.FRIEND_ADD.getMessageType();
+        NepMessageBody messageBody = BeanUtil.copyProperties(synFriend, NepAddFriendMessage.class)
+                                                .setMessageType(messageType);
+        messageSender.sendMessage(appId, friendshipReceiverId, messageType, messageBody);
+        // TODO 6. 同步给用户的其他客户端
+
+        // 7. 返回结果
         return newFriend;
     }
 

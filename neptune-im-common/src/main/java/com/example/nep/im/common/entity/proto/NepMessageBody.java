@@ -1,8 +1,12 @@
 package com.example.nep.im.common.entity.proto;
 
 import com.example.nep.im.common.entity.proto.message.*;
+import com.example.nep.im.common.entity.proto.message.friendship.NepAddFriendMessage;
+import com.example.nep.im.common.entity.proto.message.friendship.NepRemoveAllFriendMessage;
+import com.example.nep.im.common.entity.proto.message.friendship.NepRemoveFriendMessage;
 import com.example.nep.im.common.enums.message.NepChatGroupMessageType;
 import com.example.nep.im.common.enums.message.NepChatMessageType;
+import com.example.nep.im.common.enums.message.NepFriendshipMessageType;
 import com.example.nep.im.common.enums.message.NepSystemMessageType;
 import lombok.Data;
 import lombok.ToString;
@@ -40,5 +44,8 @@ public abstract class NepMessageBody implements Serializable {
         messageClass.put(NepChatMessageType.P2P_MESSAGE_RECEIVE_ACK.getMessageType(), NepChatConfirmAckMessage.class);
         messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE.getMessageType(), NepChatGroupMessage.class);
         messageClass.put(NepChatGroupMessageType.GROUP_MESSAGE_ACK.getMessageType(), NepChatAckMessage.class);
+        messageClass.put(NepFriendshipMessageType.FRIEND_ADD.getMessageType(), NepAddFriendMessage.class);
+        messageClass.put(NepFriendshipMessageType.FRIEND_REMOVE.getMessageType(), NepRemoveFriendMessage.class);
+        messageClass.put(NepFriendshipMessageType.FRIEND_ALL_REMOVE.getMessageType(), NepRemoveAllFriendMessage.class);
     }
 }

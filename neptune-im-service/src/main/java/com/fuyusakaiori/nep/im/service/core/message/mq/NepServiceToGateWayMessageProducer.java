@@ -34,6 +34,7 @@ public class NepServiceToGateWayMessageProducer {
         // 1. 封装消息体
         NepServiceMessage serviceMessage = packageServiceMessage(session, messageType, message);
         try {
+            log.info("NepServiceToGateWayMessageProducer sendMessage: 将要发送的消息 - message: {}", message);
             // 2. 发送消息
             rabbitTemplate.convertAndSend(NepRabbitMQConstant.MESSAGE_SERVICE_TO_GATEWAY, String.valueOf(session.getBrokerId()), JSONUtil.toJsonStr(serviceMessage));
         } catch (Exception exception){

@@ -10,7 +10,7 @@ public enum NepFriendshipMessageType implements INepBaseMessageType {
     FRIEND_UPDATE(3001),
 
     //删除好友
-    FRIEND_DELETE(3002),
+    FRIEND_REMOVE(3002),
 
     //好友申请
     FRIEND_REQUEST(3003),
@@ -40,7 +40,7 @@ public enum NepFriendshipMessageType implements INepBaseMessageType {
     FRIEND_GROUP_MEMBER_DELETE(3015),
 
     //删除所有好友
-    FRIEND_ALL_DELETE(3016);
+    FRIEND_ALL_REMOVE(3016);
 
     private final int type;
 

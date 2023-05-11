@@ -1,5 +1,6 @@
 package com.fuyusakaiori.nep.im.service.core.friendship.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.entity.request.NepRequestHeader;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepFriendshipResponseCode;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -32,33 +35,37 @@ public class NepFriendshipService implements INepFriendshipService {
         NepAddFriendshipResponse response = new NepAddFriendshipResponse();
         // 1. 参数校验
         if (!NepCheckFriendshipParamUtil.checkNepAddFriendshipRequestParam(request)){
-            response.setNewFriend(null)
+            response.setFriendshipAllowType(null)
+                    .setNewFriend(null)
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NeptuneFriendshipService addFriendship: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
-        // 2. 执行好友添加
         try {
-            NepFriend newFriend = friendshipServiceImpl.doAddFriendship(request);
-            if (Objects.isNull(newFriend)){
-                response.setNewFriend(null)
+            // 2. 执行好友添加
+            Map<String, Object> resultMap = friendshipServiceImpl.doAddFriendship(request);
+            // 3. 如果返回的结果集合为空, 那么证明好友添加请求处理失败
+            if (CollectionUtil.isEmpty(resultMap)){
+                response.setFriendshipAllowType(null)
+                        .setNewFriend(null)
                         .setCode(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getCode())
                         .setMessage(NepFriendshipResponseCode.FRIENDSHIP_ADD_FAIL.getMessage());
-                log.error("NeptuneFriendshipService addFriendship: 发起好友添加失败 - request: {}, response: {}", request, response);
-            }else{
-                // TODO 3. 执行回调
-                response.setNewFriend(newFriend)
-                        .setCode(NepBaseResponseCode.SUCCESS.getCode())
-                        .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
-                log.info("NeptuneFriendshipService addFriendship: 发起好友添加成功 - request: {}, response: {}", request, response);
+                log.error("NeptuneFriendshipService addFriendship: 好友添加请求处理失败 - request: {}, response: {}", request, response);
+                return response;
             }
+            response.setFriendshipAllowType((Integer) resultMap.get("friendshipAllowType"))
+                    .setNewFriend((NepFriend) resultMap.get("newFriend"))
+                    .setCode(NepBaseResponseCode.SUCCESS.getCode())
+                    .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
+            log.info("NeptuneFriendshipService addFriendship: 好友添加请求处理成功 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
-            response.setNewFriend(null)
+            response.setFriendshipAllowType(null)
+                    .setNewFriend(null)
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
-            log.error("NeptuneFriendshipService addFriendship: 发起好友添加出现异常 - request: {}, response: {}", request, response, exception);
+            log.error("NeptuneFriendshipService addFriendship: 好友添加请求处理出现异常 - request: {}, response: {}", request, response, exception);
             return response;
         }
     }

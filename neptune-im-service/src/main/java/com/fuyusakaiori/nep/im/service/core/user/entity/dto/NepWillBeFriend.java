@@ -35,16 +35,10 @@ public class NepWillBeFriend {
      * <h3>现居地址</h3>
      */
     private String location;
-
-
+    
     /**
      * <h3>用户头像地址</h3>
      */
     private String avatarAddress;
-
-    /**
-     * <h3>添加好友的方式</h3>
-     */
-    private Integer friendshipAllowType;
 
 }

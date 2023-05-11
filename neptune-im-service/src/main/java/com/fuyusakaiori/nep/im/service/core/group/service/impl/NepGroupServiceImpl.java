@@ -254,6 +254,11 @@ public class NepGroupServiceImpl {
         }
         // 5. 查询用户的权限
         NepGroupMember groupMember = groupMemberMapper.queryGroupMember(appId, groupId, userId);
+        if (Objects.isNull(groupMember)
+                    || Objects.isNull(groupMember.getGroupMemberExitTime()) || Objects.isNull(groupMember.getGroupMemberExitType())){
+            log.error("NepGroupServiceImpl doTransferGroupOwner: 发起群主转让的用户不在群组中 - request: {}", request);
+            return 0;
+        }
         // 6. 校验权限是否为管理员或者群主
         if (!groupMember.getGroupMemberType().equals(groupMemberType)){
             log.error("NepGroupServiceImpl doTransferGroupOwner: 发起群主转让的用户权限和查询得到的用户权限不一致 - request: {}", request);

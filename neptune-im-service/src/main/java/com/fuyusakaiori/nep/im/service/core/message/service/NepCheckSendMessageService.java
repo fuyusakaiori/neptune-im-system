@@ -89,7 +89,7 @@ public class NepCheckSendMessageService {
         NepGroupMember groupMember = groupMemberMapper.queryGroupMember(appId, groupId, senderId);
         // 6. 校验群聊成员是否存在
         if (Objects.isNull(groupMember)
-                    || Objects.nonNull(groupMember.getGroupMemberEnterTime())
+                    || Objects.nonNull(groupMember.getGroupMemberExitTime())
                     || Objects.nonNull(groupMember.getGroupMemberExitType())){
             log.error("NepCheckSendMessageService checkChatGroupMessageSend: 发送消息的用户不在群聊中或者已经退出群聊 - appId: {}, senderId: {}, groupId: {}", appId, senderId, groupId);
             return false;

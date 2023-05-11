@@ -15,7 +15,7 @@ public class NepCheckFriendshipParamUtil {
         NepRequestHeader header = request.getHeader();
         Integer friendFromId = request.getFriendFromId();
         Integer friendToId = request.getFriendToId();
-        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(request.getHeader())){
+        if (!NepCheckBaseParamUtil.checkNeptuneRequestBaseParam(header)){
             return false;
         }
         if (Objects.isNull(friendFromId) || friendFromId <= 0 || Objects.isNull(friendToId) || friendToId <= 0){
