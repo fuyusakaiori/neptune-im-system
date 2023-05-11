@@ -42,7 +42,7 @@ public class NepFriendshipGroupMemberServiceImpl {
         NepFriendshipGroup newFriendshipGroup = friendshipGroupMapper.queryFriendshipGroupById(appId, newGroupId);
         // 3. 校验分组是否存在:
         if (Objects.isNull(newFriendshipGroup) || Objects.isNull(oldFriendshipGroup)){
-            log.error("NepFriendshipApplicationService doMoveFriendshipGroupMember: 好友分组不存在 - request: {}", request);
+            log.error("NepFriendshipGroupMemberServiceImpl doMoveFriendshipGroupMember: 好友分组不存在 - request: {}", request);
             return 0;
         }
         // 4. 查询用户是否存在
@@ -54,7 +54,7 @@ public class NepFriendshipGroupMemberServiceImpl {
         // 5. 如果用户已经在分组中, 那么就更新到其他分组
         int result = friendshipGroupMemberMapper.moveFriendshipGroupMember(appId, oldGroupId, newGroupId, groupMemberId, System.currentTimeMillis());
         if (result <= 0){
-            log.error("NepFriendshipApplicationService doMoveFriendshipGroupMember: 将好友移入新的分组失败 - request: {}", request);
+            log.error("NepFriendshipGroupMemberServiceImpl doMoveFriendshipGroupMember: 将好友移入新的分组失败 - request: {}", request);
             return result;
         }
 
@@ -107,7 +107,7 @@ public class NepFriendshipGroupMemberServiceImpl {
         // 4. 添加用户到分组中
         int result = friendshipGroupMemberMapper.removeFriendshipGroupMember(appId, groupId, groupMemberId);
         if (result <= 0){
-            log.error("NepFriendshipApplicationService doDeleteFriendshipGroupMember: 从好友分组中移除好友失败 - request: {}", request);
+            log.error("NepFriendshipGroupMemberServiceImpl doDeleteFriendshipGroupMember: 从好友分组中移除好友失败 - request: {}", request);
         }
         return result;
     }

@@ -23,9 +23,9 @@ public class NepFriendshipApplicationController {
      */
     @PostMapping(value = "/approve")
     public NepApproveFriendshipApplicationResponse approveFriendshipApplication(@RequestBody NepApproveFriendshipApplicationRequest request){
-        log.info("NepFriendshipApplicationController approveFriendshipApplication: 开始查询好友请求 - request: {}", request);
+        log.info("NepFriendshipApplicationController approveFriendshipApplication: 开始审批好友申请 - request: {}", request);
         NepApproveFriendshipApplicationResponse response = friendshipApplicationService.approveFriendshipApplication(request);
-        log.info("NepFriendshipApplicationController approveFriendshipApplication: 查询好友请求结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipApplicationController approveFriendshipApplication: 好友申请审批结束 - request: {}, response: {}", request, response);
         return response;
     }
 

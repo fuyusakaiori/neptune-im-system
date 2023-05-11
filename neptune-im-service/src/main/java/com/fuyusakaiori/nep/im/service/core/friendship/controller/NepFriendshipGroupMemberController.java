@@ -27,9 +27,9 @@ public class NepFriendshipGroupMemberController {
      */
     @PostMapping(value = "/move")
     public NepMoveFriendshipGroupMemberResponse moveFriendshipGroupMember(@RequestBody NepMoveFriendshipGroupMemberRequest request){
-        log.info("NepUserController moveFriendshipGroupMember: 开始将好友移动到新的分组中 - request: {}", request);
+        log.info("NepFriendshipGroupMemberController moveFriendshipGroupMember: 开始将好友移动到新的分组中 - request: {}", request);
         NepMoveFriendshipGroupMemberResponse response = friendshipGroupMemberService.moveFriendshipGroupMember(request);
-        log.info("NepUserController moveFriendshipGroupMember: 将好友移动到新的分组中结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupMemberController moveFriendshipGroupMember: 将好友移动到新的分组中结束 - request: {}, response: {}", request, response);
         return response;
     }
 
@@ -38,9 +38,9 @@ public class NepFriendshipGroupMemberController {
      */
     @PostMapping(value = "/delete")
     public NepDeleteFriendshipGroupMemberResponse deleteFriendshipGroupMember(@RequestBody NepDeleteFriendshipGroupMemberRequest request){
-        log.info("NepUserController deleteFriendshipGroupMember: 开始移除好友所在的分组 - request: {}", request);
+        log.info("NepFriendshipGroupMemberController deleteFriendshipGroupMember: 开始移除好友所在的分组 - request: {}", request);
         NepDeleteFriendshipGroupMemberResponse response = friendshipGroupMemberService.deleteFriendshipGroupMember(request);
-        log.info("NepUserController deleteFriendshipGroupMember: 移除好友所在的分组结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupMemberController deleteFriendshipGroupMember: 移除好友所在的分组结束 - request: {}, response: {}", request, response);
         return response;
     }
 
@@ -49,9 +49,9 @@ public class NepFriendshipGroupMemberController {
      */
     @PostMapping(value = "/add")
     public NepAddFriendshipGroupMemberResponse addFriendshipGroupMember(@RequestBody NepAddFriendshipGroupMemberRequest request){
-        log.info("NepUserController addFriendshipGroupMember: 开始移除好友所在的分组 - request: {}", request);
+        log.info("NepFriendshipGroupMemberController addFriendshipGroupMember: 开始将好友添加到新的好友分组 - request: {}", request);
         NepAddFriendshipGroupMemberResponse response = friendshipGroupMemberService.addFriendshipGroupMember(request);
-        log.info("NepUserController addFriendshipGroupMember: 移除好友所在的分组结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupMemberController addFriendshipGroupMember: 将好友添加到新的好友分组结束 - request: {}, response: {}", request, response);
         return response;
     }
 

@@ -29,9 +29,9 @@ public class NepFriendshipGroupController {
     public NepQueryAllFriendshipGroupResponse queryAllFriendshipGroup(@RequestParam("appId") Integer appId, @RequestParam("ownerId") Integer groupOwnerId){
         NepQueryAllFriendshipGroupRequest request = new NepQueryAllFriendshipGroupRequest()
                                                             .setHeader(new NepRequestHeader().setAppId(appId)).setGroupOwnerId(groupOwnerId);
-        log.info("NepUserController queryAllFriendshipGroup: 开始查询所有好友分组 - request: {}", request);
+        log.info("NepFriendshipGroupController queryAllFriendshipGroup: 开始查询所有好友分组 - request: {}", request);
         NepQueryAllFriendshipGroupResponse response = friendshipGroupService.queryAllFriendshipGroup(request);
-        log.info("NepUserController queryAllFriendshipGroup: 查询所有好友分组结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupController queryAllFriendshipGroup: 查询所有好友分组结束 - request: {}, response: {}", request, response);
         return response;
     }
 
@@ -40,9 +40,9 @@ public class NepFriendshipGroupController {
      */
     @PostMapping(value = "/create")
     public NepCreateFriendshipGroupResponse createFriendshipGroup(@RequestBody NepCreateFriendshipGroupRequest request){
-        log.info("NepUserController createFriendshipGroup: 开始创建好友分组 - request: {}", request);
+        log.info("NepFriendshipGroupController createFriendshipGroup: 开始创建好友分组 - request: {}", request);
         NepCreateFriendshipGroupResponse response = friendshipGroupService.createFriendshipGroup(request);
-        log.info("NepUserController createFriendshipGroup: 创建好友分组结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupController createFriendshipGroup: 创建好友分组结束 - request: {}, response: {}", request, response);
         return response;
     }
 
@@ -51,9 +51,9 @@ public class NepFriendshipGroupController {
      */
     @PostMapping(value = "/delete")
     public NepDeleteFriendshipGroupResponse deleteFriendshipGroup(@RequestBody NepDeleteFriendshipGroupRequest request){
-        log.info("NepUserController deleteFriendshipGroup: 开始删除好友分组 - request: {}", request);
+        log.info("NepFriendshipGroupController deleteFriendshipGroup: 开始删除好友分组 - request: {}", request);
         NepDeleteFriendshipGroupResponse response = friendshipGroupService.deleteFriendshipGroup(request);
-        log.info("NepUserController deleteFriendshipGroup: 删除好友分组结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipGroupController deleteFriendshipGroup: 删除好友分组结束 - request: {}, response: {}", request, response);
         return response;
     }
 

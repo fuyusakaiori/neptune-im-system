@@ -29,9 +29,9 @@ public class NepFriendshipBlackController {
     }
     @PostMapping("/remove")
     public NepBlackFriendshipResponse removeFriendInBlackList(@RequestBody NepRemoveFriendshipBlackRequest request){
-        log.info("NepFriendshipBlackController removeFriendInBlackList: 开始执行拉黑好友 - request: {}", request);
+        log.info("NepFriendshipBlackController removeFriendInBlackList: 开始执行撤销好友拉黑 - request: {}", request);
         NepBlackFriendshipResponse response = friendshipBlackService.removeFriendInBlackList(request);
-        log.info("NepFriendshipBlackController removeFriendInBlackList: 好友拉黑结束 - request: {}, response: {}", request, response);
+        log.info("NepFriendshipBlackController removeFriendInBlackList: 撤销好友拉黑结束 - request: {}, response: {}", request, response);
         return response;
     }
 

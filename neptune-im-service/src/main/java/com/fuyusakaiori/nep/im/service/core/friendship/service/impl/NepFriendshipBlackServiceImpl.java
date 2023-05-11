@@ -34,13 +34,13 @@ public class NepFriendshipBlackServiceImpl {
         NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
         // 2. 校验好友关系是否存在
         if (Objects.isNull(friendship)){
-            log.error("NepFriendshipBlackService doAddFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
+            log.error("NepFriendshipBlackServiceImpl doAddFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
             return 0;
         }
         // 3. 校验是否已经被拉黑
         int blackStatus = friendshipBlackMapper.checkFriendInBlackList(header.getAppId(), friendFromId, friendToId);
         if (NepFriendshipBlackStatus.BLACK.getStatus() == blackStatus){
-            log.error("NepFriendshipBlackService doAddFriendInBlackList: 好友已经被拉黑, 不要重复拉黑 - fromId: {}, toId: {}", friendFromId, friendToId);
+            log.error("NepFriendshipBlackServiceImpl doAddFriendInBlackList: 好友已经被拉黑, 不要重复拉黑 - fromId: {}, toId: {}", friendFromId, friendToId);
             return 0;
         }
         // 6. 拉黑好友
@@ -56,32 +56,17 @@ public class NepFriendshipBlackServiceImpl {
         NepFriendship friendship = friendshipMapper.queryFriendshipById(header.getAppId(), friendFromId, friendToId);
         // 2. 校验好友关系是否存在
         if (Objects.isNull(friendship)){
-            log.error("NepFriendshipBlackService doRemoveFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
+            log.error("NepFriendshipBlackServiceImpl doRemoveFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
             return 0;
         }
         // 3. 校验是否已经被拉黑
         int blackStatus = friendshipBlackMapper.checkFriendInBlackList(header.getAppId(), friendFromId, friendToId);
         if (NepFriendshipBlackStatus.WHITE.getStatus() == blackStatus){
-            log.error("NepFriendshipBlackService doRemoveFriendInBlackList: 好友没有被拉黑, 请不要撤销未拉黑的用户 - fromId: {}, toId: {}", friendFromId, friendToId);
+            log.error("NepFriendshipBlackServiceImpl doRemoveFriendInBlackList: 好友没有被拉黑, 请不要撤销未拉黑的用户 - fromId: {}, toId: {}", friendFromId, friendToId);
             return 0;
         }
         // 4. 撤销好友拉黑
         return friendshipBlackMapper.removeFriendInBlackList(header.getAppId(), friendFromId, friendToId, System.currentTimeMillis());
-    }
-
-    public int doCheckFriendInBlackList(int appId, int friendFromId, int friendToId, int checkType){
-        // 1. 查询好友关系
-        NepFriendship friendship = friendshipMapper.queryFriendshipById(appId, friendFromId, friendToId);
-        // 2. 校验好友关系是否存在
-        if (Objects.isNull(friendship)){
-            log.error("NepFriendshipBlackService checkFriendInBlackList: 好友关系不存在 - fromId: {}, toId: {}", friendFromId, friendToId);
-        }
-        // 3. 校验拉黑状态
-        if (NepFriendshipBlackCheckType.SINGLE.getType() == checkType){
-            return friendshipBlackMapper.checkFriendInBlackList(appId, friendFromId, friendToId);
-        }else{
-            return friendshipBlackMapper.checkBiFriendInBlackList(appId, friendFromId, friendToId);
-        }
     }
 
 }
