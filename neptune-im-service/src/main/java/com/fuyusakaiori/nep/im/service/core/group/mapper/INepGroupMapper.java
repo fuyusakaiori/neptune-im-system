@@ -59,10 +59,4 @@ public interface INepGroupMapper {
      */
     List<NepGroup> queryGroupByName(@Param("appId") int appId, @Param("groupName") String groupName);
 
-
-    /**
-     * <h3>查询用户加入的所有群组 - 外部调用</h3>
-     */
-    List<NepGroup> queryAllJoinedGroup(@Param("appId") int appId, @Param("userId") int userId);
-
 }

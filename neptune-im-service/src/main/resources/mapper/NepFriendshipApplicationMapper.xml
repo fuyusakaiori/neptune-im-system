@@ -41,15 +41,6 @@
         where app_id = #{appId} and friendship_apply_id = #{applyId}
     </update>
 
-    <update id="readAllFriendshipApplication">
-        update `im-system`.im_friendship_application
-        set friendship_apply_read_status = 1, friendship_apply_update_time = #{updateTime}
-        where app_id = #{appId} and friendship_apply_id in
-        <foreach collection="applyIdList" item="applyId" open="(" close=")" separator=",">
-            #{applyId}
-        </foreach>
-    </update>
-
     <select id="queryFriendshipApplicationById" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.friendship.entity.NepFriendshipApplication">
         select friendship_apply_id, friendship_from_id, friendship_to_id,
                friendship_apply_read_status, friendship_apply_additional_info, friendship_apply_remark,

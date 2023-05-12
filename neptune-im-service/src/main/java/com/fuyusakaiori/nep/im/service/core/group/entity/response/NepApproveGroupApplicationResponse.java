@@ -8,14 +8,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString
-public class NepAddGroupMemberResponse {
+public class NepApproveGroupApplicationResponse {
 
     private int code;
 
     private String message;
-
-    private Integer groupAllowType;
-
-    private NepJoinedGroup group;
 
 }

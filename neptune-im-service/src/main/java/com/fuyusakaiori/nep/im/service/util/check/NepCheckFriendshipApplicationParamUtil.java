@@ -22,7 +22,7 @@ public class NepCheckFriendshipApplicationParamUtil {
             return false;
         }
         if (Objects.isNull(applyId) || applyId <= 0 ||
-                    Objects.isNull(approveStatus) || NepFriendshipApplicationApproveStatus.isIllegalStatus(approveStatus)){
+                    Objects.isNull(approveStatus) || !NepFriendshipApplicationApproveStatus.isIllegalStatus(approveStatus)){
             return false;
         }
         return true;

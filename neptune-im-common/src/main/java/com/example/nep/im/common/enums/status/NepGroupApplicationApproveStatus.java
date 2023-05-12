@@ -1,6 +1,6 @@
 package com.example.nep.im.common.enums.status;
 
-public enum NepFriendshipApplicationApproveStatus {
+public enum NepGroupApplicationApproveStatus {
 
     UNAPPROVED(0),
 
@@ -11,7 +11,7 @@ public enum NepFriendshipApplicationApproveStatus {
 
     private final int status;
 
-    NepFriendshipApplicationApproveStatus(int status) {
+    NepGroupApplicationApproveStatus(int status) {
         this.status = status;
     }
 
@@ -20,11 +20,12 @@ public enum NepFriendshipApplicationApproveStatus {
     }
 
     public static boolean isIllegalStatus(int status){
-        for (NepFriendshipApplicationApproveStatus approveStatus : NepFriendshipApplicationApproveStatus.values()) {
-           if (approveStatus.status == status){
-               return true;
-           }
+        for (NepGroupApplicationApproveStatus approveStatus : NepGroupApplicationApproveStatus.values()) {
+            if (approveStatus.status == status){
+                return true;
+            }
         }
         return false;
     }
+
 }

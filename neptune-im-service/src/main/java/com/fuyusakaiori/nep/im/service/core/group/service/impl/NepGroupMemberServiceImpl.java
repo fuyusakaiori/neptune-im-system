@@ -3,6 +3,7 @@ package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.BooleanUtil;
+import com.example.nep.im.common.enums.status.NepGroupAllowType;
 import com.example.nep.im.common.enums.status.NepGroupExitType;
 import com.example.nep.im.common.enums.status.NepGroupJoinType;
 import com.example.nep.im.common.enums.status.NepGroupMemberType;
@@ -39,7 +40,7 @@ public class NepGroupMemberServiceImpl {
     private NepGroupMemberDealService groupMemberDealService;
 
 
-    public NepJoinedGroup doAddGroupMember(NepAddGroupMemberRequest request) {
+    public Map<String, Object> doAddGroupMember(NepAddGroupMemberRequest request) {
         // 0. 获取变量
         Integer appId = request.getHeader().getAppId();
         Integer groupId = request.getGroupId();
@@ -49,19 +50,31 @@ public class NepGroupMemberServiceImpl {
         NepGroup group = groupMapper.queryGroupById(appId, groupId);
         if (Objects.isNull(group) || group.isDelete()){
             log.error("NepGroupMemberServiceImpl doAddGroupMember: 群聊不存在 - request: {}", request);
-            return null;
+            return Collections.emptyMap();
         }
-        // 2. 加入群聊
-        NepJoinedGroup joinedGroup = groupMemberDealService.addGroupMember(appId, groupId, groupMemberId, groupMemberEnterType);
-        // 3. 判断返回结果
-        if (Objects.isNull(joinedGroup)){
-            log.error("NepGroupMemberServiceImpl doAddGroupMember: 加入群聊失败 - request: {}", request);
-            return null;
+        // 2. 获取群聊的加入方式
+        Integer groupApplyType = group.getGroupApplyType();
+        // 3. 群聊禁止加入
+        if (groupApplyType == NepGroupAllowType.BAN.getType()){
+            log.info("NepGroupMemberServiceImpl doAddGroupMember: 群聊禁止任何人加入 - request: {}", request);
+            return new HashMap<String, Object>(){{put("groupAllowType", NepGroupAllowType.BAN.getType());}};
         }
-        // 4. 拼装返回信息
-        BeanUtil.copyProperties(group,
-                joinedGroup.setGroupMemberType(NepGroupMemberType.MEMBER.getType()));
-        return joinedGroup;
+        // 4. 群聊允许验证后加入
+        if(groupApplyType == NepGroupAllowType.VALIDATION.getType()){
+            log.info("NepGroupMemberServiceImpl doAddGroupMember: 用户需要验证后加入群聊, 需要发送入群申请 - request: {}", request);
+            return new HashMap<String, Object>(){{put("groupAllowType", NepGroupAllowType.VALIDATION.getType());}};
+        }
+        // 5. 群聊允许任何人加入
+        if (groupApplyType == NepGroupAllowType.ANY.getType()){
+            log.info("NepGroupMemberServiceImpl doAddGroupMember: 用户可以直接加入群聊 - request: {}", request);
+            NepJoinedGroup joinedGroup = groupMemberDealService.addGroupMember(appId, groupId, groupMemberId, groupMemberEnterType);
+            if (Objects.isNull(joinedGroup)){
+                log.error("NepGroupMemberServiceImpl doAddGroupMember: 加入群聊失败 - request: {}", request);
+                return Collections.emptyMap();
+            }
+            return new HashMap<String, Object>(){{put("groupAllowType", NepGroupAllowType.ANY.getType()); put("joinedGroup", joinedGroup);}};
+        }
+        return Collections.emptyMap();
     }
 
     public int doUpdateGroupMember(NepUpdateGroupMemberRequest request) {

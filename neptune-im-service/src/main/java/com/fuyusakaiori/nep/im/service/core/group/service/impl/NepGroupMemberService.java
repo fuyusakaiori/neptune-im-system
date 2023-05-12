@@ -33,28 +33,32 @@ public class NepGroupMemberService implements INepGroupMemberService {
     public NepAddGroupMemberResponse addGroupMember(NepAddGroupMemberRequest request) {
         NepAddGroupMemberResponse response = new NepAddGroupMemberResponse();
         if (!NepCheckGroupMemberParamUtil.checkNepAddGroupMemberRequestParam(request)){
-            response.setGroup(null)
+            response.setGroupAllowType(null)
+                    .setGroup(null)
                     .setCode(NepBaseResponseCode.CHECK_PARAM_FAIL.getCode())
                     .setMessage(NepBaseResponseCode.CHECK_PARAM_FAIL.getMessage());
             log.error("NepGroupMemberService addGroupMember: 参数校验失败 - request: {}, response: {}", request, response);
             return response;
         }
         try {
-            NepJoinedGroup joinedGroup = groupMemberServiceImpl.doAddGroupMember(request);
-            if (Objects.isNull(joinedGroup)){
-                response.setGroup(null)
+            Map<String, Object> resultMap = groupMemberServiceImpl.doAddGroupMember(request);
+            if (CollectionUtil.isEmpty(resultMap)){
+                response.setGroupAllowType(null)
+                        .setGroup(null)
                         .setCode(NepGroupMemberResponseCode.ADD_GROUP_MEMBER_FAIL.getCode())
                         .setMessage(NepGroupMemberResponseCode.ADD_GROUP_MEMBER_FAIL.getMessage());
                 log.error("NepGroupMemberService addGroupMember: 用户加入群组失败 - request: {}, response: {}", request, response);
                 return response;
             }
-            response.setGroup(joinedGroup)
+            response.setGroupAllowType((Integer) resultMap.get("groupAllowType"))
+                    .setGroup((NepJoinedGroup) resultMap.get("joinedGroup"))
                     .setCode(NepBaseResponseCode.SUCCESS.getCode())
                     .setMessage(NepBaseResponseCode.SUCCESS.getMessage());
             log.info("NepGroupMemberService addGroupMember: 用户成功加入群组 - request: {}, response: {}", request, response);
             return response;
         }catch (Exception exception){
-            response.setGroup(null)
+            response.setGroupAllowType(null)
+                    .setGroup(null)
                     .setCode(NepBaseResponseCode.UNKNOWN_ERROR.getCode())
                     .setMessage(NepBaseResponseCode.UNKNOWN_ERROR.getMessage());
             log.error("NepGroupMemberService addGroupMember: 用户加入群组出现异常 - request: {}, response: {}", request, response, exception);

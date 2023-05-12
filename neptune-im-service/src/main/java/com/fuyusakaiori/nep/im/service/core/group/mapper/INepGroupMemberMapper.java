@@ -19,6 +19,8 @@ public interface INepGroupMemberMapper {
      */
     int updateGroupMemberInfo(@Param("appId") int appId,  @Param("groupId") int groupId, @Param("memberId") int memberId, @Param("nickname") String nickname);
 
+    int rejoinGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId, @Param("enterType") int enterType, @Param("enterTime") long enterTime);
+
     /**
      * <h3>更改成员类型: 群主、管理员、普通群员</h3>
      */
@@ -55,6 +57,11 @@ public interface INepGroupMemberMapper {
     NepGroupMember queryGroupMember(@Param("appId") int appId, @Param("groupId") int groupId, @Param("memberId") int memberId);
 
     /**
+     * <h3>查询用户在多个群组中的信息</h3>
+     */
+    List<NepGroupMember> queryGroupMemberList(@Param("appId") int appId, @Param("groupIdList") List<Integer> groupIdList, @Param("memberId") int memberId);
+
+    /**
      * <h3>查询群聊中的所有管理员</h3>
      */
     List<NepGroupMember> queryAllGroupAdmin(@Param("appId") int appId, @Param("groupId") int groupId);
@@ -68,10 +75,5 @@ public interface INepGroupMemberMapper {
      * <h3>查询用户加入的所有群聊</h3>
      */
     List<NepGroupMember> queryGroupMemberListByMemberId(@Param("appId") int appId, @Param("memberId") int memberId);
-
-    /**
-     * <h3>查询所有已经退出群组的成员</h3>
-     */
-    List<NepGroupMember> queryAllExitGroupMember(@Param("appId") int appId, @Param("groupId") int groupId);
 
 }

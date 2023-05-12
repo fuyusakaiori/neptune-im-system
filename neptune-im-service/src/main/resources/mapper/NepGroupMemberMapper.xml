@@ -21,6 +21,13 @@
             and group_member_exit_type is null and group_member_exit_time is null
     </update>
 
+    <update id="rejoinGroupMember">
+        update `im-system`.im_group_member
+        set group_member_exit_time = null, group_member_enter_type = null,
+            group_member_enter_type = #{enterType}, group_member_enter_time = #{enterTime}
+        where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+    </update>
+
     <update id="changeGroupMemberType">
         update `im-system`.im_group_member
         set group_member_type = #{type}
@@ -37,7 +44,7 @@
 
     <update id="revokeGroupMemberChat">
         update `im-system`.im_group_member
-        set group_member_mute_end_time = null
+        set group_member_mute_end_time = null, group_member_exit_type = null
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
           and group_member_exit_type is null and group_member_exit_time is null
     </update>
@@ -57,7 +64,7 @@
 
     <select id="queryGroupMemberCount" resultType="_int">
         select count(1) from `im-system`.im_group_member
-        where app_id = #{appId} and group_id = #{groupId}
+        where app_id = #{appId} and group_id = #{groupId} and group_member_exit_type is null and group_member_exit_time is null
     </select>
 
     <select id="queryGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
@@ -66,6 +73,17 @@
                group_member_exit_type, group_member_exit_type
         from `im-system`.im_group_member
         where app_id = #{appId} and group_id = #{groupId} and group_member_id = #{memberId}
+    </select>
+
+    <select id="queryGroupMemberList" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
+        select group_id, group_member_id, group_member_type, group_member_nick_name,
+               group_member_mute_end_time, group_member_enter_time, group_member_enter_type,
+               group_member_exit_type, group_member_exit_type
+        from `im-system`.im_group_member
+        where app_id = #{appId} and group_member_id = #{memberId} and group_id in
+        <foreach collection="groupIdList" item="groupId" separator="," open="(" close=")">
+            #{groupId}
+        </foreach>
     </select>
 
     <select id="queryAllGroupAdmin" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
@@ -90,15 +108,6 @@
         from `im-system`.im_group_member
         where app_id = #{appId} and group_member_id = #{memberId}
           and  group_member_exit_type is null and group_member_exit_time is null
-    </select>
-
-    <select id="queryAllExitGroupMember" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember">
-        select group_id, group_member_id, group_member_type, group_member_nick_name,
-               group_member_mute_end_time, group_member_enter_time, group_member_enter_type,
-               group_member_exit_type, group_member_exit_type
-        from `im-system`.im_group_member
-        where app_id = #{appId} and group_id = #{groupId}
-          and  group_member_exit_type is not null and group_member_exit_time is not null
     </select>
 
 </mapper>

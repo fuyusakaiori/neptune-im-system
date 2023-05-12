@@ -2,5 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupApplicationMapper">
 
+    <resultMap id="applicationMap" type="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupApplication">
+        <result property="groupApplyId" column="group_apply_id"/>
+        <result property="groupId" column="group_apply_group_id"/>
+        <result property="groupApplySenderId" column="group_apply_user_id"/>
+        <result property="groupApplyApproveStatus" column="group_apply_approve_status"/>
+        <result property="groupApplyApproveUserId" column="group_apply_approve_user_id"/>
+        <result property="groupApplyAdditionalInfo" column="group_apply_additional_info"/>
+        <result property="groupApplySource" column="group_apply_source"/>
+        <result property="createTime" column="group_apply_create_time"/>
+        <result property="updateTime" column="group_apply_update_time"/>
+    </resultMap>
+    
+    <insert id="sendGroupApplication">
+        insert into `im-system`.im_group_application
+        (app_id, group_apply_user_id, group_apply_group_id, group_apply_additional_info, group_apply_source, group_apply_create_time, group_apply_update_time)
+        value
+        (#{appId}, #{application.groupApplySenderId}, #{application.groupId},
+         #{application.groupApplyAdditionalInfo}, #{application.groupApplySource}, #{application.createTime}, #{application.updateTime});
+    </insert>
+
+    <update id="updateGroupApplication">
+        update `im-system`.im_group_application
+        <set>
+            group_apply_approve_user_id = null, group_apply_approve_status = 0,
+            <if test="application.groupApplyAdditionalInfo != null">group_apply_additional_info = #{application.groupApplyAdditionalInfo},</if>
+            <if test="application.groupApplySource != null">group_apply_source = #{application.groupApplySource},</if>
+            <if test="application.updateTime != null">group_apply_update_time = #{application.updateTime},</if>
+        </set>
+        where app_id = #{appId} and group_apply_user_id = #{application.groupApplySenderId} and group_apply_group_id = #{application.groupId}
+    </update>
+
+    <update id="approveGroupApplication">
+        update `im-system`.im_group_application
+        set group_apply_approve_user_id = #{userId}, group_apply_approve_status = #{status}, group_apply_update_time = #{updateTime}
+        where app_id = #{appId} and group_apply_id = #{applyId}
+    </update>
+
+    <select id="queryGroupApplicationById" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupApplication">
+        select group_apply_id, group_apply_user_id, group_apply_approve_user_id, group_apply_group_id, group_apply_approve_status,
+               group_apply_additional_info, group_apply_source, group_apply_create_time, group_apply_update_time, app_id
+        from `im-system`.im_group_application
+        where app_id = #{appId} and group_apply_id = #{applyId}
+    </select>
+
+    <select id="queryGroupApplicationByUserAndGroupId" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupApplication">
+        select group_apply_id, group_apply_user_id, group_apply_approve_user_id, group_apply_group_id, group_apply_approve_status,
+               group_apply_additional_info, group_apply_source, group_apply_create_time, group_apply_update_time, app_id
+        from `im-system`.im_group_application
+        where app_id = #{appId} and group_apply_user_id = #{userId} and group_apply_group_id = #{groupId}
+    </select>
+
+    <select id="queryGroupApplicationListByGroupIdList" resultMap="applicationMap" resultType="com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupApplication">
+        select group_apply_id, group_apply_user_id, group_apply_approve_user_id, group_apply_group_id, group_apply_approve_status,
+               group_apply_additional_info, group_apply_source, group_apply_create_time, group_apply_update_time, app_id
+        from `im-system`.im_group_application
+        where app_id = #{appId} and group_apply_group_id in
+        <foreach collection="groupIdList" item="groupId" open="(" close=")" separator=",">
+            #{groupId}
+        </foreach>
+    </select>
 
 </mapper>
