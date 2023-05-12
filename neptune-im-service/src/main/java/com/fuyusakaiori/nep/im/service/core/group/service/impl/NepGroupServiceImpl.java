@@ -3,6 +3,12 @@ package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.example.nep.im.common.constant.NepRedisConstant;
+import com.example.nep.im.common.entity.proto.NepMessageBody;
+import com.example.nep.im.common.entity.proto.message.group.NepDissolveGroupMessage;
+import com.example.nep.im.common.entity.proto.message.group.NepEditGroupMessage;
+import com.example.nep.im.common.entity.proto.message.group.NepMuteGroupMessage;
+import com.example.nep.im.common.entity.proto.message.group.NepTransferGroupMessage;
+import com.example.nep.im.common.enums.message.NepGroupMessageType;
 import com.example.nep.im.common.enums.status.*;
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroup;
 import com.fuyusakaiori.nep.im.service.core.group.entity.NepGroupMember;
@@ -13,6 +19,7 @@ import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepSimpleGroup;
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMemberMapper;
+import com.fuyusakaiori.nep.im.service.core.message.mq.NepServiceToGateWayMessageProducer;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +48,8 @@ public class NepGroupServiceImpl {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Autowired
+    private NepServiceToGateWayMessageProducer messageSender;
 
     @Transactional
     public NepGroup doCreateGroup(NepCreateGroupRequest request) {
@@ -133,6 +142,16 @@ public class NepGroupServiceImpl {
         if (isUpdate <= 0){
             log.error("NepGroupServiceImpl doEditGroupInfo: 更新群组信息失败 - request: {}", request);
         }
+        // 7. 通知所有用户群组资料更新
+        List<Integer> groupMemberIdList = groupMemberMapper.queryAllGroupMember(appId, groupId).stream()
+                                                  .map(NepGroupMember::getGroupMemberId)
+                                                  .collect(Collectors.toList());
+        int messageType = NepGroupMessageType.GROUP_EDIT.getMessageType();
+        for (Integer groupMemberId : groupMemberIdList) {
+            NepMessageBody messageBody = BeanUtil.copyProperties(request, NepEditGroupMessage.class)
+                                                 .setMessageType(messageType);
+            messageSender.sendMessage(appId, groupMemberId, messageType, messageBody);
+        }
         return isUpdate;
     }
 
@@ -173,18 +192,32 @@ public class NepGroupServiceImpl {
             log.error("NepGroupServiceImpl doDissolveGroup: 非群主是不可以解散群组的 - request: {}", request);
             return 0;
         }
-        // 7. 解散群组
+        // 7. 获取群组中的所有成员
+        List<NepGroupMember> groupMemberList = groupMemberMapper.queryAllGroupMember(appId, groupId);
+        // 8. 获取所有成员的 ID 集合
+        List<Integer> groupMemberIdList = groupMemberList.stream()
+                                                  .filter(member -> member.getGroupMemberType() != NepGroupMemberType.LEADER.getType())
+                                                  .map(NepGroupMember::getGroupMemberId)
+                                                  .collect(Collectors.toList());
+        // 9. 解散群组
         int isDissolve = groupMapper.dissolveGroup(appId, groupId, System.currentTimeMillis());
-        // 8. 校验是否解散成功
+        // 10. 校验是否解散成功
         if (isDissolve <= 0){
             log.error("NepGroupServiceImpl doDissolveGroup: 解散群组失败 - request: {}", request);
             return isDissolve;
         }
-        // 9. 解散群组中的所有成员
+        // 11. 解散群组中的所有成员
         int isClear = groupMemberMapper.clearGroupMember(appId, groupId, NepGroupExitType.DISSOLVE.getType(), System.currentTimeMillis());
-        // 10. 校验是否成功清空
+        // 12. 校验是否成功清空
         if (isClear <= 0){
             log.error("NepGroupServiceImpl doDissolveGroup: 清空群组中的所有成员失败 - request: {}", request);
+        }
+        // 13. 通知所有成员群组被解散
+        int messageType = NepGroupMessageType.GROUP_DISSOLVE.getMessageType();
+        for (Integer groupMemberId : groupMemberIdList) {
+            NepMessageBody messageBody = BeanUtil.copyProperties(request, NepDissolveGroupMessage.class)
+                                                 .setMessageType(messageType);
+            messageSender.sendMessage(appId, groupMemberId, messageType, messageBody);
         }
         return isClear;
     }
@@ -227,6 +260,17 @@ public class NepGroupServiceImpl {
         if (isMute <= 0){
             log.error("NepGroupServiceImpl doMuteGroupChat: 禁言群组失败 - request: {}", request);
         }
+        // 8. 通知群聊禁言
+        List<Integer> groupMemberIdList = groupMemberMapper.queryAllGroupMember(appId, groupId).stream()
+                                        .filter(member -> member.getGroupMemberType() == NepGroupMemberType.MEMBER.getType())
+                                        .map(NepGroupMember::getGroupMemberId)
+                                        .collect(Collectors.toList());
+        int messageType = NepGroupMessageType.GROUP_MUTE.getMessageType();
+        for (Integer groupMemberId : groupMemberIdList) {
+            NepMessageBody messageBody = BeanUtil.copyProperties(request, NepMuteGroupMessage.class)
+                                                 .setMessageType(messageType);
+            messageSender.sendMessage(appId, groupMemberId, messageType, messageBody);
+        }
         return isMute;
     }
 
@@ -255,7 +299,7 @@ public class NepGroupServiceImpl {
         // 5. 查询用户的权限
         NepGroupMember groupMember = groupMemberMapper.queryGroupMember(appId, groupId, userId);
         if (Objects.isNull(groupMember)
-                    || Objects.isNull(groupMember.getGroupMemberExitTime()) || Objects.isNull(groupMember.getGroupMemberExitType())){
+                    || Objects.nonNull(groupMember.getGroupMemberExitTime()) || Objects.nonNull(groupMember.getGroupMemberExitType())){
             log.error("NepGroupServiceImpl doTransferGroupOwner: 发起群主转让的用户不在群组中 - request: {}", request);
             return 0;
         }
@@ -282,8 +326,13 @@ public class NepGroupServiceImpl {
         }
         int isChangeMember = groupMemberMapper.changeGroupMemberType(appId, groupId, targetOwnerId, NepGroupMemberType.LEADER.getType());
         if (isChangeMember <= 0){
-            log.error("NepGroupServiceImpl doTransferGroupOwner: 将普通群聊成员变为群主是失败 - request: {}", request);
+            log.error("NepGroupServiceImpl doTransferGroupOwner: 将普通群聊成员变为群主失败 - request: {}", request);
         }
+        // 9. 通知目标用户
+        int messageType = NepGroupMessageType.GROUP_TRANSFER.getMessageType();
+        NepMessageBody messageBody = BeanUtil.copyProperties(request, NepTransferGroupMessage.class)
+                                             .setMessageType(messageType);
+        messageSender.sendMessage(appId, targetOwnerId, messageType, messageBody);
         return isChangeMember;
     }
 

@@ -3,6 +3,10 @@ package com.fuyusakaiori.nep.im.service.core.group.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.BooleanUtil;
+import com.example.nep.im.common.entity.proto.NepMessageBody;
+import com.example.nep.im.common.entity.proto.message.group.NepChangeGroupMemberTypeMessage;
+import com.example.nep.im.common.entity.proto.message.group.NepMuteGroupMemberMessage;
+import com.example.nep.im.common.enums.message.NepGroupMessageType;
 import com.example.nep.im.common.enums.status.NepGroupAllowType;
 import com.example.nep.im.common.enums.status.NepGroupExitType;
 import com.example.nep.im.common.enums.status.NepGroupJoinType;
@@ -14,6 +18,7 @@ import com.fuyusakaiori.nep.im.service.core.group.entity.dto.NepSimpleGroupMembe
 import com.fuyusakaiori.nep.im.service.core.group.entity.request.*;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMapper;
 import com.fuyusakaiori.nep.im.service.core.group.mapper.INepGroupMemberMapper;
+import com.fuyusakaiori.nep.im.service.core.message.mq.NepServiceToGateWayMessageProducer;
 import com.fuyusakaiori.nep.im.service.core.user.entity.NepUser;
 import com.fuyusakaiori.nep.im.service.core.user.mapper.INepUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +43,9 @@ public class NepGroupMemberServiceImpl {
 
     @Autowired
     private NepGroupMemberDealService groupMemberDealService;
+
+    @Autowired
+    private NepServiceToGateWayMessageProducer messageSender;
 
 
     public Map<String, Object> doAddGroupMember(NepAddGroupMemberRequest request) {
@@ -159,6 +167,11 @@ public class NepGroupMemberServiceImpl {
             log.error("NepGroupMemberServiceImpl doChangeGroupMemberType: 给群成员授予权限失败 - request: {}", request);
             return isChange;
         }
+        // 6. 通知被赋予权限的用户
+        int messageType = NepGroupMessageType.GROUP_MEMBER_ADMIN.getMessageType();
+        NepMessageBody messageBody = BeanUtil.copyProperties(request, NepChangeGroupMemberTypeMessage.class)
+                                             .setMessageType(messageType);
+        messageSender.sendMessage(appId, groupMemberId, messageType, messageBody);
         return isChange;
     }
 
@@ -206,19 +219,26 @@ public class NepGroupMemberServiceImpl {
             return 0;
         }
         // 5. 禁言或者撤销禁言
+        int isMuteChat = 0;
         if (isMute){
-            int isMuteChat = groupMemberMapper.muteGroupMemberChat(appId, groupId, groupMemberId, muteEndTime);
+            isMuteChat = groupMemberMapper.muteGroupMemberChat(appId, groupId, groupMemberId, muteEndTime);
             if (isMuteChat <= 0){
                 log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 禁言群成员失败 - request: {}", request);
+                return isMuteChat;
             }
-            return isMuteChat;
         }else{
-            int isRevokeChat = groupMemberMapper.revokeGroupMemberChat(appId, groupId, groupMemberId);
-            if (isRevokeChat <= 0){
+            isMuteChat = groupMemberMapper.revokeGroupMemberChat(appId, groupId, groupMemberId);
+            if (isMuteChat <= 0){
                 log.error("NepGroupMemberServiceImpl doMuteGroupMemberChat: 撤销群成员的禁言失败 - request: {}", request);
+                return isMuteChat;
             }
-            return isRevokeChat;
         }
+        // 6. 通知用户被禁言
+        int messageType = NepGroupMessageType.GROUP_MUTE_MEMBER.getMessageType();
+        NepMessageBody messageBody = BeanUtil.copyProperties(request, NepMuteGroupMemberMessage.class)
+                                             .setMessageType(messageType);
+        messageSender.sendMessage(appId, groupMemberId, messageType, messageBody);
+        return isMuteChat;
     }
 
     public int doExitGroupMember(NepExitGroupMemberRequest request) {
