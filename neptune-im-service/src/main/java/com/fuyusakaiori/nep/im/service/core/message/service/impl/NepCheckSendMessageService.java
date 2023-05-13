@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.message.service;
+package com.fuyusakaiori.nep.im.service.core.message.service.impl;
 
 import com.example.nep.im.common.enums.status.*;
 import com.fuyusakaiori.nep.im.service.config.NepApplicationConfig;

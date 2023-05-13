@@ -7,7 +7,7 @@ import com.example.nep.im.common.constant.NepRabbitMQConstant;
 import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
 import com.example.nep.im.common.entity.proto.message.NepChatConfirmAckMessage;
 import com.example.nep.im.common.enums.message.NepChatMessageType;
-import com.fuyusakaiori.nep.im.service.core.message.service.NepChatP2PMessageService;
+import com.fuyusakaiori.nep.im.service.core.message.service.impl.NepChatP2PMessageService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;

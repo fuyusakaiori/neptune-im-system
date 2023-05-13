@@ -6,7 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.example.nep.im.common.constant.NepRabbitMQConstant;
 import com.example.nep.im.common.entity.proto.message.NepChatGroupMessage;
 import com.example.nep.im.common.enums.message.NepChatGroupMessageType;
-import com.fuyusakaiori.nep.im.service.core.message.service.NepChatGroupMessageService;
+import com.fuyusakaiori.nep.im.service.core.message.service.impl.NepChatGroupMessageService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;

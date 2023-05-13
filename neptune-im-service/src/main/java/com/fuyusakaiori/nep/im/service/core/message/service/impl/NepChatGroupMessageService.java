@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.message.service;
+package com.fuyusakaiori.nep.im.service.core.message.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;

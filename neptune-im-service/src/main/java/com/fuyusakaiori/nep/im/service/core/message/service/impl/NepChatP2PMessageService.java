@@ -1,11 +1,11 @@
-package com.fuyusakaiori.nep.im.service.core.message.service;
+package com.fuyusakaiori.nep.im.service.core.message.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.nep.im.common.entity.proto.message.NepChatAckMessage;
-import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
 import com.example.nep.im.common.entity.proto.message.NepChatConfirmAckMessage;
+import com.example.nep.im.common.entity.proto.message.NepChatP2PMessage;
 import com.example.nep.im.common.entity.session.NepUserSessionInfo;
 import com.example.nep.im.common.enums.INepBaseResponseCode;
 import com.example.nep.im.common.enums.code.NepBaseResponseCode;
@@ -140,14 +140,14 @@ public class NepChatP2PMessageService {
     /**
      * <h3>持久化消息</h3>
      */
-    private void storeMessage(NepChatP2PMessage message) {
+    private void storeMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message) {
         storeMessageService.storeMessage(IdUtil.getSnowflakeNextId(), message);
     }
 
     /**
      * <h3>发送确认 ACK 消息给发送方</h3>
      */
-    private void sendAckMessage(NepChatP2PMessage message, INepBaseResponseCode response){
+    private void sendAckMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message, INepBaseResponseCode response){
         // 1. 封装生成响应消息
         NepChatAckMessage chatAckMessage = generateChatAckMessage(message, response);
         // 2. 发送消息
@@ -166,7 +166,7 @@ public class NepChatP2PMessageService {
     /**
      * <h3>发送同步消息给自己的所有客户端</h3>
      */
-    private void sendSyncMessage(NepChatP2PMessage message){
+    private void sendSyncMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message){
         messageSender.sendMessage(message.getAppId(), message.getSenderId(), message.getClientType(), message.getImei(),
                 message.getMessageType(), message, true);
     }
@@ -175,7 +175,7 @@ public class NepChatP2PMessageService {
      * <h3>发送单聊消息给对方</h3>
      * <h4>如果对方在线, 那么直接把消息推送给对方; 如果对方不在线, 那么服务端直接返回确认 ACK</h4>
      */
-    private void sendP2PMessage(NepChatP2PMessage message){
+    private void sendP2PMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message){
         // 1. 查询对方客户端是否在线
         List<NepUserSessionInfo> userSessionList =
                 sessionTaker.getUserSessionList(message.getAppId(), message.getReceiverId());
@@ -189,7 +189,7 @@ public class NepChatP2PMessageService {
                 message.getMessageType(), message);
     }
 
-    private static NepChatAckMessage generateChatAckMessage(NepChatP2PMessage message, INepBaseResponseCode response) {
+    private static NepChatAckMessage generateChatAckMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message, INepBaseResponseCode response) {
         return (NepChatAckMessage) new NepChatAckMessage()
                                            .setCode(response.getCode()).setMessage(response.getMessage()).setMessageId(message.getMessageId())
                                            .setAppId(message.getAppId()).setClientType(message.getClientType()).setImei(message.getImei())
@@ -197,7 +197,7 @@ public class NepChatP2PMessageService {
     }
 
 
-    private static NepChatConfirmAckMessage generateChatConfirmAckMessage(NepChatP2PMessage message) {
+    private static NepChatConfirmAckMessage generateChatConfirmAckMessage(com.example.nep.im.common.entity.proto.message.NepChatP2PMessage message) {
         return (NepChatConfirmAckMessage) new NepChatConfirmAckMessage()
                        .setServerSend(true)
                        .setSenderId(message.getReceiverId())

@@ -1,4 +1,4 @@
-package com.fuyusakaiori.nep.im.service.core.message.service;
+package com.fuyusakaiori.nep.im.service.core.message.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.example.nep.im.common.entity.proto.message.NepChatGroupMessage;
